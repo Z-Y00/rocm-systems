@@ -77,9 +77,12 @@ private:
     bool                                        m_use_annotations{ false };
     bool                                        m_default_group_by_queue{ true };
 
-    std::unordered_map<size_t, pmc_track_info>           m_pmc_track_map;
     std::unordered_map<std::uint64_t, ::perfetto::Track> m_track_cache;
     output_file_registry&                                m_output_registry;
+    std::unordered_map<size_t, pmc_track_info> m_pmc_track_map;
+
+    using sdk_pmc_name_map = std::unordered_map<std::string, std::string>;
+    std::unordered_map<uint32_t, sdk_pmc_name_map> m_sdk_pmc_name_lookup;
 };
 }  // namespace trace_cache
 }  // namespace rocprofsys
