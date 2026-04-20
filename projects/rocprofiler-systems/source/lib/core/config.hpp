@@ -338,6 +338,9 @@ std::string
 get_sampling_gpus();
 
 std::string
+get_gpu_perf_counters();
+
+std::string
 get_sampling_ainics();
 
 bool
