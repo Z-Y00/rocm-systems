@@ -25,6 +25,7 @@ jobs:
     outputs:
       changed_dockerfile: ${{ steps.ci-flags.outputs.changed_dockerfile }}
       build_ci_image_matrix: ${{ steps.matrices.outputs.build_ci_image_matrix }}
+      ci_images: ${{ steps.ci-images.outputs.ci_images }}
     env:
       # Matrix variables go here in JSON notation.
       # '>-' strips newlines
@@ -69,6 +70,51 @@ jobs:
           )
 
           echo "build_ci_image_matrix=${build_ci_image_matrix}" >> ${GITHUB_OUTPUT}
+      - name: Compute CI image names
+        id: ci-images
+        env:
+          REGISTRY_URL: ghcr.io/${{ github.repository_owner }}
+          CHANGED_DOCKERFILE: ${{ steps.ci-flags.outputs.changed_dockerfile }}
+        run: |
+          if [ "${CHANGED_DOCKERFILE}" = "1" ]; then
+            # sanitize ref for tag
+            tag="$(echo "${GITHUB_REF}" | sed 's|[^a-zA-Z0-9]|-|g')-rocm"
+          else
+            tag="latest-rocm"
+          fi
+          # This looks horrible, but is less brittle than Bash
+          ci_images=$(
+            jq -c -n \
+              --arg registry "${REGISTRY_URL}" \
+              --arg tag "$tag" \
+              --argjson platforms "${SUPPORTED_PLATFORMS}" \
+              --argjson versions "${ROCM_VERSIONS}" \
+              '
+                # Enumerate the complete combination of CI images,
+                # then reduce into an object keyed by "platform-version"
+                [ 
+                  $platforms[] as $p |
+                  $versions[] as $v |
+                  {platform: $p, version: $v}
+                ] | reduce .[] as $combo (
+                  {}; . + {
+                    ($combo.platform + "-" + $combo.version): (
+                      ( $combo
+                        | .image_name = ($registry + "/hipfile/ais_ci_" + .platform)
+                        | .image      = (.image_name + ":" + $tag + .version)
+                        | .cache      = (.image_name + ":latest-rocm" + .version + "-cache")
+                      ) | {
+                        ci_image:       (.image | ascii_downcase),
+                        ci_image_cache: (.cache | ascii_downcase)
+                      }
+                    )
+                  }
+                )
+              '
+          )
+          echo "List of CI Images: "
+          echo "${ci_images}" | jq .
+          echo "ci_images=${ci_images}" >> "${GITHUB_OUTPUT}"
 
   hipfile-CI:
     needs: [AIS_CI_Pre-check]
