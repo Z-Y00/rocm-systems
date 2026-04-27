@@ -21,7 +21,7 @@ from utils.metrics.aggregation import (
     to_round,
     to_std,
 )
-from utils.metrics.evaluation_pipeline import eval_metric
+from utils.metrics.evaluation_pipeline import compute_pct_of_peak, eval_metric
 from utils.metrics.expression import (
     CodeTransformer,
     build_eval_string,
@@ -551,3 +551,48 @@ class TestMetricEvaluator:
         assert result == pytest.approx(40.0), (
             f"SUM([100,200,300]) / SUM([10,0,5]) should be 40.0, got {result}"
         )
+
+
+# =============================================================================
+# Tests for compute_pct_of_peak
+# =============================================================================
+
+
+class TestComputePctOfPeak:
+    """Tests for compute_pct_of_peak auto-derivation."""
+
+    @staticmethod
+    def _make_dfs(value, peak):
+        """Build minimal dfs/dfs_type for compute_pct_of_peak testing."""
+        df = pd.DataFrame({
+            "Metric_ID": ["1.1.0"],
+            "Metric": ["Test"],
+            "Avg": [value],
+            "Unit": ["Unit"],
+            "Peak": [peak],
+        }).set_index("Metric_ID")
+        return {1: df}, {1: "metric_table"}
+
+    def test_normal_derivation(self):
+        """Column is auto-created and PoP = 100 * value / peak."""
+        dfs, dfs_type = self._make_dfs(50.0, 200.0)
+        compute_pct_of_peak(dfs, dfs_type)
+        assert "Pct of Peak" in dfs[1].columns
+        assert dfs[1].loc["1.1.0", "Pct of Peak"] == 25.0
+
+    def test_peak_zero_returns_empty(self):
+        dfs, dfs_type = self._make_dfs(50.0, 0.0)
+        compute_pct_of_peak(dfs, dfs_type)
+        assert dfs[1].loc["1.1.0", "Pct of Peak"] == ""
+
+    def test_non_numeric_returns_empty(self):
+        """Non-numeric values (e.g. 'N/A' from eval pipeline) yield empty."""
+        dfs, dfs_type = self._make_dfs("N/A", 100.0)
+        compute_pct_of_peak(dfs, dfs_type)
+        assert dfs[1].loc["1.1.0", "Pct of Peak"] == ""
+
+    def test_skips_non_metric_table(self):
+        dfs, dfs_type = self._make_dfs(50.0, 200.0)
+        dfs_type[1] = "raw_csv_table"
+        compute_pct_of_peak(dfs, dfs_type)
+        assert "Pct of Peak" not in dfs[1].columns
