@@ -49,7 +49,6 @@ SUPPORTED_FIELD: list[str] = [
     "Min",
     "Max",
     "Avg",
-    "Pct of Peak",
     "Peak",
     "Peak (Empirical)",
     "Count",

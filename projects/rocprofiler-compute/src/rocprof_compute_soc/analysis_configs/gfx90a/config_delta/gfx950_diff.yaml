@@ -8,10 +8,12 @@ Addition:
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F8 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOP/s
         peak: ((($max_sclk * $cu_per_gpu) * 8192) / 1000)
+        pop: true
     - MFMA FLOPs (F6F4):
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F6F4 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOP/s
         peak: ((($max_sclk * $cu_per_gpu) * 16834) / 1000)
+        pop: true
 - Panel Config:
     id: 200
   metric_descriptions:
@@ -25,10 +27,12 @@ Addition:
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F8 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOP/s
         peak: $MFMAF8Flops_empirical_peak
+        pop: true
     - MFMA FLOPs (F6F4):
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F6F4 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOP/s
         peak: $MFMAF6F4Flops_empirical_peak
+        pop: true
 - Panel Config:
     id: 400
   metric_descriptions:
@@ -136,10 +140,12 @@ Addition:
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F8 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOPs
         peak: ((($max_sclk * $cu_per_gpu) * 8192) / 1000)
+        pop: true
     - MFMA FLOPs (F6F4):
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F6F4 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOPs
         peak: ((($max_sclk * $cu_per_gpu) * 16834) / 1000)
+        pop: true
 - Panel Config:
     id: 1100
   metric_table:

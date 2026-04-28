@@ -559,40 +559,65 @@ class TestMetricEvaluator:
 
 
 class TestComputePctOfPeak:
-    """Tests for compute_pct_of_peak auto-derivation."""
+    """Tests for compute_pct_of_peak with pop: true/false flags."""
 
     @staticmethod
-    def _make_dfs(value, peak):
-        """Build minimal dfs/dfs_type for compute_pct_of_peak testing."""
+    def _make_dfs(value, peak, pop_flag=True, unit="Unit"):
+        """Build minimal dfs/dfs_type for compute_pct_of_peak testing.
+
+        The ``pop_flag`` parameter mirrors the ``pop: true/false`` YAML
+        entry that ``build_dfs()`` places into the "Pct of Peak" column.
+        """
         df = pd.DataFrame({
             "Metric_ID": ["1.1.0"],
             "Metric": ["Test"],
             "Avg": [value],
-            "Unit": ["Unit"],
+            "Unit": [unit],
             "Peak": [peak],
+            "Pct of Peak": [pop_flag],
         }).set_index("Metric_ID")
         return {1: df}, {1: "metric_table"}
 
-    def test_normal_derivation(self):
-        """Column is auto-created and PoP = 100 * value / peak."""
-        dfs, dfs_type = self._make_dfs(50.0, 200.0)
+    def test_pop_true_computes_pop(self):
+        """pop: true computes 100 * value / peak."""
+        dfs, dfs_type = self._make_dfs(50.0, 200.0, pop_flag=True)
         compute_pct_of_peak(dfs, dfs_type)
-        assert "Pct of Peak" in dfs[1].columns
         assert dfs[1].loc["1.1.0", "Pct of Peak"] == 25.0
 
+    def test_pop_false_returns_empty(self):
+        """pop: false suppresses computation even with valid value/peak."""
+        dfs, dfs_type = self._make_dfs(50.0, 200.0, pop_flag=False)
+        compute_pct_of_peak(dfs, dfs_type)
+        assert dfs[1].loc["1.1.0", "Pct of Peak"] == ""
+
     def test_peak_zero_returns_empty(self):
-        dfs, dfs_type = self._make_dfs(50.0, 0.0)
+        dfs, dfs_type = self._make_dfs(50.0, 0.0, pop_flag=True)
         compute_pct_of_peak(dfs, dfs_type)
         assert dfs[1].loc["1.1.0", "Pct of Peak"] == ""
 
     def test_non_numeric_returns_empty(self):
         """Non-numeric values (e.g. 'N/A' from eval pipeline) yield empty."""
-        dfs, dfs_type = self._make_dfs("N/A", 100.0)
+        dfs, dfs_type = self._make_dfs("N/A", 100.0, pop_flag=True)
         compute_pct_of_peak(dfs, dfs_type)
         assert dfs[1].loc["1.1.0", "Pct of Peak"] == ""
 
     def test_skips_non_metric_table(self):
-        dfs, dfs_type = self._make_dfs(50.0, 200.0)
+        dfs, dfs_type = self._make_dfs(50.0, 200.0, pop_flag=True)
         dfs_type[1] = "raw_csv_table"
+        compute_pct_of_peak(dfs, dfs_type)
+        # Column exists but should not be touched
+        assert dfs[1].loc["1.1.0", "Pct of Peak"] == True  # noqa: E712
+
+    def test_no_pop_column_skips_table(self):
+        """Tables without a Pct of Peak column are skipped entirely."""
+        df = pd.DataFrame({
+            "Metric_ID": ["1.1.0"],
+            "Metric": ["Test"],
+            "Avg": [50.0],
+            "Unit": ["Unit"],
+            "Peak": [200.0],
+        }).set_index("Metric_ID")
+        dfs = {1: df}
+        dfs_type = {1: "metric_table"}
         compute_pct_of_peak(dfs, dfs_type)
         assert "Pct of Peak" not in dfs[1].columns
