@@ -603,32 +603,16 @@ inline bool DmaBlitManager::rocrCopyBuffer(address dst, hsa_agent_t& dstAgent, c
 inline void DmaBlitManager::resolveAgents(const Memory& srcMem, const Memory& dstMem,
                                           address srcAddr, address dstAddr,
                                           hsa_agent_t& srcAgent, hsa_agent_t& dstAgent) const {
-  if (&srcMem.dev() == &dstMem.dev()) {
-    // Same device -- detect agents from memory access type
-    srcAgent = srcMem.isHostMemDirectAccess() ? dev().getCpuAgent() : dev().getBackendDevice();
-    dstAgent = dstMem.isHostMemDirectAccess() ? dev().getCpuAgent() : dev().getBackendDevice();
+  // Use agents stored in memory objects during creation
+  srcAgent = srcMem.getOwningAgent();
+  dstAgent = dstMem.getOwningAgent();
 
-    // IPC/VMM-imported buffers: the runtime doesn't know the real owning agent,
-    // so query pointer_info to resolve the true agent.
-    if (static_cast<const amd::Memory*>(srcMem.owner())->ipcShared() ||
-        static_cast<const amd::Memory*>(srcMem.owner())->vmmImported()) {
-      hsa_amd_pointer_info_t info = {sizeof(hsa_amd_pointer_info_t)};
-      if (HSA_STATUS_SUCCESS ==
-          Hsa::pointer_info(const_cast<address>(srcAddr), &info, nullptr, nullptr, nullptr)) {
-        srcAgent = info.agentOwner;
-      }
-    }
-    if (static_cast<const amd::Memory*>(dstMem.owner())->ipcShared() ||
-        static_cast<const amd::Memory*>(dstMem.owner())->vmmImported()) {
-      hsa_amd_pointer_info_t info = {sizeof(hsa_amd_pointer_info_t)};
-      if (HSA_STATUS_SUCCESS == Hsa::pointer_info(dstAddr, &info, nullptr, nullptr, nullptr)) {
-        dstAgent = info.agentOwner;
-      }
-    }
-  } else {
-    // Different devices -- use each memory's device backend agent
-    srcAgent = srcMem.dev().getBackendDevice();
-    dstAgent = dstMem.dev().getBackendDevice();
+  // Handle invalid agent (shouldn't happen if create() properly initialized)
+  if (srcAgent.handle == 0) {
+    srcAgent = srcMem.isHostMemDirectAccess() ? dev().getCpuAgent() : dev().getBackendDevice();
+  }
+  if (dstAgent.handle == 0) {
+    dstAgent = dstMem.isHostMemDirectAccess() ? dev().getCpuAgent() : dev().getBackendDevice();
   }
 }
 
@@ -668,12 +652,9 @@ bool DmaBlitManager::hsaCopyBatch(const std::vector<amd::BatchCopyOp>& copyOps,
     return true;
   }
 
-  // Build the array of HSA copy operation descriptors
-  std::vector<hsa_amd_memory_copy_op_t> hsaCopyOps;
-  hsaCopyOps.reserve(copyOps.size());
-
-  hsa_agent_t cpuAgent = dev().getCpuAgent();
-  hsa_agent_t backendDevice = dev().getBackendDevice();
+  // Resolve agents for each operation, then delegate to hsaCopyBatchWithAgents
+  std::vector<ResolvedAgents> resolvedAgents;
+  resolvedAgents.reserve(copyOps.size());
 
   for (const auto& op : copyOps) {
     const Memory& srcMem = gpuMem(*op.srcMemory->getDeviceMemory(
@@ -684,53 +665,12 @@ bool DmaBlitManager::hsaCopyBatch(const std::vector<amd::BatchCopyOp>& copyOps,
     address src = reinterpret_cast<address>(srcMem.getDeviceMemory()) + op.srcOffset;
     address dst = reinterpret_cast<address>(dstMem.getDeviceMemory()) + op.dstOffset;
 
-    hsa_agent_t srcAgent;
-    hsa_agent_t dstAgent;
-    resolveAgents(srcMem, dstMem, src, dst, srcAgent, dstAgent);
-
-    // Normalize agents to ensure the calling device's SDMA engines are used,
-    // matching the rocrCopyBuffer agent selection logic.
-    if (srcAgent.handle != dstAgent.handle &&
-        srcAgent.handle != cpuAgent.handle && dstAgent.handle != cpuAgent.handle) {
-      // P2P: force calling device's backend as src_agent, peer as dst_agent.
-      // ROCr selects copy_agent from src_agent, so this ensures the calling
-      // device's SDMA engines are used.
-      dstAgent = (srcAgent.handle == backendDevice.handle) ? dstAgent : srcAgent;
-      srcAgent = backendDevice;
-    }
-
-    hsa_amd_memory_copy_op_t hsaOp = {};
-    hsaOp.version = HSA_AMD_MEMORY_COPY_OP_VERSION;
-    hsaOp.src = src;
-    hsaOp.src_agent = srcAgent;
-    hsaOp.dst = dst;
-    hsaOp.dst_agent = dstAgent;
-    hsaOp.size = op.size;
-
-    switch (op.metadata.copyOpType_) {
-    case amd::CopyMetadata::kCopyOpSwap:
-      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_SWAP;
-      hsaOp.src_size = op.size;
-      hsaOp.dst_size = op.size;
-      break;
-    case amd::CopyMetadata::kCopyOpIndirectSrc:
-      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_INDIRECT_SRC;
-      break;
-    case amd::CopyMetadata::kCopyOpIndirectDst:
-      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_INDIRECT_DST;
-      break;
-    case amd::CopyMetadata::kCopyOpIndirectSrcDst:
-      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_INDIRECT_SRCDST;
-      break;
-    default:
-      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR;
-      break;
-    }
-
-    hsaCopyOps.push_back(hsaOp);
+    ResolvedAgents agents;
+    resolveAgents(srcMem, dstMem, src, dst, agents.srcAgent, agents.dstAgent);
+    resolvedAgents.push_back(agents);
   }
 
-  return rocrCopyBufferBatch(hsaCopyOps, externalWaitEvents, outBatchSignals);
+  return hsaCopyBatchWithAgents(copyOps, resolvedAgents, externalWaitEvents, outBatchSignals);
 }
 
 // ================================================================================================
@@ -748,14 +688,13 @@ bool DmaBlitManager::hsaCopyBatchWithAgents(
   }
 
   // Build the array of HSA copy operation descriptors
-  std::vector<hsa_amd_memory_copy_op_t> hsaCopyOps;
-  hsaCopyOps.reserve(copyOps.size());
+  std::vector<hsa_amd_memory_copy_op_t> hsaCopyOps(copyOps.size());
 
   hsa_agent_t cpuAgent = dev().getCpuAgent();
   hsa_agent_t backendDevice = dev().getBackendDevice();
 
-  for (size_t i = 0; i < copyOps.size(); ++i) {
-    const auto& op = copyOps[i];
+  size_t i = 0;
+  for (const auto& op: copyOps) {
     const Memory& srcMem = gpuMem(*op.srcMemory->getDeviceMemory(
         *op.srcMemory->getContext().devices()[0]));
     const Memory& dstMem = gpuMem(*op.dstMemory->getDeviceMemory(
@@ -807,7 +746,7 @@ bool DmaBlitManager::hsaCopyBatchWithAgents(
       break;
     }
 
-    hsaCopyOps.push_back(hsaOp);
+    hsaCopyOps[i++] = hsaOp;
   }
 
   return rocrCopyBufferBatch(hsaCopyOps, externalWaitEvents, outBatchSignals);

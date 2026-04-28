@@ -101,6 +101,9 @@ class Memory : public device::Memory {
 
   void* PersistentHostPtr() const { return persistent_host_ptr_; }
 
+  //! Get the owning HSA agent for this memory (computed during create())
+  hsa_agent_t getOwningAgent() const { return owningAgent_; }
+
   //! Validates allocated memory for possible workarounds
   virtual bool ValidateMemory() { return true; }
 
@@ -109,6 +112,9 @@ class Memory : public device::Memory {
 
   // Decrement map count
   void decIndMapCount() override;
+
+  //! Set the owning agent (called during create() after allocation)
+  void setOwningAgent(hsa_agent_t agent) { owningAgent_ = agent; }
 
   // Free / deregister device memory.
   virtual void destroy() = 0;
@@ -156,6 +162,7 @@ class Memory : public device::Memory {
   Memory& operator=(const Memory&);
 
   amd::Memory* pinnedMemory_;  //!< Memory used as pinned system memory
+  hsa_agent_t owningAgent_;    //!< HSA agent for this memory, computed once during creation
 };
 
 class Buffer : public roc::Memory {
@@ -190,6 +197,9 @@ class Buffer : public roc::Memory {
 
   // Free device memory.
   void destroy();
+
+  // Compute and cache the owning HSA agent
+  void computeAndSetOwningAgent();
 };
 
 class Image : public roc::Memory {
