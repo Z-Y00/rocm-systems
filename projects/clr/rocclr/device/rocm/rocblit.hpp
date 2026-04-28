@@ -211,6 +211,12 @@ class DmaBlitManager : public device::HostBlitManager {
     amd::Memory* pinnedMem_;  //!< Pinned Memory
     size_t copySize_;         //!< last copy size
   };
+
+  //! Structure to hold pre-resolved HSA agents for batch operations
+  struct ResolvedAgents {
+    hsa_agent_t srcAgent;
+    hsa_agent_t dstAgent;
+  };
   //! Synchronizes the blit operations if necessary
   inline void synchronize() const;
 
@@ -248,6 +254,12 @@ class DmaBlitManager : public device::HostBlitManager {
   bool hsaCopyBatch(const std::vector<amd::BatchCopyOp>& copyOps,
                     const std::vector<hsa_signal_t>* externalWaitEvents = nullptr,
                     std::vector<ProfilingSignal*>* outBatchSignals = nullptr) const;
+
+  //! Internal variant that accepts pre-resolved agents to avoid duplicate resolveAgents() calls
+  bool hsaCopyBatchWithAgents(const std::vector<amd::BatchCopyOp>& copyOps,
+                              const std::vector<ResolvedAgents>& resolvedAgents,
+                              const std::vector<hsa_signal_t>* externalWaitEvents = nullptr,
+                              std::vector<ProfilingSignal*>* outBatchSignals = nullptr) const;
 
   //! Batch version of rocrCopyBuffer
   bool rocrCopyBufferBatch(

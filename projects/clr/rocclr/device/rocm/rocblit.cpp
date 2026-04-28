@@ -734,6 +734,86 @@ bool DmaBlitManager::hsaCopyBatch(const std::vector<amd::BatchCopyOp>& copyOps,
 }
 
 // ================================================================================================
+bool DmaBlitManager::hsaCopyBatchWithAgents(
+    const std::vector<amd::BatchCopyOp>& copyOps,
+    const std::vector<ResolvedAgents>& resolvedAgents,
+    const std::vector<hsa_signal_t>* externalWaitEvents,
+    std::vector<ProfilingSignal*>* outBatchSignals) const {
+
+  assert(copyOps.size() == resolvedAgents.size() &&
+         "copyOps and resolvedAgents must have same size");
+
+  if (copyOps.empty()) {
+    return true;
+  }
+
+  // Build the array of HSA copy operation descriptors
+  std::vector<hsa_amd_memory_copy_op_t> hsaCopyOps;
+  hsaCopyOps.reserve(copyOps.size());
+
+  hsa_agent_t cpuAgent = dev().getCpuAgent();
+  hsa_agent_t backendDevice = dev().getBackendDevice();
+
+  for (size_t i = 0; i < copyOps.size(); ++i) {
+    const auto& op = copyOps[i];
+    const Memory& srcMem = gpuMem(*op.srcMemory->getDeviceMemory(
+        *op.srcMemory->getContext().devices()[0]));
+    const Memory& dstMem = gpuMem(*op.dstMemory->getDeviceMemory(
+        *op.dstMemory->getContext().devices()[0]));
+
+    address src = reinterpret_cast<address>(srcMem.getDeviceMemory()) + op.srcOffset;
+    address dst = reinterpret_cast<address>(dstMem.getDeviceMemory()) + op.dstOffset;
+
+    // Use pre-resolved agents instead of calling resolveAgents()
+    hsa_agent_t srcAgent = resolvedAgents[i].srcAgent;
+    hsa_agent_t dstAgent = resolvedAgents[i].dstAgent;
+
+    // Normalize agents to ensure the calling device's SDMA engines are used,
+    // matching the rocrCopyBuffer agent selection logic.
+    if (srcAgent.handle != dstAgent.handle &&
+        srcAgent.handle != cpuAgent.handle && dstAgent.handle != cpuAgent.handle) {
+      // P2P: force calling device's backend as src_agent, peer as dst_agent.
+      // ROCr selects copy_agent from src_agent, so this ensures the calling
+      // device's SDMA engines are used.
+      dstAgent = (srcAgent.handle == backendDevice.handle) ? dstAgent : srcAgent;
+      srcAgent = backendDevice;
+    }
+
+    hsa_amd_memory_copy_op_t hsaOp = {};
+    hsaOp.version = HSA_AMD_MEMORY_COPY_OP_VERSION;
+    hsaOp.src = src;
+    hsaOp.src_agent = srcAgent;
+    hsaOp.dst = dst;
+    hsaOp.dst_agent = dstAgent;
+    hsaOp.size = op.size;
+
+    switch (op.metadata.copyOpType_) {
+    case amd::CopyMetadata::kCopyOpSwap:
+      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_SWAP;
+      hsaOp.src_size = op.size;
+      hsaOp.dst_size = op.size;
+      break;
+    case amd::CopyMetadata::kCopyOpIndirectSrc:
+      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_INDIRECT_SRC;
+      break;
+    case amd::CopyMetadata::kCopyOpIndirectDst:
+      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_INDIRECT_DST;
+      break;
+    case amd::CopyMetadata::kCopyOpIndirectSrcDst:
+      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR_INDIRECT_SRCDST;
+      break;
+    default:
+      hsaOp.type = HSA_AMD_MEMORY_COPY_OP_LINEAR;
+      break;
+    }
+
+    hsaCopyOps.push_back(hsaOp);
+  }
+
+  return rocrCopyBufferBatch(hsaCopyOps, externalWaitEvents, outBatchSignals);
+}
+
+// ================================================================================================
 bool DmaBlitManager::rocrCopyBufferBatch(const std::vector<hsa_amd_memory_copy_op_t>& copyOps,
                                          const std::vector<hsa_signal_t>* externalWaitEvents,
                                          std::vector<ProfilingSignal*>* outBatchSignals) const {
@@ -2610,6 +2690,7 @@ bool KernelBlitManager::copyBufferBatch(const std::vector<amd::BatchCopyOp>& cop
   // Partition into intra-device (kernel blit) and inter-device (DMA batch) groups.
   std::vector<amd::BatchCopyOp> d2dCopyOps;
   std::vector<amd::BatchCopyOp> p2pCopyOps;
+  std::vector<ResolvedAgents> p2pResolvedAgents;
 
   for (const auto& op : copyOps) {
     device::Memory* srcDevMem = op.srcMemory->getDeviceMemory(
@@ -2636,6 +2717,9 @@ bool KernelBlitManager::copyBufferBatch(const std::vector<amd::BatchCopyOp>& cop
       d2dCopyOps.push_back(op);
     } else {
       p2pCopyOps.push_back(op);
+      // Cache the resolved agents for the p2p operation to avoid duplicate resolveAgents() call
+      ResolvedAgents agents{srcAgent, dstAgent};
+      p2pResolvedAgents.push_back(agents);
     }
   }
 
@@ -2645,7 +2729,7 @@ bool KernelBlitManager::copyBufferBatch(const std::vector<amd::BatchCopyOp>& cop
   ProfilingSignal* lastBatchSignal = nullptr;
   if (!p2pCopyOps.empty()) {
     // Always pass prior wait events to maintain stream ordering for the batch.
-    if (!hsaCopyBatch(p2pCopyOps, &priorWaitEvents, &batchSignals)) {
+    if (!hsaCopyBatchWithAgents(p2pCopyOps, p2pResolvedAgents, &priorWaitEvents, &batchSignals)) {
       LogWarning(
           "KernelBlitManager::copyBufferBatch: Batch copy failed, falling back to copyBuffer");
       d2dCopyOps.insert(d2dCopyOps.end(), p2pCopyOps.begin(), p2pCopyOps.end());
