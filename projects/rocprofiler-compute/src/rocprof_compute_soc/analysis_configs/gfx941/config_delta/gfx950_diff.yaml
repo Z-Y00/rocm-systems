@@ -35,7 +35,6 @@ Addition:
         value: SUM(SQ_INSTS_VALU_MFMA_MOPS_F6F4 * 512) / SUM(End_Timestamp - Start_Timestamp)
         unit: GFLOP/s
         peak: $MFMAF6F4Flops_empirical_peak
-        pop: true
 - Panel Config:
     id: 400
   metric_descriptions:
