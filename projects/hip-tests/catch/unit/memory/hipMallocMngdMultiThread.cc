@@ -5,7 +5,6 @@
  */
 
 #include <hip_test_common.hh>
-#include "hipMallocManagedCommon.hh"
 #include <atomic>
 
 
@@ -283,7 +282,7 @@ static void AllocateHmmMemory(int flag, int device) {
 }
 
 HIP_TEST_CASE(Unit_hipMallocManaged_MultiThread) {
-  auto managed = HmmAttrPrint();
+  auto managed = HipTest::HmmAttrPrint();
   if (managed != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;
@@ -337,7 +336,7 @@ HIP_TEST_CASE(Unit_hipMallocManaged_MultiThread) {
 // The following test checks what happens when same Hmm memory is used to
 // launch multiple threads over multiple gpus
 HIP_TEST_CASE(Unit_hipMallocManaged_MGpuMThread) {
-  auto managed = HmmAttrPrint();
+  auto managed = HipTest::HmmAttrPrint();
   if (managed != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;
@@ -380,7 +379,7 @@ HIP_TEST_CASE(Unit_hipMallocManaged_MGpuMThread) {
 // The following test checks what happens when multiple kernels are launched
 // with same Hmm memory
 HIP_TEST_CASE(Unit_hipMallocManaged_MultiKrnlComnHmm) {
-  auto managed = HmmAttrPrint();
+  auto managed = HipTest::HmmAttrPrint();
   if (managed != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;
@@ -415,7 +414,7 @@ HIP_TEST_CASE(Unit_hipMallocManaged_MultiKrnlComnHmm) {
 // The following test checks what happens when multiple kernels are launched
 // with same hipMalloc() memory
 HIP_TEST_CASE(Unit_hipMallocManaged_MultiKrnlComnMalloc) {
-  auto managed = HmmAttrPrint();
+  auto managed = HipTest::HmmAttrPrint();
   if (managed != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;
@@ -446,7 +445,7 @@ HIP_TEST_CASE(Unit_hipMallocManaged_MultiKrnlComnMalloc) {
 //  The following section tests the scenario wherein multiple threads use their
 //  own stream to launch kernel on common Hmm memory
 HIP_TEST_CASE(Unit_hipMallocManaged_MultiThrdMultiStrm) {
-  auto managed = HmmAttrPrint();
+  auto managed = HipTest::HmmAttrPrint();
   if (managed != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;
@@ -480,7 +479,7 @@ HIP_TEST_CASE(Unit_hipMallocManaged_MultiThrdMultiStrm) {
 //  The following section tests the scenario wherein two threads each use
 //  different kernel but common HMM memory
 HIP_TEST_CASE(Unit_hipMallocManaged_TwoKrnlsComnHmmMem) {
-  auto managed = HmmAttrPrint();
+  auto managed = HipTest::HmmAttrPrint();
   if (managed != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;

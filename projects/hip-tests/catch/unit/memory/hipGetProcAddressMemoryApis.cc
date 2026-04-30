@@ -7,7 +7,6 @@
 #include <hip_test_common.hh>
 #include <hip_test_helper.hh>
 #include <utils.hh>
-#include "hipMallocManagedCommon.hh"
 #include "../device/hipGetProcAddressHelpers.hh"
 
 /**
@@ -5381,7 +5380,7 @@ HIP_TEST_CASE(Unit_hipGetProcAddress_MemoryApisAddressRelated) {
  *  - HIP_VERSION >= 6.2
  */
 HIP_TEST_CASE(Unit_hipGetProcAddress_MemoryApisManagedMemory) {
-  if (HmmAttrPrint() != 1) {
+  if (HipTest::HmmAttrPrint() != 1) {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);
     return;
   }
