@@ -297,19 +297,18 @@ void Timestamp::checkGpuTime(ProfilingSignal* single_signal) {
     }
 
     // Update member timing variables from local accumulators
-    // When processing single signal, merge with existing timing
-    // When processing all signals, replace timing
+    // Always use min/max to merge timing from all signals correctly,
+    // regardless of whether signals are processed individually or all at once
     if (end != 0 || sdmaEnd != 0) {
-      const bool merge_with_existing = (single_signal != nullptr);
       uint64_t final_start = ((sdmaEnd != 0) ? sdmaStart : start) * ticksToTime_;
       uint64_t final_end = ((sdmaEnd != 0) ? sdmaEnd : end) * ticksToTime_;
       if (!accum_ena_) {
         start_ = final_start;
         accum_ena_ = true;
-      } else if (merge_with_existing) {
+      } else {
         start_ = std::min(start_, final_start);
       }
-      end_ = merge_with_existing ? std::max(end_, final_end) : final_end;
+      end_ = std::max(end_, final_end);
     }
   }
 }
