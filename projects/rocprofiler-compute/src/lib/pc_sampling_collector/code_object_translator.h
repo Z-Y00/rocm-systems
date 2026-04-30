@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:  MIT
 #pragma once
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -63,7 +64,8 @@ public:
 
 private:
     std::unique_ptr<rocprofiler::sdk::codeobj::disassembly::CodeobjAddressTranslate> m_translator;
-    std::vector<size_t> m_code_object_ids;
+    std::vector<size_t> m_obj_ids;
+    std::map<size_t, uint64_t> m_obj_id_to_load_addr;
 };
 
 }  // namespace rocm_compute

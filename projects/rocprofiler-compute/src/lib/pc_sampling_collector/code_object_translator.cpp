@@ -5,7 +5,6 @@
 #include "gsl_assert.h"
 #include "rocprofiler-sdk/cxx/codeobj/code_printing.hpp"
 
-
 using namespace rocm_compute;
 
 code_object_translator_impl_t::code_object_translator_impl_t()
@@ -15,10 +14,14 @@ code_object_translator_impl_t::code_object_translator_impl_t()
 
 code_object_translator_impl_t::~code_object_translator_impl_t() = default;
 
-void code_object_translator_impl_t::add_code_object(const char* filepath, size_t id, uint64_t load_addr, uint64_t mem_size)
+void code_object_translator_impl_t::add_code_object(const char* filepath,
+                                                    size_t      id,
+                                                    uint64_t    load_addr,
+                                                    uint64_t    mem_size)
 {
     m_translator->addDecoder(filepath, id, load_addr, mem_size);
-    m_code_object_ids.push_back(id);
+    m_obj_id_to_load_addr[id] = load_addr;
+    m_obj_ids.push_back(id);
 }
 
 void code_object_translator_impl_t::add_code_object(uint64_t memory_base,
@@ -28,33 +31,35 @@ void code_object_translator_impl_t::add_code_object(uint64_t memory_base,
                                                     uint64_t load_size)
 {
     m_translator->addDecoder(reinterpret_cast<void*>(memory_base), memory_size, id, load_base, load_size);
-    m_code_object_ids.push_back(id);
+    m_obj_id_to_load_addr[id] = load_base;
+    m_obj_ids.push_back(id);
 }
 
 const std::vector<size_t>& code_object_translator_impl_t::get_code_object_ids() const
 {
-    return m_code_object_ids;
+    return m_obj_ids;
 }
 
 std::vector<symbol_t> code_object_translator_impl_t::get_symbols(size_t object_id) const
 {
-    const auto& symbols = m_translator->getSymbolMap(object_id);
+    Expects(m_obj_id_to_load_addr.find(object_id) != m_obj_id_to_load_addr.end());
+    const auto&           symbols = m_translator->getSymbolMap(object_id);
+    const auto&           load_address = m_obj_id_to_load_addr.at(object_id);
     std::vector<symbol_t> symbol_map;
     for (const auto& [virtual_address, symbol_info] : symbols)
     {
         Expects(virtual_address == symbol_info.vaddr);
         symbol_t sym{};
-        sym.name            = symbol_info.name;
-        sym.code_object_offset     = symbol_info.faddr;
-        sym.virtual_address = symbol_info.vaddr;
-        sym.size        = symbol_info.mem_size;
+        sym.name               = symbol_info.name;
+        sym.code_object_offset = symbol_info.faddr;
+        sym.virtual_address    = symbol_info.vaddr + load_address;
+        sym.size               = symbol_info.mem_size;
         symbol_map.push_back(sym);
     }
     return symbol_map;
 }
 
-instruction_t code_object_translator_impl_t::get_instruction(size_t   object_id,
-                                                             uint64_t virtual_address) const
+instruction_t code_object_translator_impl_t::get_instruction(size_t object_id, uint64_t virtual_address) const
 {
     const auto& inst = m_translator->get(object_id, virtual_address);
     return {inst->inst, inst->comment, inst->size};
