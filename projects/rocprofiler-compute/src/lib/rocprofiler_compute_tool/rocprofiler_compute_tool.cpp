@@ -185,15 +185,12 @@ void tool_fini(void* user_data)
 }
 }  // namespace rocm_compute
 
-static std::filesystem::path generate_output_filename(const std::string& output_path, const std::string& suffix)
+static std::filesystem::path generate_output_file_path(const std::string& output_path, const std::string& suffix)
 {
     Expects(!output_path.empty());
-    std::string result_output_path = output_path;
-    if (result_output_path.back() != '/')
-        result_output_path += '/';
-
+    const std::filesystem::path result_output_path = output_path;
     const std::string filename = std::to_string(getpid()) + suffix;
-    return result_output_path + filename;
+    return result_output_path / filename;
 }
 
 std::unique_ptr<tool_data_t> create_tool_data(rocprofiler_client_id_t* /*id*/)
@@ -205,8 +202,8 @@ std::unique_ptr<tool_data_t> create_tool_data(rocprofiler_client_id_t* /*id*/)
     tool_data->pc_sampling_mode = pc_sampling_mode(g_input_parameters->get_pc_sampling_mode());
 
     tool_data->counters_output_filename =
-        generate_output_filename(g_input_parameters->get_output_path(), "_native_counter_collection.csv");
-    tool_data->code_obj_output_filename = generate_output_filename(g_input_parameters->get_output_path(),
+        generate_output_file_path(g_input_parameters->get_output_path(), "_native_counter_collection.csv");
+    tool_data->code_obj_output_filename = generate_output_file_path(g_input_parameters->get_output_path(),
                                                                    "_code_obj_info.csv");
 
     // ROCPROF_COUNTERS env. var. is a string like "pmc: counter1 counter2 ..."

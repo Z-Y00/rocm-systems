@@ -34,6 +34,8 @@ public:
     void        flush(const std::filesystem::path& output_file_path) override;
 
 private:
+    static void create_parent_dir(const std::filesystem::path& output_file_path);
+
     int32_t m_code_object_closure_count = 0;
     int32_t m_symbol_closure_count      = 0;
 
