@@ -43,7 +43,7 @@ const std::vector<size_t>& code_object_translator_impl_t::get_code_object_ids() 
 std::vector<symbol_t> code_object_translator_impl_t::get_symbols(size_t object_id) const
 {
     Expects(m_obj_id_to_load_addr.find(object_id) != m_obj_id_to_load_addr.end());
-    const auto&           symbols = m_translator->getSymbolMap(object_id);
+    const auto&           symbols      = m_translator->getSymbolMap(object_id);
     const auto&           load_address = m_obj_id_to_load_addr.at(object_id);
     std::vector<symbol_t> symbol_map;
     for (const auto& [virtual_address, symbol_info] : symbols)
@@ -62,5 +62,11 @@ std::vector<symbol_t> code_object_translator_impl_t::get_symbols(size_t object_i
 instruction_t code_object_translator_impl_t::get_instruction(size_t object_id, uint64_t virtual_address) const
 {
     const auto& inst = m_translator->get(object_id, virtual_address);
-    return {inst->inst, inst->comment, inst->size};
+    if (inst)
+    {
+        return {inst->inst, inst->comment, inst->size};
+    }
+    std::clog << "Could not get instruction for object id " << object_id << " at virtual address "
+              << virtual_address << std::endl;
+    return {};
 }
