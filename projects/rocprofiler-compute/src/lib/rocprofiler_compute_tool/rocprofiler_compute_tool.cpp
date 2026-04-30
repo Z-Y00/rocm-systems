@@ -185,7 +185,7 @@ void tool_fini(void* user_data)
 }
 }  // namespace rocm_compute
 
-static std::string generate_output_filename(const std::string& output_path, const std::string& suffix)
+static std::filesystem::path generate_output_filename(const std::string& output_path, const std::string& suffix)
 {
     Expects(!output_path.empty());
     std::string result_output_path = output_path;

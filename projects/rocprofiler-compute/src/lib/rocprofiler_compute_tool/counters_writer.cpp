@@ -7,7 +7,7 @@
 
 using namespace rocm_compute;
 
-void csv_counters_writer_t::write_counters(const std::string&                        output_file,
+void csv_counters_writer_t::write_counters(const std::filesystem::path&              output_file,
                                            const std::vector<counter_info_record_t>& records)
 {
     std::ofstream ofs(output_file);

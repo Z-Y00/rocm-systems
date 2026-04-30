@@ -74,7 +74,7 @@ std::string code_object_writer_json_t::get_result()
     return nlohmann::json{{"code_objects", std::move(m_code_objects)}}.dump();
 }
 
-void code_object_writer_json_t::flush(const std::string& output_file_path)
+void code_object_writer_json_t::flush(const std::filesystem::path& output_file_path)
 {
     Expects(!output_file_path.empty());
     std::ofstream out_file(output_file_path, std::ios::out );

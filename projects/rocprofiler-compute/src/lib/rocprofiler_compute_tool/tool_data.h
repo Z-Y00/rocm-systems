@@ -73,10 +73,10 @@ struct counter_info_record_t
 struct tool_data_t
 {
     IterationMultiplexingMode iteration_multiplexing_mode{IterationMultiplexingMode::Disabled};
-    PcSamplingMode                             pc_sampling_mode{PcSamplingMode::Disabled};
-    std::mutex                                 mut{};
-    std::string                                counters_output_filename{};
-    std::string                                code_obj_output_filename{};
+    PcSamplingMode            pc_sampling_mode{PcSamplingMode::Disabled};
+    std::mutex                mut{};
+    std::filesystem::path     counters_output_filename{};
+    std::filesystem::path     code_obj_output_filename{};
     std::unordered_map<uint64_t, std::string>  counter_id_name_map{};
     std::string                                requested_counters{};
     std::string                                kernel_filter_include_regex{};
@@ -85,6 +85,6 @@ struct tool_data_t
     std::set<uint64_t>                         target_kernel_ids{};
 
     synchronized_t<pc_sampling_collector_t::ptr> pc_sampling_collector;
-    std::shared_ptr<sdk_callbacks_t>           sdk_callbacks{};
+    std::shared_ptr<sdk_callbacks_t>             sdk_callbacks{};
 };
 }  // namespace rocm_compute
