@@ -5,6 +5,7 @@
 #include "gsl_assert.h"
 
 #include <fstream>
+#include <iostream>
 
 using namespace rocm_compute;
 
@@ -76,5 +77,14 @@ std::string code_object_writer_json_t::get_result()
 void code_object_writer_json_t::flush(const std::string& output_file_path)
 {
     Expects(!output_file_path.empty());
-    std::ofstream(output_file_path, std::ios::out ) << get_result();
+    std::ofstream out_file(output_file_path, std::ios::out );
+    if (!out_file.is_open())
+    {
+        std::cerr << "Failed to open output file: " << output_file_path << "\n";
+        return;
+    }
+    out_file << get_result();
+    std::clog << "[rocprofiler-compute] [" << __FUNCTION__
+              << "] Code object data has been written to: " << output_file_path
+              << "\n";
 }
