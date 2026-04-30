@@ -113,7 +113,7 @@ public:
         std::vector<uint64_t> kernel_id;
     };
 
-    void write_counters(const std::string&                                      output_file,
+    void write_counters(const std::filesystem::path&                            output_file,
                         const std::vector<rocm_compute::counter_info_record_t>& tool_data) override;
 
     const std::vector<write_counters_info_t>& get_write_counters_info() const;
