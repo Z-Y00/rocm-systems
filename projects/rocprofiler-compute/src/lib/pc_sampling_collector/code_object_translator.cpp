@@ -64,7 +64,7 @@ instruction_t code_object_translator_impl_t::get_instruction(size_t object_id, u
     const auto& inst = m_translator->get(virtual_address);
     if (inst)
     {
-        return {inst->inst, inst->comment, inst->size};
+        return {inst->inst, inst->comment, virtual_address, inst->faddr, inst->size};
     }
     std::clog << "Could not get instruction for object id " << object_id << " at virtual address "
               << virtual_address << std::endl;
