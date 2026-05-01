@@ -419,6 +419,7 @@ inline int HmmAttrPrint() {
   return value;
 }
 
+
 inline bool isPcieAtomicSupported() {
   int pcieAtomic = 1;
   int device;
@@ -756,6 +757,7 @@ class BlockingContext {
     HipTest::HIP_SKIP_TEST(HipTest::SkipReason::kManagedMemoryUnsupported);    \
     return;                                                                    \
   }
+
 
 #define CHECK_PCIE_ATOMIC_SUPPORT                                                                 \
   if (!HipTest::isPcieAtomicSupported()) {                                                        \
