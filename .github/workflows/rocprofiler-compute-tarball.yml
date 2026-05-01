@@ -76,6 +76,7 @@ jobs:
           apt-get install -y /tmp/amdgpu-install_${ROCM_MAJOR}.${ROCM_MINOR}.${ROCM_VERSN}-1_all.deb
           apt-get update
           apt install -y rocm-dev
+          apt install -y libdw-dev
           echo "✅ ROCm Dependencies Installed!"
       - name: Install Python
         uses: actions/setup-python@v5
@@ -126,6 +127,7 @@ jobs:
           apt-get install -y /tmp/amdgpu-install_${ROCM_MAJOR}.${ROCM_MINOR}.${ROCM_VERSN}-1_all.deb
           apt-get update
           apt install -y rocm-dev
+          apt install -y libdw-dev
           echo "✅ ROCm Dependencies Installed!"
       - name: Python dependency installs
         run: |
