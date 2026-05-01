@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
 #Add a name for the rocm-systems location
 set(ROCM_SYSTEMS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../..")
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${PROJECT_SOURCE_DIR}/cmake/Modules
-                      ${CMAKE_MODULE_PATH})
-
 # Set cmake_prefix_path for searching, ROCM_PATH if avail otherwise default to general rocm install path
 set(CMAKE_PREFIX_PATH $ENV{ROCM_PATH} "/opt/rocm/")
 message(STATUS "ROCM_PATH: $ENV{ROCM_PATH}")
@@ -51,6 +48,10 @@ project(
     HOMEPAGE_URL
         "https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-compute"
 )
+
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${PROJECT_SOURCE_DIR}/cmake/Modules
+                      ${CMAKE_MODULE_PATH})
+
 
 set(PACKAGE_NAME "rocprofiler-compute")
 set(PACKAGE_NAME_UNDERSCORE "rocprofiler_compute")
