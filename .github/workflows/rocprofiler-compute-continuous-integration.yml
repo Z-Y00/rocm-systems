@@ -144,7 +144,7 @@ jobs:
           wget -N -P /tmp/ https://repo.radeon.com/amdgpu-install/${ROCM_MAJOR}.${ROCM_MINOR}/ubuntu/${{ steps.setup_env.outputs.code_name }}/amdgpu-install_${ROCM_MAJOR}.${ROCM_MINOR}.${ROCM_VERSN}-1_all.deb
           apt-get install -y /tmp/amdgpu-install_${ROCM_MAJOR}.${ROCM_MINOR}.${ROCM_VERSN}-1_all.deb
           apt-get update
-          apt install -y amd-smi-lib libdw-dev libelf-dev hip-dev pkg-config
+          apt install -y amd-smi-lib libdw-dev libelf-dev hip-dev pkg-config libdwarf-dev
           echo "✅ amdgpu and ROCm dependencies Installed!"
 
       - name: Install Latest Nightly ROCm
