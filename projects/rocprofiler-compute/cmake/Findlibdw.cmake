@@ -76,6 +76,7 @@ if(NOT libdw_INCLUDE_DIR OR NOT libdw_LIBRARY)
 endif()
 
 include(FindPackageHandleStandardArgs)
+message(STATUS "Searching libdw with libdw_LIBRARY=${libdw_LIBRARY}, libdw_INCLUDE_DIR=${libdw_INCLUDE_DIR}")
 find_package_handle_standard_args(libdw DEFAULT_MSG libdw_LIBRARY libdw_INCLUDE_DIR)
 
 if(libdw_FOUND)
