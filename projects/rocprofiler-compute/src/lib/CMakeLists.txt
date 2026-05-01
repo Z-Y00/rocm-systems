@@ -19,11 +19,14 @@ find_package(
     REQUIRED
 )
 find_package(libdw REQUIRED)
-find_package(amd_comgr REQUIRED CONFIG
-    HINTS  ${CMAKE_PREFIX_PATH} 
-    PATHS  ${CMAKE_PREFIX_PATH} 
-    PATH_SUFFIXES lib/cmake/amd_comgr)
-
+find_package(
+    amd_comgr
+    REQUIRED
+    CONFIG
+    HINTS ${CMAKE_PREFIX_PATH}
+    PATHS ${CMAKE_PREFIX_PATH}
+    PATH_SUFFIXES lib/cmake/amd_comgr
+)
 
 add_subdirectory(external)
 add_subdirectory(rocprofiler_compute_tool)

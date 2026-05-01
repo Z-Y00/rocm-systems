@@ -14,11 +14,14 @@ add_library(
     env_parameters.cpp
     sdk_wrapper.h
     sdk_wrapper.cpp
-	tool_data.h
+    tool_data.h
 )
 
 target_include_directories(${target} PUBLIC .)
-target_link_libraries(${target} PUBLIC rocprofiler-sdk::rocprofiler-sdk gsl_assert synchronized pc-sampling-collector)
+target_link_libraries(
+    ${target}
+    PUBLIC rocprofiler-sdk::rocprofiler-sdk gsl_assert synchronized pc-sampling-collector
+)
 
 if(ENABLE_TESTS)
     add_subdirectory(tests)
