@@ -49,10 +49,6 @@ project(
         "https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-compute"
 )
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${PROJECT_SOURCE_DIR}/cmake/Modules
-                      ${CMAKE_MODULE_PATH})
-
-
 set(PACKAGE_NAME "rocprofiler-compute")
 set(PACKAGE_NAME_UNDERSCORE "rocprofiler_compute")
 set(EXECUTABLE_NAME "rocprof-compute")
