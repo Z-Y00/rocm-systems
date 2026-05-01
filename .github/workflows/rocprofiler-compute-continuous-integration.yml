@@ -145,6 +145,11 @@ jobs:
           apt-get install -y /tmp/amdgpu-install_${ROCM_MAJOR}.${ROCM_MINOR}.${ROCM_VERSN}-1_all.deb
           apt-get update
           apt install -y amd-smi-lib libdw-dev libelf-dev hip-dev pkg-config libdwarf-dev
+          echo "Checking lidw installation"
+          dpkg -L libdw-dev | grep -E 'libdw\.(so|pc)$' || echo "libdw-dev not installed!"
+          ls -l /usr/lib/$(uname -m)-linux-gnu/libdw.so 2>&1 || true
+          pkg-config --libs libdw
+          pkg-config --cflags libdw
           echo "✅ amdgpu and ROCm dependencies Installed!"
 
       - name: Install Latest Nightly ROCm
