@@ -62,7 +62,8 @@ namespace rocrtst {
   } \
 }
 
-size_t pool_size_limit = 0;
+// Thread-local to prevent TSAN race when multiple threads call AcquirePoolInfo
+thread_local size_t pool_size_limit = 0;
 
 bool isEmuModeEnabled() {
   auto checkMode = []{ 
