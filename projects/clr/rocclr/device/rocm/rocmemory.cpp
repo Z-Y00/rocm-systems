@@ -48,7 +48,7 @@ Memory::Memory(const roc::Device& dev, amd::Memory& owner)
       amdImageDesc_(nullptr),
       persistent_host_ptr_(nullptr),
       pinnedMemory_(nullptr),
-      owningAgent_({0}) {}
+      owningAgentHandle_(0) {}
 
 Memory::Memory(const roc::Device& dev, size_t size)
     : device::Memory(size),
@@ -58,7 +58,7 @@ Memory::Memory(const roc::Device& dev, size_t size)
       amdImageDesc_(nullptr),
       persistent_host_ptr_(nullptr),
       pinnedMemory_(nullptr),
-      owningAgent_({0}) {}
+      owningAgentHandle_(0) {}
 
 Memory::~Memory() {
   // Destory pinned memory

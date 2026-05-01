@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <atomic>
+
 #include "top.hpp"
 #include "platform/memory.hpp"
 #include "utils/debug.hpp"
@@ -101,8 +103,12 @@ class Memory : public device::Memory {
 
   void* PersistentHostPtr() const { return persistent_host_ptr_; }
 
-  //! Get the owning HSA agent for this memory (computed during create())
-  hsa_agent_t getOwningAgent() const { return owningAgent_; }
+  //! Get the owning HSA agent for this memory (computed during create(), thread-safe)
+  hsa_agent_t getOwningAgent() const {
+    hsa_agent_t agent;
+    agent.handle = owningAgentHandle_.load(std::memory_order_acquire);
+    return agent;
+  }
 
   //! Validates allocated memory for possible workarounds
   virtual bool ValidateMemory() { return true; }
@@ -113,8 +119,10 @@ class Memory : public device::Memory {
   // Decrement map count
   void decIndMapCount() override;
 
-  //! Set the owning agent (called during create() after allocation)
-  void setOwningAgent(hsa_agent_t agent) { owningAgent_ = agent; }
+  //! Set the owning agent (called during create() after allocation, thread-safe)
+  void setOwningAgent(hsa_agent_t agent) {
+    owningAgentHandle_.store(agent.handle, std::memory_order_release);
+  }
 
   // Free / deregister device memory.
   virtual void destroy() = 0;
@@ -161,8 +169,8 @@ class Memory : public device::Memory {
   // Disable operator=
   Memory& operator=(const Memory&);
 
-  amd::Memory* pinnedMemory_;  //!< Memory used as pinned system memory
-  hsa_agent_t owningAgent_;    //!< HSA agent for this memory, computed once during creation
+  amd::Memory* pinnedMemory_;        //!< Memory used as pinned system memory
+  std::atomic<uint64_t> owningAgentHandle_;  //!< HSA agent handle (atomic for thread-safety)
 };
 
 class Buffer : public roc::Memory {
