@@ -1069,6 +1069,19 @@ bool Buffer::create(bool alloc_local) {
 void Buffer::computeAndSetOwningAgent() {
   hsa_agent_t agent;
 
+  // Sub-buffers must inherit agent from parent, not recompute it
+  if (owner() != nullptr && owner()->parent() != nullptr) {
+    const Memory* parentMemory = static_cast<const Memory*>(
+        owner()->parent()->getDeviceMemory(dev_));
+    if (parentMemory != nullptr) {
+      agent = parentMemory->getOwningAgent();
+      setOwningAgent(agent);
+      return;
+    }
+    // Fallback if parent not available (shouldn't happen)
+    LogWarning("Sub-buffer parent not available for agent inheritance");
+  }
+
   // Check if this is IPC shared memory that needs pointer_info query
   if (owner() != nullptr && (owner()->ipcShared() || owner()->vmmImported())) {
     hsa_amd_pointer_info_t info = {};
