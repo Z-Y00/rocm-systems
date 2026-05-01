@@ -10,11 +10,11 @@
 class mock_env_parameters_t : public rocm_compute::env_parameters_t
 {
 public:
-    std::string get_output_path() override;
-    std::string get_requested_counters() override;
-    std::string get_iteration_multiplexing_mode() override;
-    std::string get_kernel_filter_include_regex() override;
-    std::string get_kernel_filter_range() override;
+    std::string get_output_path() const override;
+    std::string get_requested_counters() const override;
+    std::string get_iteration_multiplexing_mode() const override;
+    std::string get_kernel_filter_include_regex() const override;
+    std::string get_kernel_filter_range() const override;
     std::string get_pc_sampling_mode() const override;
 
     void set_output_path(const std::string& output_path);

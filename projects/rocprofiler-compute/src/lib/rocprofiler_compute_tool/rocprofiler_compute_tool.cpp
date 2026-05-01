@@ -105,7 +105,7 @@ void code_object_tracing_callback(rocprofiler_callback_tracing_record_t record,
         break;
         case ROCPROFILER_CODE_OBJECT_LOAD:
         {
-            if (pc_sampling_mode(g_input_parameters->get_pc_sampling_mode()) != PcSamplingMode::Disabled)
+            if (tool_data->pc_sampling_mode != PcSamplingMode::Disabled)
             {
                 Expects(record.payload);
                 auto* obj_data = static_cast<rocprofiler_callback_tracing_code_object_load_data_t*>(
@@ -175,13 +175,12 @@ void generate_output(tool_data_t& tool_data)
 
 void tool_fini(void* user_data)
 {
-    Expects(user_data) std::clog << "[rocprofiler-compute] In tool fini\n";
+    Expects(user_data);
+    std::clog << "[rocprofiler-compute] In tool fini\n";
     rocprofiler_stop_context(get_client_ctx());
 
     auto* tool_data_ptr = static_cast<tool_data_t*>(user_data);
     generate_output(*tool_data_ptr);
-
-    delete tool_data_ptr;
 }
 }  // namespace rocm_compute
 
@@ -205,7 +204,7 @@ std::unique_ptr<tool_data_t> create_tool_data(rocprofiler_client_id_t* /*id*/)
     tool_data->counters_output_filename =
         generate_output_file_path(g_input_parameters->get_output_path(), "_native_counter_collection.csv");
     tool_data->code_obj_output_filename = generate_output_file_path(g_input_parameters->get_output_path(),
-                                                                    "_code_obj_info.csv");
+                                                                    "_code_obj_info.json");
 
     // ROCPROF_COUNTERS env. var. is a string like "pmc: counter1 counter2 ..."
     tool_data->requested_counters = g_input_parameters->get_requested_counters();
@@ -228,7 +227,7 @@ std::unique_ptr<tool_data_t> create_tool_data(rocprofiler_client_id_t* /*id*/)
         if (!v_str.empty() && v_str.back() == ']')
             v_str.pop_back();
         // Parse the range string into vector of pairs
-        std::istringstream ss(v_str.c_str());
+        std::istringstream ss(v_str);
         for (std::string token; std::getline(ss, token, ',');)
         {
             size_t dash_pos = token.find('-');

@@ -340,9 +340,9 @@ void sdk_callbacks_impl_t::tool_tracing_callback(rocprofiler_callback_tracing_re
 
 std::string sdk_callbacks_impl_t::truncate_name(std::string_view name)
 {
-    // The function extracts the kernel kernel_name from
+    // The function extracts the kernel name from
     // input string. By using the iterators it finds the
-    // window in the string which contains only the kernel kernel_name.
+    // window in the string which contains only the kernel name.
     // For example 'Foo<int, float>::foo(a[], int (int))' -> 'foo'
     auto     rit         = name.rbegin();
     auto     rend        = name.rend();

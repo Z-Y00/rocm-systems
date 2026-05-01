@@ -69,7 +69,7 @@ TEST_F(test_rocprofiler_compute_tool_t, ProvidedNonEmptyOutputPath_ReturnsCodeOb
     EXPECT_TRUE(tool_data->code_obj_output_filename.string().find(m_env_parameters->get_output_path()) !=
                 std::string::npos);
     EXPECT_TRUE(tool_data->code_obj_output_filename.string().find(
-                    std::to_string(getpid()) + "_code_obj_info.csv") != std::string::npos);
+                    std::to_string(getpid()) + "_code_obj_info.json") != std::string::npos);
 }
 
 TEST_F(test_rocprofiler_compute_tool_t, ProvidedRequestedCounters_ReturnsIt)
@@ -196,6 +196,30 @@ TEST_F(test_rocprofiler_compute_tool_t, OnToolInit_ConfiguresDispatchCountingSer
     EXPECT_TRUE(args.record_callback_args != nullptr);
 }
 
+TEST_F(test_rocprofiler_compute_tool_t, ProvidedIncorrectPcSamplingMode_ReturnsDisabled)
+{
+    m_env_parameters->set_pc_sampling_mode("incorrect");
+    const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
+    const auto tool_data = get_tool_data(cfg);
+    EXPECT_EQ(tool_data->pc_sampling_mode, PcSamplingMode::Disabled);
+}
+
+TEST_F(test_rocprofiler_compute_tool_t, ProvidedStochasticPcSamplingMode_ReturnsIt)
+{
+    m_env_parameters->set_pc_sampling_mode("stochastic");
+    const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
+    const auto tool_data = get_tool_data(cfg);
+    EXPECT_EQ(tool_data->pc_sampling_mode, PcSamplingMode::Stochastic);
+}
+
+TEST_F(test_rocprofiler_compute_tool_t, ProvidedHostTrapPcSamplingMode_ReturnsIt)
+{
+    m_env_parameters->set_pc_sampling_mode("host_trap");
+    const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
+    const auto tool_data = get_tool_data(cfg);
+    EXPECT_EQ(tool_data->pc_sampling_mode, PcSamplingMode::HostTrap);
+}
+
 TEST_F(test_rocprofiler_compute_tool_t, OnFiniEmptyCounterRecords_DoesntWriteCounters)
 {
     const auto cfg = rocprofiler_configure(1, "", 1, &m_client_id);
@@ -306,12 +330,12 @@ TEST_F(test_rocprofiler_compute_tool_t, OnKernelSymbolRegisterOperation_Forwards
 
 TEST_F(test_rocprofiler_compute_tool_t, OnCodeObjectTracingIfPcSamplingEnabled_ForwardsToSdkCallbacks)
 {
-    m_payload.code_object_id = 1;
-    m_env_parameters->set_pc_sampling_mode("host_trap");
+    m_payload.code_object_id      = 1;
+    m_tool_data->pc_sampling_mode = PcSamplingMode::HostTrap;
     code_object_tracing_callback(m_pc_sampling_record, nullptr, m_tool_data.get());
 
-    m_payload.code_object_id = 2;
-    m_env_parameters->set_pc_sampling_mode("stochastic");
+    m_payload.code_object_id      = 2;
+    m_tool_data->pc_sampling_mode = PcSamplingMode::Stochastic;
     code_object_tracing_callback(m_pc_sampling_record, nullptr, m_tool_data.get());
 
     const auto& calls = m_pc_sampling_collector->get_on_code_object_load_info();

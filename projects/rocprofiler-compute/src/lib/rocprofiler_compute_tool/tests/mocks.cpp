@@ -5,34 +5,34 @@
 #include "gsl_assert.h"
 using namespace rocm_compute;
 
-std::string mock_env_parameters_t::get_output_path()
+std::string mock_env_parameters_t::get_output_path() const
 {
-    return m_output_path.c_str();
+    return m_output_path;
 }
 
-std::string mock_env_parameters_t::get_requested_counters()
+std::string mock_env_parameters_t::get_requested_counters() const
 {
-    return m_requested_counters.c_str();
+    return m_requested_counters;
 }
 
-std::string mock_env_parameters_t::get_iteration_multiplexing_mode()
+std::string mock_env_parameters_t::get_iteration_multiplexing_mode() const
 {
-    return m_iteration_multiplexing_mode.c_str();
+    return m_iteration_multiplexing_mode;
 }
 
-std::string mock_env_parameters_t::get_kernel_filter_include_regex()
+std::string mock_env_parameters_t::get_kernel_filter_include_regex() const
 {
-    return m_kernel_filter_include_regex.c_str();
+    return m_kernel_filter_include_regex;
 }
 
-std::string mock_env_parameters_t::get_kernel_filter_range()
+std::string mock_env_parameters_t::get_kernel_filter_range() const
 {
-    return m_kernel_filter_range.c_str();
+    return m_kernel_filter_range;
 }
 
 std::string mock_env_parameters_t::get_pc_sampling_mode() const
 {
-    return m_pc_sampling_mode.c_str();
+    return m_pc_sampling_mode;
 }
 
 void mock_env_parameters_t::set_output_path(const std::string& output_path)

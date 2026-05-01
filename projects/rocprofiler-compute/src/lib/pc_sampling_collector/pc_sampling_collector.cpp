@@ -11,7 +11,7 @@ using namespace rocm_compute;
 
 pc_sampling_collector_t::ptr pc_sampling_collector_t::create()
 {
-    return std::make_unique<pc_sampling_collector_impl_t>(
+    return std::make_shared<pc_sampling_collector_impl_t>(
         std::make_shared<code_object_translator_impl_t>());
 }
 

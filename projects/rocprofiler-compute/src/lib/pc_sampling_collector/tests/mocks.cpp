@@ -37,7 +37,7 @@ std::vector<symbol_t> mock_code_object_translator_t::get_symbols(size_t object_i
     return {};
 }
 
-instruction_t mock_code_object_translator_t::get_instruction(size_t object_id, uint64_t virtual_address) const
+instruction_t mock_code_object_translator_t::get_instruction(size_t, uint64_t) const
 {
     return m_instruction;
 }
