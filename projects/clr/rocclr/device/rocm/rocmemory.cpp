@@ -24,7 +24,6 @@
 
 namespace amd::roc {
 
-namespace {
 // RAII guard to ensure owning agent is set on successful buffer creation
 class OwningAgentGuard {
   Buffer* buffer_;
@@ -37,7 +36,6 @@ public:
     }
   }
 };
-} // anonymous namespace
 
 // ======================================= roc::Memory ============================================
 Memory::Memory(const roc::Device& dev, amd::Memory& owner)

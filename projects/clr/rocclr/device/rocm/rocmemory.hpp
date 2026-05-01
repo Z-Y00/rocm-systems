@@ -15,6 +15,10 @@
 #include "device/rocm/rocglinterop.hpp"
 
 namespace amd::roc {
+
+// Forward declaration for friend access
+class OwningAgentGuard;
+
 class Memory : public device::Memory {
  public:
   enum MEMORY_KIND {
@@ -174,6 +178,9 @@ class Memory : public device::Memory {
 };
 
 class Buffer : public roc::Memory {
+  // Allow guard to call computeAndSetOwningAgent()
+  friend class OwningAgentGuard;
+
  public:
   Buffer(const roc::Device& dev, amd::Memory& owner);
   Buffer(const roc::Device& dev, size_t size);
