@@ -8,7 +8,7 @@ namespace rocm_compute
 class sdk_wrapper_t
 {
 public:
-    virtual ~sdk_wrapper_t()                                             = default;
+    virtual ~sdk_wrapper_t()                                          = default;
     virtual void create_context(rocprofiler_context_id_t* context_id) = 0;
     virtual void configure_callback_dispatch_counting_service(
         rocprofiler_context_id_t                   context_id,

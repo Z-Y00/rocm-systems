@@ -24,6 +24,5 @@ void csv_counters_writer_t::write_counters(const std::filesystem::path&         
             << ',' << r.counter_id << ',' << r.counter_name << ',' << r.counter_value << '\n';
     ofs.flush();
     std::clog << "[rocprofiler-compute] [" << __FUNCTION__
-              << "] Counter collection data has been written to: " << output_file
-              << std::endl;
+              << "] Counter collection data has been written to: " << output_file << std::endl;
 }

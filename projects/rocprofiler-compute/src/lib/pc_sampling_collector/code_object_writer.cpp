@@ -79,7 +79,7 @@ void code_object_writer_json_t::flush(const std::filesystem::path& output_file_p
     Expects(!output_file_path.empty());
     create_parent_dir(output_file_path);
 
-    std::ofstream out_file(output_file_path, std::ios::out );
+    std::ofstream out_file(output_file_path, std::ios::out);
     if (!out_file.is_open())
     {
         std::cerr << "Failed to open output file: " << output_file_path << "\n";
@@ -87,8 +87,7 @@ void code_object_writer_json_t::flush(const std::filesystem::path& output_file_p
     }
     out_file << get_result();
     std::clog << "[rocprofiler-compute] [" << __FUNCTION__
-              << "] Code object data has been written to: " << output_file_path
-              << "\n";
+        << "] Code object data has been written to: " << output_file_path << "\n";
 }
 
 void code_object_writer_json_t::create_parent_dir(const std::filesystem::path& output_file_path)

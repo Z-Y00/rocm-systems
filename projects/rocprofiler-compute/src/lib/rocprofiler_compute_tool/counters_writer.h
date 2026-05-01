@@ -12,7 +12,7 @@ namespace rocm_compute
 class counters_writer_t
 {
 public:
-    virtual ~counters_writer_t()                                                     = default;
+    virtual ~counters_writer_t()                                                   = default;
     virtual void write_counters(const std::filesystem::path&              output_file,
                                 const std::vector<counter_info_record_t>& records) = 0;
 };

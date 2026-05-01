@@ -314,12 +314,11 @@ void test_sdk_callbacks_multiplexing_t::SetUp()
     m_multiplexing_mode = GetParam();
 }
 
-INSTANTIATE_TEST_SUITE_P(
-    Multiplexing,
-    test_sdk_callbacks_multiplexing_t,
-    ::testing::Values(rocm_compute::IterationMultiplexingMode::Disabled,
-                      rocm_compute::IterationMultiplexingMode::Kernel,
-                      rocm_compute::IterationMultiplexingMode::Launch));
+INSTANTIATE_TEST_SUITE_P(Multiplexing,
+                         test_sdk_callbacks_multiplexing_t,
+                         ::testing::Values(rocm_compute::IterationMultiplexingMode::Disabled,
+                                           rocm_compute::IterationMultiplexingMode::Kernel,
+                                           rocm_compute::IterationMultiplexingMode::Launch));
 
 //////////////////////////////////////////////////////////////////////////
 /// test_sdk_callbacks_kernel_filtering_t

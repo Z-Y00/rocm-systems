@@ -190,7 +190,8 @@ const std::vector<mock_sdk_wrapper_t::query_counter_record_info_t>&
 
 /////////////////////////////////////////////////////////////////////////
 // mock_counters_writer_t
-void mock_counters_writer_t::write_counters(const std::filesystem::path& output_file, const std::vector<counter_info_record_t>& records)
+void mock_counters_writer_t::write_counters(const std::filesystem::path&              output_file,
+                                            const std::vector<counter_info_record_t>& records)
 {
     write_counters_info_t args;
     for (const auto& counter : records)
@@ -250,7 +251,10 @@ void mock_pc_sampling_collector_t::on_code_object_load(
     m_on_code_object_load_info.push_back(info);
 }
 
-void mock_pc_sampling_collector_t::write(code_object_writer_t& writer) {++m_write_count;}
+void mock_pc_sampling_collector_t::write(code_object_writer_t& writer)
+{
+    ++m_write_count;
+}
 
 const std::vector<rocprofiler_callback_tracing_code_object_load_data_t>&
     mock_pc_sampling_collector_t::get_on_code_object_load_info() const

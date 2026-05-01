@@ -56,7 +56,8 @@ TEST_F(test_rocprofiler_compute_tool_t, ProvidedNonEmptyOutputPath_ReturnsCounte
 {
     const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
     const auto tool_data = get_tool_data(cfg);
-    EXPECT_TRUE(tool_data->counters_output_filename.string().find(m_env_parameters->get_output_path()) != std::string::npos);
+    EXPECT_TRUE(tool_data->counters_output_filename.string().find(m_env_parameters->get_output_path()) !=
+                std::string::npos);
     EXPECT_TRUE(tool_data->counters_output_filename.string().find(
                     std::to_string(getpid()) + "_native_counter_collection.csv") != std::string::npos);
 }
@@ -65,7 +66,8 @@ TEST_F(test_rocprofiler_compute_tool_t, ProvidedNonEmptyOutputPath_ReturnsCodeOb
 {
     const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
     const auto tool_data = get_tool_data(cfg);
-    EXPECT_TRUE(tool_data->code_obj_output_filename.string().find(m_env_parameters->get_output_path()) != std::string::npos);
+    EXPECT_TRUE(tool_data->code_obj_output_filename.string().find(m_env_parameters->get_output_path()) !=
+                std::string::npos);
     EXPECT_TRUE(tool_data->code_obj_output_filename.string().find(
                     std::to_string(getpid()) + "_code_obj_info.csv") != std::string::npos);
 }
@@ -243,7 +245,7 @@ TEST_F(test_rocprofiler_compute_tool_t, OnFiniWithHostTrapPcSamplingEnabled_Writ
 TEST_F(test_rocprofiler_compute_tool_t, OnFiniWithStochasticPcSamplingEnabled_WritesCodeObjectData)
 {
     m_env_parameters->set_pc_sampling_mode("stochastic");
-    const auto cfg = rocprofiler_configure(1, "", 1, &m_client_id);
+    const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
     const auto tool_data = get_tool_data(cfg);
     tool_data->pc_sampling_collector.wlock([&](auto& ptr) { ptr = m_pc_sampling_collector; });
     cfg->finalize(tool_data);
@@ -252,7 +254,7 @@ TEST_F(test_rocprofiler_compute_tool_t, OnFiniWithStochasticPcSamplingEnabled_Wr
 
 TEST_F(test_rocprofiler_compute_tool_t, OnFiniWithPcSamplingDisabled_DoesntWriteCodeObjectData)
 {
-    const auto cfg = rocprofiler_configure(1, "", 1, &m_client_id);
+    const auto cfg       = rocprofiler_configure(1, "", 1, &m_client_id);
     const auto tool_data = get_tool_data(cfg);
     tool_data->pc_sampling_collector.wlock([&](auto& ptr) { ptr = m_pc_sampling_collector; });
     cfg->finalize(tool_data);

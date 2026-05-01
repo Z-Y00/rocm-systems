@@ -4,6 +4,7 @@
 
 #include "sdk_wrapper.h"
 #include "tool_data.h"
+
 #include <rocprofiler-sdk/rocprofiler.h>
 
 #include <memory>
@@ -32,7 +33,6 @@ public:
 
     virtual void tool_tracing_callback(rocprofiler_callback_tracing_record_t record,
                                        tool_data_t&                          tool_data) = 0;
-
 };
 
 class sdk_callbacks_impl_t : public sdk_callbacks_t

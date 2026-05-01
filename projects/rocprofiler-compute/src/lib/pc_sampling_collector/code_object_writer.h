@@ -19,7 +19,7 @@ public:
     virtual void        end_symbol()                                 = 0;
     virtual void        write_instruction(const instruction_t& inst) = 0;
     virtual std::string get_result()                                 = 0;
-    virtual void        flush(const std::filesystem::path& string)             = 0;
+    virtual void        flush(const std::filesystem::path& string)   = 0;
 };
 
 class code_object_writer_json_t : public code_object_writer_t

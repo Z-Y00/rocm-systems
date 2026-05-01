@@ -30,8 +30,8 @@ void record_callback(rocprofiler_dispatch_counting_service_data_t dispatch_data,
                      void*                                        callback_data_args);
 
 void code_object_tracing_callback(rocprofiler_callback_tracing_record_t record,
-                           rocprofiler_user_data_t*              user_data,
-                           void*                                 callback_data);
+                                  rocprofiler_user_data_t*              user_data,
+                                  void*                                 callback_data);
 
 }  // namespace rocm_compute
 
