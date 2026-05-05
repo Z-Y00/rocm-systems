@@ -3,10 +3,12 @@
 
 """Unit tests for analysis_db.py static methods."""
 
+import types
 from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from rocprof_compute_analyze.analysis_db import db_analysis
 
@@ -299,3 +301,93 @@ def test_calc_dataframe_expressions_with_builtin_vars():
     assert result.iloc[0] == 51
     # None from evaluate becomes NaN in pandas Series
     assert pd.isna(result.iloc[1])
+
+
+# =============================================================================
+# db_analysis._derive_pop_values() tests
+# =============================================================================
+
+
+def _make_obj(metrics_info, kernel_values, workload_values):
+    """Build a minimal namespace that _derive_pop_values() can run against."""
+    obj = types.SimpleNamespace(
+        _metrics_info_data_per_workload=metrics_info,
+        _kernel_values_data_per_workload=kernel_values,
+        _workload_values_data_per_workload=workload_values,
+    )
+    # Bind the method so self is set correctly
+    obj._derive_pop_values = db_analysis._derive_pop_values.__get__(obj, type(obj))
+    return obj
+
+
+def test_derive_pop_values_workload_level():
+    """Workload-level DataFrame (no kernel_name column) gets Pct of Peak rows."""
+    wp = "/workload"
+    metrics_info = {wp: pd.DataFrame({"pop": [True], "metric_id": ["1.1"]})}
+    values_df = pd.DataFrame({
+        "metric_id": ["1.1", "1.1"],
+        "value_name": ["Avg", "Peak"],
+        "value": [50.0, 200.0],
+    })
+    obj = _make_obj(metrics_info, {wp: pd.DataFrame()}, {wp: values_df})
+
+    kernel_result, workload_result = obj._derive_pop_values()
+
+    pop_rows = workload_result[wp][workload_result[wp]["value_name"] == "Pct of Peak"]
+    assert len(pop_rows) == 1
+    assert pop_rows.iloc[0]["value"] == pytest.approx(25.0)
+
+
+def test_derive_pop_values_kernel_level():
+    """Kernel-level DataFrame gets per-kernel Pct of Peak rows."""
+    wp = "/workload"
+    metrics_info = {wp: pd.DataFrame({"pop": [True], "metric_id": ["1.1"]})}
+    kernel_df = pd.DataFrame({
+        "metric_id": ["1.1", "1.1", "1.1", "1.1"],
+        "value_name": ["Avg", "Peak", "Avg", "Peak"],
+        "kernel_name": ["kernA", "kernA", "kernB", "kernB"],
+        "value": [100.0, 200.0, 50.0, 100.0],
+    })
+    obj = _make_obj(metrics_info, {wp: kernel_df}, {wp: pd.DataFrame()})
+
+    kernel_result, _workload_result = obj._derive_pop_values()
+
+    pop_rows = kernel_result[wp][kernel_result[wp]["value_name"] == "Pct of Peak"]
+    assert len(pop_rows) == 2
+    by_kernel = pop_rows.set_index("kernel_name")["value"]
+    assert by_kernel["kernA"] == pytest.approx(50.0)
+    assert by_kernel["kernB"] == pytest.approx(50.0)
+
+
+def test_derive_pop_values_skips_pop_false_metrics():
+    """Metrics with pop=False in metrics_info produce no Pct of Peak rows."""
+    wp = "/workload"
+    metrics_info = {wp: pd.DataFrame({"pop": [False], "metric_id": ["1.1"]})}
+    values_df = pd.DataFrame({
+        "metric_id": ["1.1", "1.1"],
+        "value_name": ["Avg", "Peak"],
+        "value": [50.0, 200.0],
+    })
+    obj = _make_obj(metrics_info, {wp: pd.DataFrame()}, {wp: values_df})
+
+    _kernel_result, workload_result = obj._derive_pop_values()
+
+    pop_rows = workload_result[wp][workload_result[wp]["value_name"] == "Pct of Peak"]
+    assert len(pop_rows) == 0
+
+
+def test_derive_pop_values_zero_peak_no_row():
+    """Zero-peak metrics produce no Pct of Peak row (no division error)."""
+    wp = "/workload"
+    metrics_info = {wp: pd.DataFrame({"pop": [True], "metric_id": ["1.1"]})}
+    values_df = pd.DataFrame({
+        "metric_id": ["1.1", "1.1"],
+        "value_name": ["Avg", "Peak"],
+        "value": [50.0, 0.0],
+    })
+    obj = _make_obj(metrics_info, {wp: pd.DataFrame()}, {wp: values_df})
+
+    _kernel_result, workload_result = obj._derive_pop_values()
+
+    pop_rows = workload_result[wp][workload_result[wp]["value_name"] == "Pct of Peak"]
+    assert len(pop_rows) == 0
