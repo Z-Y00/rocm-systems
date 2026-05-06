@@ -2422,23 +2422,41 @@ bool KernelBlitManager::fillBuffer1D(device::Memory& memory, const void* pattern
   uintptr_t end_addr = fill_buf_addr + size[0];
 
   uintptr_t body_aligned_start = alignUp(fill_buf_addr, static_cast<size_t>(bodyElemSize));
-  uintptr_t tile_start = alignUp(body_aligned_start, tile_size);
   uintptr_t body_aligned_end = alignDown(end_addr, static_cast<size_t>(bodyElemSize));
-  uintptr_t tile_end = alignDown(body_aligned_end, tile_size);
 
-  const size_t head_count = body_aligned_start - fill_buf_addr;
-  const size_t body_tile_count = (tile_end > tile_start) ? (tile_end - tile_start) / tile_size : 0;
-  const size_t body_count =
-      (tile_start > body_aligned_start)
-          ? static_cast<size_t>((tile_start - body_aligned_start) / bodyElemSize)
-          : static_cast<size_t>(0);
-  const size_t body_tail_count =
-      (body_aligned_end > tile_end)
-          ? static_cast<size_t>((body_aligned_end - tile_end) / bodyElemSize)
-          : static_cast<size_t>(0);
-  const size_t tail_count = static_cast<size_t>(end_addr - body_aligned_end);
+  size_t head_count = 0;
+  size_t body_count = 0;
+  size_t body_tile_count = 0;
+  size_t body_tail_count = 0;
+  size_t tail_count = 0;
+  uintptr_t tile_start = fill_buf_addr;  // unused when body_tile_count == 0
 
-  assert(head_count < bodyElemSize && "head_count should be less than body element size");
+  if (body_aligned_end <= body_aligned_start) {
+    // Tiny or sufficiently misaligned buffer: no room for a body element.
+    // Route every byte through the head cleanup region. Head count is
+    // bounded by 2*bodyElemSize - 2 (e.g. patternSize=1, bodyElemSize=4,
+    // addr=1, size=6 → head_count=6); the cleanup-fits-in-warp assert
+    // below still holds.
+    head_count = size[0];
+  } else {
+    tile_start = alignUp(body_aligned_start, tile_size);
+    uintptr_t tile_end = alignDown(body_aligned_end, tile_size);
+    head_count = body_aligned_start - fill_buf_addr;
+    body_tile_count =
+        (tile_end > tile_start) ? (tile_end - tile_start) / tile_size : 0;
+    body_count =
+        (tile_start > body_aligned_start)
+            ? static_cast<size_t>((tile_start - body_aligned_start) / bodyElemSize)
+            : static_cast<size_t>(0);
+    body_tail_count =
+        (body_aligned_end > tile_end)
+            ? static_cast<size_t>((body_aligned_end - tile_end) / bodyElemSize)
+            : static_cast<size_t>(0);
+    tail_count = static_cast<size_t>(end_addr - body_aligned_end);
+  }
+
+  assert(head_count <= (2 * bodyElemSize - 2) &&
+         "head_count must fit cleanup region (small-buffer case may be up to 2*bodyElemSize-2)");
   assert(body_count <= (tile_size / bodyElemSize) &&
          "body_count should fit before first 16-byte tile");
   assert(body_tail_count <= (tile_size / bodyElemSize) &&
