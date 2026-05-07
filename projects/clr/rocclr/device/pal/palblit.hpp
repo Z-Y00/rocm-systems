@@ -262,7 +262,7 @@ class KernelBlitManager : public DmaBlitManager {
     BlitCopyBufferRectAligned,
     BlitCopyBuffer,
     BlitCopyBufferAligned,
-    FillBufferAligned,
+    FillBufferUnAligned,
     FillImage,
     Scheduler,
     GwsInit,
