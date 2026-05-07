@@ -54,6 +54,7 @@ AMD SMI is the successor to <https://github.com/ROCm/rocm-systems/tree/develop/p
 :::
 
 :::{grid-item-card} Conceptual
+* [GPU partitioning](./conceptual/partition.md)
 * [GPU violations](./conceptual/gpu-violations.md)
 * [Performance determinism](./conceptual/perf-determinism.md)
 * [Reliability, availability, serviceability](./conceptual/ras.md)
