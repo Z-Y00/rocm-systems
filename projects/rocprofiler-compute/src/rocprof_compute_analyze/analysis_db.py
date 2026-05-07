@@ -24,6 +24,7 @@ from utils.logger import (
     demarcate,
 )
 from utils.metrics.aggregation import (
+    calc_pct_of_peak,
     to_avg,
     to_concat,
     to_int,
@@ -47,7 +48,6 @@ from utils.roofline_calc import (
     PEAK_OPS_DATATYPES,
     SUPPORTED_DATATYPES,
 )
-from utils.utils_analysis import calc_pct_of_peak
 from utils.utils_common import get_uuid, get_version
 from utils.utils_counter_defs import BUILD_IN_VARS
 
