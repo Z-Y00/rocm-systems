@@ -412,6 +412,44 @@ template <MemcpyKind Kind = MemcpyKind::Put>
 }
 
 template <MemcpyKind Kind = MemcpyKind::Put>
+[[maybe_unused]] __device__ __forceinline__ void memcpy_wave(void* dst, void* src, size_t size) {
+  int wave_tid = get_flat_block_id() % WF_SIZE;
+  int wave_size{wave_SZ()};
+
+  int cpy_size{};
+  uint8_t* dst_bytes{nullptr};
+  uint8_t* dst_def{nullptr};
+  uint8_t* src_bytes{nullptr};
+  uint8_t* src_def{nullptr};
+
+  dst_def = reinterpret_cast<uint8_t*>(dst);
+  src_def = reinterpret_cast<uint8_t*>(src);
+  dst_bytes = dst_def;
+  src_bytes = src_def;
+
+  for (int j = 16; j >= 1; j >>= 1) {
+    cpy_size = size / j;
+    for (int i = wave_tid; i < cpy_size; i += wave_size) {
+      dst_bytes = dst_def;
+      src_bytes = src_def;
+
+      src_bytes += i * j;
+      dst_bytes += i * j;
+
+      if constexpr (Kind == MemcpyKind::Put) {
+        put_asm(src_bytes, dst_bytes, j);
+      } else {
+        get_asm(src_bytes, dst_bytes, j);
+      }
+    }
+    size -= cpy_size * j;
+    dst_def += cpy_size * j;
+    src_def += cpy_size * j;
+  }
+}
+
+/*
+template <MemcpyKind Kind = MemcpyKind::Put>
 [[maybe_unused]] __device__ __forceinline__ void memcpy_wg(void* dst, void* src, size_t size) {
   int thread_id{get_flat_block_id()};
   int block_size{get_flat_block_size()};
@@ -448,41 +486,126 @@ template <MemcpyKind Kind = MemcpyKind::Put>
     src_def += cpy_size * j;
   }
 }
+*/
 
-template <MemcpyKind Kind = MemcpyKind::Put>
-[[maybe_unused]] __device__ __forceinline__ void memcpy_wave(void* dst, void* src, size_t size) {
-  int wave_tid = get_flat_block_id() % WF_SIZE;
-  int wave_size{wave_SZ()};
 
-  int cpy_size{};
-  uint8_t* dst_bytes{nullptr};
-  uint8_t* dst_def{nullptr};
-  uint8_t* src_bytes{nullptr};
-  uint8_t* src_def{nullptr};
+// ==============================================================================
+// CORE CHUNKING HELPERS (Fully Separated Put & Get Pipelines)
+// ==============================================================================
 
-  dst_def = reinterpret_cast<uint8_t*>(dst);
-  src_def = reinterpret_cast<uint8_t*>(src);
-  dst_bytes = dst_def;
-  src_bytes = src_def;
+template <int ChunkSize, CachePolicy Policy, int UNROLL>
+__device__ __forceinline__ void copy_chunk_put(uint8_t*& dst_bytes, uint8_t*& src_bytes,
+                                               size_t& size, int tid, int block_size) {
+  // FAST PATH: If the remaining size is smaller than this chunk, skip
+  // everything instantly.
+  if (size < ChunkSize) return;
 
-  for (int j = 16; j >= 1; j >>= 1) {
-    cpy_size = size / j;
-    for (int i = wave_tid; i < cpy_size; i += wave_size) {
-      dst_bytes = dst_def;
-      src_bytes = src_def;
+  int cpy_size = size / ChunkSize;
+  int i = tid;
+  int unroll_limit =
+      cpy_size >= (block_size * UNROLL) ? cpy_size - (block_size * UNROLL) : -1;
 
-      src_bytes += i * j;
-      dst_bytes += i * j;
+  using T = typename AsmAccess<ChunkSize, Policy>::type;
 
-      if constexpr (Kind == MemcpyKind::Put) {
-        put_asm(src_bytes, dst_bytes, j);
-      } else {
-        get_asm(src_bytes, dst_bytes, j);
-      }
+  // 1. Unrolled Main Loop
+  for (; i <= unroll_limit; i += block_size * UNROLL) {
+    T regs[UNROLL];
+
+// Phase 1: Local reads (C++)
+#pragma unroll
+    for (int u = 0; u < UNROLL; ++u) {
+      regs[u] = *reinterpret_cast<T*>(src_bytes + (i + u * block_size) * ChunkSize);
     }
-    size -= cpy_size * j;
-    dst_def += cpy_size * j;
-    src_def += cpy_size * j;
+// Phase 2: Remote writes (ASM)
+#pragma unroll
+    for (int u = 0; u < UNROLL; ++u) {
+      AsmAccess<ChunkSize, Policy>::store(dst_bytes + (i + u * block_size) * ChunkSize,
+                                          regs[u]);
+    }
+  }
+
+  // 2. Sequential Tail Processing
+  for (; i < cpy_size; i += block_size) {
+    T val = *reinterpret_cast<T*>(src_bytes + i * ChunkSize);
+    AsmAccess<ChunkSize, Policy>::store(dst_bytes + i * ChunkSize, val);
+  }
+
+  // 3. Update Pointers & Remaining Size
+  int bytes_processed = cpy_size * ChunkSize;
+  size -= bytes_processed;
+  dst_bytes += bytes_processed;
+  src_bytes += bytes_processed;
+}
+
+template <int ChunkSize, CachePolicy Policy, int UNROLL>
+__device__ __forceinline__ void copy_chunk_get(uint8_t*& dst_bytes, uint8_t*& src_bytes,
+                                               size_t& size, int tid, int block_size) {
+  if (size < ChunkSize) return;
+
+  int cpy_size = size / ChunkSize;
+  int i = tid;
+  int unroll_limit =
+      cpy_size >= (block_size * UNROLL) ? cpy_size - (block_size * UNROLL) : -1;
+
+  using T = typename AsmAccess<ChunkSize, Policy>::type;
+
+  for (; i <= unroll_limit; i += block_size * UNROLL) {
+    T regs[UNROLL];
+
+// Phase 1: Remote reads (ASM)
+#pragma unroll
+    for (int u = 0; u < UNROLL; ++u) {
+      regs[u] = AsmAccess<ChunkSize, Policy>::load(src_bytes +
+                                                   (i + u * block_size) * ChunkSize);
+    }
+// Phase 2: Local writes (C++)
+#pragma unroll
+    for (int u = 0; u < UNROLL; ++u) {
+      *reinterpret_cast<T*>(dst_bytes + (i + u * block_size) * ChunkSize) = regs[u];
+    }
+  }
+
+  for (; i < cpy_size; i += block_size) {
+    T val = AsmAccess<ChunkSize, Policy>::load(src_bytes + i * ChunkSize);
+    *reinterpret_cast<T*>(dst_bytes + i * ChunkSize) = val;
+  }
+
+  int bytes_processed = cpy_size * ChunkSize;
+  size -= bytes_processed;
+  dst_bytes += bytes_processed;
+  src_bytes += bytes_processed;
+}
+
+// ==============================================================================
+// PUBLIC API MEMCPY PRIMITIVES
+// Note: Policy defaults to BypassL1 to match the legacy hardcoded ASM behavior.
+// ==============================================================================
+
+template <MemcpyKind Kind = MemcpyKind::Put,              //
+          CachePolicy Policy = CachePolicy::SystemScope,  //
+          int UNROLL = 8>
+[[maybe_unused]] __device__ __forceinline__ void memcpy_wg(void* dst, void* src,
+                                                           size_t size) {
+  if (size == 0) return;
+
+  int thread_id = get_flat_block_id();
+  int block_size = get_flat_block_size();
+
+  uint8_t* dst_bytes = static_cast<uint8_t*>(dst);
+  uint8_t* src_bytes = static_cast<uint8_t*>(src);
+
+  if constexpr (Kind == MemcpyKind::Put) {
+    copy_chunk_put<16, Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_put<8,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_put<4,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_put<2,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_put<1,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+  } else {
+    copy_chunk_get<16, Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_get<8,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_get<4,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_get<2,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
+    copy_chunk_get<1,  Policy, UNROLL>(dst_bytes, src_bytes, size, thread_id, block_size);
   }
 }
 
