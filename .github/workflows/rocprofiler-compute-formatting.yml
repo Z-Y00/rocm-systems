@@ -106,7 +106,7 @@ jobs:
       working-directory: projects/rocprofiler-compute
       run: |
         set +e
-        clang-format -i $(find src -type f | egrep '\.(h|hpp|hh|c|cc|cpp)(|\.in)$')
+        clang-format -i $(find src -type f -not -path 'src/lib/external/*' -not -path 'src/vendored/*' | egrep '\.(h|hpp|hh|c|cc|cpp)(|\.in)$')
         if [ $(git diff | wc -l) -gt 0 ]; then
           echo -e "\nError! cxx code not formatted. Run clang-format...\n"
           echo -e "\nFiles:\n"
