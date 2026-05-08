@@ -810,13 +810,6 @@ install(
     COMPONENT main
     PATTERN "__pycache__" EXCLUDE
 )
-# tools/config_management
-install(
-    DIRECTORY tools/config_management
-    DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/${PROJECT_NAME}
-    COMPONENT main
-    PATTERN "__pycache__" EXCLUDE
-)
 
 # ==============================================================================
 # Vendored Dependencies Installation
@@ -927,6 +920,11 @@ if(INSTALL_TESTS)
         FILES_MATCHING
         PATTERN "*.py"
         PATTERN "__pycache__" EXCLUDE
+    )
+    install(
+        PROGRAMS therock_test_runner.py
+        DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/${PROJECT_NAME}
+        COMPONENT tests
     )
     install(
         DIRECTORY tests/workloads
