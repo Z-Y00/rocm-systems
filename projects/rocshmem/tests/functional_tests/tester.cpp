@@ -70,6 +70,7 @@
 #include "hipmodule_init_tester.hpp"
 #include "device_bitcode_tester.hpp"
 #include "library_info_tester.hpp"
+#include "tile_rma_tester.hpp"
 
 #include "backend_bc.hpp"
 extern Backend* backend;
@@ -632,6 +633,50 @@ std::vector<Tester*> Tester::create(TesterArguments args) {
     case LibraryInfoTestType:
       test_name = "Library Info Test";
       testers.push_back(new LibraryInfoTester(args));
+      break;
+    case TilePutContiguousTestType:
+      test_name = "Tile Put Contiguous";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TilePutRowMajorTestType:
+      test_name = "Tile Put Row-Major";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TilePutColumnMajorTestType:
+      test_name = "Tile Put Column-Major";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TilePutArbitraryTestType:
+      test_name = "Tile Put Arbitrary Strides";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TilePutWaveContiguousTestType:
+      test_name = "Tile Put Wave-Collective Contiguous";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TilePutWGContiguousTestType:
+      test_name = "Tile Put Workgroup-Collective Contiguous";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TileGetContiguousTestType:
+      test_name = "Tile Get Contiguous";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TileGetWGContiguousTestType:
+      test_name = "Tile Get Workgroup-Collective Contiguous";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TileGetWaveContiguousTestType:
+      test_name = "Tile Get Wave-Collective Contiguous";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TilePut1DTestType:
+      test_name = "Tile Put 1D Tensor";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TileGet1DTestType:
+      test_name = "Tile Get 1D Tensor";
+      testers.push_back(new TileRMATester(args));
       break;
     default:
       test_name = "Empty";

@@ -140,7 +140,21 @@
   X(TeamCtxSharedInfra,        95)  \
   X(QuietOnStream,             96)  \
   X(SyncAllOnStream,           97)  \
-  X(TeamCtxSubsetParentInfra,  98)
+  X(TeamCtxSubsetParentInfra,  98)  \
+  X(TilePutContiguous,         99)  \
+  X(TilePutRowMajor,          100)  \
+  X(TilePutColumnMajor,       101)  \
+  X(TilePutArbitrary,         102)  \
+  X(TilePutWaveContiguous,    103)  \
+  X(TilePutWGContiguous,      104)  \
+  X(TileGetContiguous,        105)  \
+  X(TileGetWGContiguous,      106)  \
+  X(TilePut1D,                107)  \
+  X(TileGet1D,                108)  \
+  X(TileGetWaveContiguous,    109)  \
+  X(TileGetRowMajor,          110)  \
+  X(TileGetColumnMajor,       111)  \
+  X(TileGetArbitrary,         112)
 
 #define _ROCSHMEM_ENUM_ENTRY(name, val) name##TestType = val,
 enum TestType {
