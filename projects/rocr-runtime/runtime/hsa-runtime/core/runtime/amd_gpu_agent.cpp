@@ -1006,9 +1006,27 @@ void GpuAgent::PreloadBlits() {
   }
 }
 
+void GpuAgent::RemoveAqlQueue(core::Queue* q) {
+  auto it = std::find(aql_queues_.begin(), aql_queues_.end(), q);
+  if (it != aql_queues_.end()) aql_queues_.erase(it);
+}
+
 void GpuAgent::ReleaseResources() {
   if (this->Enabled()) {
     this->Disable();
+
+    // Issue KFD DESTROY_QUEUE for any AQL queues still tracked at shutdown
+    // (i.e. queues the application failed to hsa_queue_destroy). Software
+    // KFD-thunk simulators rely on this ioctl to stop polling queue memory
+    // before the SVM aperture is unmapped; without it the simulator thread
+    // dereferences freed memory and crashes.
+    if (!aql_queues_.empty()) {
+      debug_print("Warning: %zu AQL queue(s) leaked into hsa_shut_down on agent %p.\n",
+                  aql_queues_.size(), this);
+      for (auto* q : aql_queues_) {
+        static_cast<AqlQueue*>(q)->Inactivate();
+      }
+    }
 
     // Remove all shared hardware queues from pool
     queue_pool_.Cleanup();

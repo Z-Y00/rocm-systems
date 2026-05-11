@@ -352,6 +352,10 @@ AqlQueue::AqlQueue(core::SharedQueue* shared_queue, GpuAgent* agent, size_t req_
 }
 
 AqlQueue::~AqlQueue() {
+  // Drop from agent's list so GpuAgent::ReleaseResources() (called during
+  // hsa_shut_down) does not Inactivate a destroyed queue.
+  agent_->RemoveAqlQueue(this);
+
   // Remove error handler synchronously.
   // Sequences error handler callbacks with queue destroy.
   dynamicScratchState |= ERROR_HANDLER_TERMINATE;
