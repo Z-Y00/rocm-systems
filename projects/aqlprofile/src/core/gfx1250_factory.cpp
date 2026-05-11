@@ -21,105 +21,53 @@
 // THE SOFTWARE.
 
 #define GFX12_VARIANT 0x1250
+#include "aqlprofile-sdk/aql_profile_v2.h"
+#include "def/gpu_block_info.h"
+#include "core/architectures/gfx12_architecture.hpp"
 #include "core/pm4_factory.h"
 #include "def/gfx12_def.h"
 #include "pm4/gfx12_cmd_builder.h"
-#include "pm4/pmc_builder.h"
-#include "pm4/sqtt_builder.h"
+#include "pm4/gfx12_pmc_builder.hpp"
+#include "pm4/gfx12_primitives_provider.hpp"
+#include "pm4/gfx12_spm_builder.hpp"
+#include "pm4/gfx12_sqtt_builder.hpp"
 
 namespace aql_profile {
 
-// MI450 factory class
 class Mi450Factory : public Pm4Factory {
  public:
   explicit Mi450Factory(const AgentInfo* agent_info)
-      : Pm4Factory(BlockInfoMap(block_table_, sizeof(block_table_))) {
-    Init(agent_info);
-  }
-  Mi450Factory(const GpuBlockInfo** table, const uint32_t& size, const AgentInfo* agent_info)
-      : Pm4Factory(BlockInfoMap(table, size)) {
-    Init(agent_info);
+      : Pm4Factory(new Mi450Architecture(agent_info)) {
+    agent_info_ = agent_info;
+    ConstructBuilders(agent_info);
   }
   bool IsGFX12() const override { return true; }
 
-  virtual int GetAccumLowID() const override { return 1; };
-  virtual int GetAccumHiID() const override { return 1; };
+  ~Mi450Factory() override { delete prims_; }
 
- protected:
-  void ConstructBuilders(const AgentInfo* agent_info);
-  void ConstructTable(const AgentInfo* agent_info);
-  void Init(const AgentInfo* agent_info) {
-    agent_info_ = agent_info;
-    ConstructBuilders(agent_info);
-    ConstructTable(agent_info);
+ private:
+  pm4_builder::Gfx12PrimitivesProvider* prims_{nullptr};
+
+  void ConstructBuilders(const AgentInfo* agent_info) {
+    cmd_builder_ = new pm4_builder::Gfx12CmdBuilder(nullptr);
+    if (cmd_builder_ == NULL) throw aql_profile_exc_msg("CmdBuilder allocation failed");
+
+    prims_ = new pm4_builder::Gfx12PrimitivesProvider();
+    if (prims_ == NULL) throw aql_profile_exc_msg("PrimitivesProvider allocation failed");
+
+    const auto& config = GetArchitecture()->GetConfig();
+    pmc_builder_ = new pm4_builder::Gfx12PmcBuilder(config, cmd_builder_, prims_, IsConcurrent());
+    if (pmc_builder_ == NULL) throw aql_profile_exc_msg("PmcBuilder allocation failed");
+
+    spm_builder_ = new pm4_builder::Gfx12SpmBuilder(cmd_builder_, prims_);
+    if (spm_builder_ == NULL) throw aql_profile_exc_msg("SpmBuilder allocation failed");
+
+    sqtt_builder_ = new pm4_builder::Gfx12SqttBuilder(config, cmd_builder_, prims_,
+                                                       agent_info->timestamp_freq);
+    if (sqtt_builder_ == NULL) throw aql_profile_exc_msg("SqttBuilder allocation failed");
   }
-  const GpuBlockInfo* block_table_[LastCounterBlockId + 1]{};
 };
 
-void Mi450Factory::ConstructBuilders(const AgentInfo* agent_info) {
-  Pm4Factory::cmd_builder_ = new pm4_builder::Gfx12CmdBuilder(nullptr);
-  if (Pm4Factory::cmd_builder_ == NULL) throw aql_profile_exc_msg("CmdBuilder allocation failed");
-
-  // Mark and set the mode
-  if (Pm4Factory::IsConcurrent()) {
-    Pm4Factory::pmc_builder_ =
-        new pm4_builder::GpuPmcBuilder<pm4_builder::Gfx12CmdBuilder, gfx12_cntx_prim, true>(
-            agent_info);
-  } else {
-    Pm4Factory::pmc_builder_ =
-        new pm4_builder::GpuPmcBuilder<pm4_builder::Gfx12CmdBuilder, gfx12_cntx_prim, false>(
-            agent_info);
-  }
-  if (Pm4Factory::pmc_builder_ == NULL) throw aql_profile_exc_msg("PmcBuilder allocation failed");
-
-  Pm4Factory::spm_builder_ =
-      new pm4_builder::GpuSpmBuilder<pm4_builder::Gfx12CmdBuilder, gfx12_cntx_prim>(agent_info);
-  if (Pm4Factory::spm_builder_ == NULL) throw aql_profile_exc_msg("SpmBuilder allocation failed");
-
-  Pm4Factory::sqtt_builder_ =
-      new pm4_builder::GpuSqttBuilder<pm4_builder::Gfx12CmdBuilder, gfx12_cntx_prim>(agent_info);
-  if (Pm4Factory::sqtt_builder_ == NULL) throw aql_profile_exc_msg("SqttBuilder allocation failed");
-}
-
-void Mi450Factory::ConstructTable(const AgentInfo* agent_info) {
-  // AIGC blocks 
-  block_table_[__BLOCK_ID(GCEA_SE)]   = &GceaSeCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(GL2A)]  = &Gl2aCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(GL2C)]  = &Gl2cCounterBlockInfo;
-  block_table_[__BLOCK_ID(GRBMA)]     = &GrbmaCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(ATCL2)] = &Atcl2CounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_UTCL2)]  = &GcUtcl2CounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_VML2)]   = &GcVml2CounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_FFBM)]   = &Gcutcl2FfbmCounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_NHTTLB)] = &Gcutcl2NhttlbCounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_L2TLB)]  = &GcL2tlbCounterBlockInfo;
-  // Global blocks
-  block_table_[__BLOCK_ID(CHA)]       = &ChaCounterBlockInfo;
-  block_table_[__BLOCK_ID(CHC)]       = &ChcCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(CPC)]   = &CpcCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(CPF)]   = &CpfCounterBlockInfo;
-  block_table_[__BLOCK_ID(CPG)]       = &CpgCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(GCR)]   = &GcrCounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_CANE)]   = &GcCaneCounterBlockInfo;
-  block_table_[__BLOCK_ID(GLARBA)]    = &GlarbaCounterBlockInfo;
-  block_table_[__BLOCK_ID(GLARBC)]    = &GlarbcCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(GRBM)]  = &GrbmCounterBlockInfo;
-  block_table_[__BLOCK_ID(RLC)]       = &RlcCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(SDMA)]  = &SdmaCounterBlockInfo;
-  // SE blocks
-  block_table_[__BLOCK_ID_HSA(GL1A)]  = &Gl1aCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(GL1C)]  = &Gl1cCounterBlockInfo;
-  block_table_[__BLOCK_ID(GRBMH)]     = &GrbmhCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(SPI)]   = &SpiCounterBlockInfo;
-  block_table_[__BLOCK_ID(SQG)]       = &SqgCounterBlockInfo;
-  block_table_[__BLOCK_ID(GC_UTCL1)]  = &GcUtcl1CounterBlockInfo;
-  // SA blocks
-  // WGP blocks
-  block_table_[__BLOCK_ID_HSA(SQ)]    = &SqcCounterBlockInfo;
-  block_table_[__BLOCK_ID_HSA(TCP)]   = &TcpCounterBlockInfo;
-}
-
-// Pm4Factory create methods
 Pm4Factory* Pm4Factory::Mi450Create(const AgentInfo* agent_info) {
   auto p = new Mi450Factory(agent_info);
   if (p == NULL) throw aql_profile_exc_msg("Mi450Factory allocation failed");
