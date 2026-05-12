@@ -414,13 +414,42 @@ protected:
         ASSERT_EQ(PostRecv(recvComm, 1, bufs, sizes, tags, handles, request), ncclSuccess);
     }
 
+    // Returns true if the IB device has at least one routable GID (non-zero IPv4-mapped
+    // or global-scope IPv6). NICs with only link-local GIDs cannot do cross-node RDMA.
+    static bool HasRoutableGid(const char* devName) {
+        char path[PATH_MAX];
+        if (snprintf(path, sizeof(path), "/sys/class/infiniband/%s/ports/1/gids", devName) >= PATH_MAX)
+            return false;
+        DIR* d = opendir(path);
+        if (!d) return false;
+        struct dirent* ent;
+        bool found = false;
+        while ((ent = readdir(d)) != nullptr) {
+            if (ent->d_name[0] == '.') continue;
+            char gidPath[PATH_MAX];
+            snprintf(gidPath, sizeof(gidPath), "%s/%s", path, ent->d_name);
+            FILE* f = fopen(gidPath, "r");
+            if (!f) continue;
+            char gid[64] = {};
+            fscanf(f, "%63s", gid);
+            fclose(f);
+            // Skip all-zero GIDs and link-local (fe80::) GIDs
+            bool allZero = (strcmp(gid, "0000:0000:0000:0000:0000:0000:0000:0000") == 0);
+            bool linkLocal = (strncmp(gid, "fe80:", 5) == 0);
+            if (!allZero && !linkLocal) { found = true; break; }
+        }
+        closedir(d);
+        return found;
+    }
+
     // Helper: create a merged device from N physical NICs.
-    // Returns merged device index, or -1 if not enough devices / merge failed.
-    // physDevs: indices of physical (non-merged) devices
-    // props: device properties (indexed by device index)
-    // nNicsToMerge: how many NICs to merge (e.g., 2, 3, 4)
+    // Returns merged device index, or -1 if no suitable group found.
+    // Iterates speed groups (fastest-first by enumeration order). Within each
+    // group, slides a window of nNicsToMerge; skips windows containing a NIC
+    // without a routable GID (those can set up QPs but drop RDMA traffic cross-node).
+    // speedGroupStart: index into physDevs indicating which speed group to try first.
     // rank: MPI rank of this process
-    int CreateMergedDevice(int nNicsToMerge, int rank, int offset = 0)
+    int CreateMergedDevice(int nNicsToMerge, int rank, int speedGroupStart = 0)
     {
         if (nNicsToMerge <= 0 || nNicsToMerge > NCCL_NET_MAX_DEVS_PER_NIC) {
             fprintf(stderr,
@@ -428,8 +457,6 @@ protected:
                     rank, nNicsToMerge, NCCL_NET_MAX_DEVS_PER_NIC);
             return -1;
         }
-
-        int outMergedDev = -1;
 
         int ndev = 0;
         RCCL_TEST_CHECK(GetDeviceCount(&ndev));
@@ -444,38 +471,41 @@ protected:
                 physDevs.push_back(i);
         }
 
-        if (physDevs.size() < offset + 1) {
-            return -1;
-        }
+        if (speedGroupStart >= (int)physDevs.size()) return -1;
 
-        int targetSpeed = props[physDevs[offset]].speed;
+        // Build the speed group starting at speedGroupStart
+        int targetSpeed = props[physDevs[speedGroupStart]].speed;
         std::vector<int> compat;
         for (int d : physDevs)
             if (props[d].speed == targetSpeed) compat.push_back(d);
 
-        if ((int)compat.size() < nNicsToMerge * 2) {
-            return CreateMergedDevice(nNicsToMerge, rank, offset + 1);
+        // Try each consecutive window of nNicsToMerge within this speed group
+        for (int w = 0; w + nNicsToMerge <= (int)compat.size(); w++) {
+            bool routable = true;
+            for (int i = 0; i < nNicsToMerge; i++) {
+                const char* name = props[compat[w + i]].name;
+                if (name && !HasRoutableGid(name)) { routable = false; break; }
+            }
+            if (!routable) continue;
+
+            ncclNetVDeviceProps_t vProps;
+            memset(&vProps, 0, sizeof(vProps));
+            vProps.ndevs = nNicsToMerge;
+            for (int i = 0; i < nNicsToMerge; i++)
+                vProps.devs[i] = compat[w + i];
+
+            int outMergedDev = -1;
+            if (MakeVirtualDevice(&outMergedDev, &vProps) == ncclSuccess && outMergedDev >= 0)
+                return outMergedDev;
         }
 
-        int baseOffset = (rank % 2) ? nNicsToMerge : 0;
-        int finalOffset = baseOffset + offset;
+        // This speed group exhausted — advance to the next one
+        int nextStart = speedGroupStart;
+        while (nextStart < (int)physDevs.size() &&
+               props[physDevs[nextStart]].speed == targetSpeed)
+            nextStart++;
 
-        if (finalOffset + nNicsToMerge > (int)compat.size()) return -1;
-
-        ncclNetVDeviceProps_t vProps;
-        memset(&vProps, 0, sizeof(vProps));
-        vProps.ndevs = nNicsToMerge;
-        for (int i = 0; i < nNicsToMerge; i++)
-            vProps.devs[i] = compat[finalOffset + i];
-
-        if (MakeVirtualDevice(&outMergedDev, &vProps) != ncclSuccess || outMergedDev < 0) {
-            fprintf(stderr,
-                    "Rank %d failed to create %d-NIC merged device at offset %d, retrying with offset %d\n",
-                    rank, nNicsToMerge, offset, offset + 1);
-            return CreateMergedDevice(nNicsToMerge, rank, offset + 1);
-        }
-
-        return outMergedDev;
+        return CreateMergedDevice(nNicsToMerge, rank, nextStart);
     }
 
 
@@ -575,9 +605,8 @@ protected:
 
     // Process count for multi-rank tests
     static constexpr int kMinFourProcesses = 4;
-    // Timeouts for stress/endurance tests
+    // Timeout for stress tests
     static constexpr int kStressTimeoutMs  = 60000;   // 60s
-    static constexpr int kEnduranceTimeoutMs = 300000; // 5 min
 
     // ── RDMA resource leak detection ─────────────────────────────────
     struct RdmaResourceCounts {
@@ -687,7 +716,10 @@ protected:
         }
 
         int sz = 0;
-        ASSERT_EQ(WaitForCompletion(req, &sz, timeoutMs), ncclSuccess)
+        // Use EXPECT_ (non-fatal) so both ranks always reach MPI_Barrier.
+        // ASSERT_ here would exit the failing rank before the barrier,
+        // leaving the other rank hung indefinitely.
+        EXPECT_EQ(WaitForCompletion(req, &sz, timeoutMs), ncclSuccess)
             << "WaitForCompletion failed on rank " << rank << " tag=" << tag;
 
         MPI_Barrier(MPI_COMM_WORLD);
@@ -697,7 +729,7 @@ protected:
             bool ok = verifyHostBufferData<uint8_t>(
                 recvBuf, size, makeBytePattern(patternSeed),
                 0, 0.0, &errIdx, &errExp, &errGot);
-            ASSERT_TRUE(ok) << "Data mismatch at byte " << errIdx
+            EXPECT_TRUE(ok) << "Data mismatch at byte " << errIdx
                             << " (tag=" << tag << " seed=" << patternSeed << ")";
         }
     }

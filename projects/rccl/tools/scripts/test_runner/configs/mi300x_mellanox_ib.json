@@ -1265,6 +1265,12 @@
       "enabled": true
     },
     {
+      "name": "NET IB - Branch Coverage",
+      "description": "Targeted branch-coverage tests: irecv overflow, MR cache ref-count, send-size clamping, null-comm close, setAttr no-op",
+      "config": "net_ib_branch_coverage",
+      "enabled": true
+    },
+    {
       "name": "NET IB - Stress (4-rank)",
       "description": "Fan-in, fan-out, all-to-all, multi-rank endurance",
       "config": "net_ib_stress_4rank",
