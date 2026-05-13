@@ -80,11 +80,7 @@ private:
 
     std::unordered_map<std::uint64_t, ::perfetto::Track> m_track_cache;
     output_file_registry&                                m_output_registry;
-    std::unordered_map<size_t, pmc_track_info> m_pmc_track_map;
-
-    using gpu_perf_counter_name_map = std::unordered_map<std::string, std::string>;
-    std::unordered_map<uint32_t, gpu_perf_counter_name_map>
-        m_gpu_perf_counter_name_lookup;
+    std::unordered_map<size_t, pmc_track_info>           m_pmc_track_map;
 };
 }  // namespace trace_cache
 }  // namespace rocprofsys
