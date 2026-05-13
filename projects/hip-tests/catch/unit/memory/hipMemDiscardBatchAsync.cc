@@ -136,8 +136,9 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_NegativeTests) {
     // or succeed if it is. Either way it should not crash.
     hipError_t err = hipMemDiscardBatchAsync(non_managed_ptrs, non_managed_sizes,
                                              1, 0, stream);
-    // Accept success (pageable access supported) or not-supported (capability gap)
-    REQUIRE((err == hipSuccess || err == hipErrorNotSupported));
+    // Accept success (pageable access supported), not-supported (capability gap),
+    // or invalid-value (non-managed memory rejected, e.g. on NVIDIA)
+    REQUIRE((err == hipSuccess || err == hipErrorNotSupported || err == hipErrorInvalidValue));
     HIP_CHECK(hipFree(device_ptr));
   }
 
@@ -601,6 +602,233 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_DrvApiParity) {
   HIP_CHECK(hipFree(managed_ptr2));
   HIP_CHECK(hipStreamDestroy(stream));
 }
+/**
+ * Test Description
+ * ------------------------
+ * - Content-after-discard test: fill managed memory with a known pattern,
+ *   discard it, then immediately read back. Per the CUDA/HIP spec, content
+ *   after discard is undefined — the read must not fault or crash.
+ *   Then write new values and verify they stick.
+ * Test source
+ * ------------------------
+ * - catch/unit/memory/hipMemDiscardBatchAsync.cc
+ * Test requirements
+ * ------------------------
+ *  - HIP_VERSION >= 7.2
+ *  - Device supports managed memory and concurrent managed access
+ */
+HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_ContentAfterDiscard) {
+  if (!HmmSupported()) {
+    HIP_SKIP_TEST("HMM/managed memory not supported");
+    return;
+  }
+
+  constexpr size_t kSize = 65536;
+  hipStream_t stream;
+  HIP_CHECK(hipStreamCreate(&stream));
+
+  void* managed_ptr = nullptr;
+  HIP_CHECK(hipMallocManaged(&managed_ptr, kSize));
+
+  // Fill with known pattern
+  memset(managed_ptr, 0xAB, kSize);
+
+  // Discard
+  void* ptrs[1] = {managed_ptr};
+  size_t sizes[1] = {kSize};
+  HIP_CHECK(hipMemDiscardBatchAsync(ptrs, sizes, 1, 0, stream));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  // Read back immediately — content is undefined per spec.
+  // We do NOT assert specific values, but the access must not fault.
+  auto* bytes = static_cast<volatile unsigned char*>(managed_ptr);
+  volatile unsigned char sink = 0;
+  for (size_t i = 0; i < kSize; i++) {
+    sink = bytes[i];  // must not segfault
+  }
+  (void)sink;
+
+  // Now write new values and verify they stick
+  memset(managed_ptr, 0xCD, kSize);
+  auto* check = static_cast<unsigned char*>(managed_ptr);
+  for (size_t i = 0; i < kSize; i++) {
+    REQUIRE(check[i] == 0xCD);
+  }
+
+  HIP_CHECK(hipFree(managed_ptr));
+  HIP_CHECK(hipStreamDestroy(stream));
+}
+
+// =============================================================================
+// Pageable Memory Functional Tests — require PageableMemoryAccess (MI300+ / XNACK)
+// AMD-only: CUDA rejects device-only and pinned memory for discard even when
+// PageableMemoryAccess is supported. On AMD with XNACK, all memory types
+// participate in HMM page migration, so discard works on any allocation.
+// =============================================================================
+
+#if !HT_NVIDIA
+
+static bool PageableMemoryAccessSupported(int device = 0) {
+  int pageable = 0;
+  hipDeviceGetAttribute(&pageable, hipDeviceAttributePageableMemoryAccess, device);
+  return pageable != 0;
+}
+
+/**
+ * Test Description
+ * ------------------------
+ *   Verify hipMemDiscardBatchAsync works with hipMalloc (device-only) memory
+ *   when PageableMemoryAccess is supported. The GPU can access any page, so
+ *   discard should succeed even for non-managed device allocations.
+ */
+HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_PageableDeviceMemory) {
+  if (!HmmSupported()) {
+    HipTest::HIP_SKIP_TEST("HMM not supported");
+    return;
+  }
+  if (!PageableMemoryAccessSupported()) {
+    HipTest::HIP_SKIP_TEST("PageableMemoryAccess not supported");
+    return;
+  }
+
+  constexpr size_t kSize = 65536;
+  hipStream_t stream;
+  HIP_CHECK(hipStreamCreate(&stream));
+
+  void* ptr = nullptr;
+  HIP_CHECK(hipMalloc(&ptr, kSize));
+  HIP_CHECK(hipMemset(ptr, 0xAB, kSize));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  void* ptrs[1] = {ptr};
+  size_t sizes[1] = {kSize};
+  HIP_CHECK(hipMemDiscardBatchAsync(ptrs, sizes, 1, 0, stream));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  // Write new data and verify
+  HIP_CHECK(hipMemset(ptr, 0xCD, kSize));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  std::vector<unsigned char> host_buf(kSize);
+  HIP_CHECK(hipMemcpy(host_buf.data(), ptr, kSize, hipMemcpyDeviceToHost));
+  for (size_t i = 0; i < kSize; i++) {
+    REQUIRE(host_buf[i] == 0xCD);
+  }
+
+  HIP_CHECK(hipFree(ptr));
+  HIP_CHECK(hipStreamDestroy(stream));
+}
+
+/**
+ * Test Description
+ * ------------------------
+ *   Verify hipMemDiscardBatchAsync works with system-allocated (malloc) memory
+ *   when PageableMemoryAccess is supported.
+ */
+HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_PageableSystemMemory) {
+  if (!HmmSupported()) {
+    HipTest::HIP_SKIP_TEST("HMM not supported");
+    return;
+  }
+  if (!PageableMemoryAccessSupported()) {
+    HipTest::HIP_SKIP_TEST("PageableMemoryAccess not supported");
+    return;
+  }
+
+  constexpr size_t kSize = 65536;
+  hipStream_t stream;
+  HIP_CHECK(hipStreamCreate(&stream));
+
+  void* ptr = malloc(kSize);
+  REQUIRE(ptr != nullptr);
+  memset(ptr, 0xAB, kSize);
+
+  void* ptrs[1] = {ptr};
+  size_t sizes[1] = {kSize};
+  HIP_CHECK(hipMemDiscardBatchAsync(ptrs, sizes, 1, 0, stream));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  // Write and verify
+  memset(ptr, 0xCD, kSize);
+  auto* bytes = static_cast<unsigned char*>(ptr);
+  for (size_t i = 0; i < kSize; i++) {
+    REQUIRE(bytes[i] == 0xCD);
+  }
+
+  free(ptr);
+  HIP_CHECK(hipStreamDestroy(stream));
+}
+
+/**
+ * Test Description
+ * ------------------------
+ *   Verify hipMemDiscardBatchAsync works with a mixed batch of managed, device,
+ *   and system-allocated memory when PageableMemoryAccess is supported.
+ */
+HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_PageableMixedBatch) {
+  if (!HmmSupported()) {
+    HipTest::HIP_SKIP_TEST("HMM not supported");
+    return;
+  }
+  if (!PageableMemoryAccessSupported()) {
+    HipTest::HIP_SKIP_TEST("PageableMemoryAccess not supported");
+    return;
+  }
+
+  constexpr size_t kSize = 4096;
+  hipStream_t stream;
+  HIP_CHECK(hipStreamCreate(&stream));
+
+  void* managed_ptr = nullptr;
+  void* device_ptr = nullptr;
+  void* system_ptr = malloc(kSize);
+  REQUIRE(system_ptr != nullptr);
+  HIP_CHECK(hipMallocManaged(&managed_ptr, kSize));
+  HIP_CHECK(hipMalloc(&device_ptr, kSize));
+
+  memset(managed_ptr, 0xAA, kSize);
+  memset(system_ptr, 0xBB, kSize);
+  HIP_CHECK(hipMemset(device_ptr, 0xCC, kSize));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  void* ptrs[3] = {managed_ptr, device_ptr, system_ptr};
+  size_t sizes[3] = {kSize, kSize, kSize};
+  HIP_CHECK(hipMemDiscardBatchAsync(ptrs, sizes, 3, 0, stream));
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  // Write new data
+  memset(managed_ptr, 0x11, kSize);
+  HIP_CHECK(hipMemset(device_ptr, 0x22, kSize));
+  memset(system_ptr, 0x33, kSize);
+  HIP_CHECK(hipStreamSynchronize(stream));
+
+  // Verify managed
+  auto* mb = static_cast<unsigned char*>(managed_ptr);
+  for (size_t i = 0; i < kSize; i++) {
+    REQUIRE(mb[i] == 0x11);
+  }
+
+  // Verify device
+  std::vector<unsigned char> dev_buf(kSize);
+  HIP_CHECK(hipMemcpy(dev_buf.data(), device_ptr, kSize, hipMemcpyDeviceToHost));
+  for (size_t i = 0; i < kSize; i++) {
+    REQUIRE(dev_buf[i] == 0x22);
+  }
+
+  // Verify system
+  auto* sb = static_cast<unsigned char*>(system_ptr);
+  for (size_t i = 0; i < kSize; i++) {
+    REQUIRE(sb[i] == 0x33);
+  }
+
+  HIP_CHECK(hipFree(managed_ptr));
+  HIP_CHECK(hipFree(device_ptr));
+  free(system_ptr);
+  HIP_CHECK(hipStreamDestroy(stream));
+}
+
+#endif  // !HT_NVIDIA
+
 /**
  * End doxygen group MemoryTest.
  * @}
