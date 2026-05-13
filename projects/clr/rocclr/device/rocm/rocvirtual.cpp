@@ -768,6 +768,12 @@ std::vector<hsa_signal_t>& VirtualGPU::HwQueueTracker::WaitingSignal(HwQueueEngi
   }
   external_signals_.clear();
 
+  // Append raw signals added via AddDynamicQueueWait (e.g. IPC dep signals)
+  for (auto& s : dynamic_queue_waits_) {
+    waiting_signals_.push_back(s);
+  }
+  dynamic_queue_waits_.clear();
+
   // Return the array of waiting HSA signals
   return waiting_signals_;
 }
@@ -1128,17 +1134,15 @@ static inline void packet_store_release(uint32_t* packet, uint16_t header, uint1
 void VirtualGPU::AnalyzeAqlQueue() const {
   const uint32_t queueSize = gpu_queue_->size;
   const uint32_t queueMask = queueSize - 1;
-  const uint32_t sw_queue_size = queueMask;
   uint64_t index = Hsa::queue_load_write_index_relaxed(gpu_queue_);
   uint64_t read = Hsa::queue_load_read_index_relaxed(gpu_queue_);
+
   if (index > read) {
     int valid_packet_idx = 0;
     constexpr int kAqlSearchWindow = 32;
     while (valid_packet_idx < kAqlSearchWindow) {
-      // Read AQL packet header and check if it's invalid, which means it's done
       auto aql_loc = &(reinterpret_cast<hsa_kernel_dispatch_packet_t*>(
           gpu_queue_->base_address))[(read + valid_packet_idx) & queueMask];
-      // If the packet is invalid, then continue search
       if (extractAqlBits((*aql_loc).header, HSA_PACKET_HEADER_TYPE, HSA_PACKET_HEADER_WIDTH_TYPE) ==
           HSA_PACKET_TYPE_INVALID) {
         valid_packet_idx++;
@@ -1147,50 +1151,83 @@ void VirtualGPU::AnalyzeAqlQueue() const {
       }
     }
     if (valid_packet_idx == kAqlSearchWindow) {
-      printf("VGPU(%p) Queue(%p). Couldn't find the hang AQL packet!\n", this, gpu_queue_);
+      fprintf(stderr, "VGPU(%p) Queue(%p). Couldn't find the hang AQL packet!\n", this, gpu_queue_);
       return;
     }
-    // Read AQL packet and check if it's a kernel dispatch
     auto aql_loc = &(reinterpret_cast<hsa_kernel_dispatch_packet_t*>(
         gpu_queue_->base_address))[(read + valid_packet_idx) & queueMask];
     auto packet = *aql_loc;
     auto header = packet.header;
-    if (extractAqlBits(header, HSA_PACKET_HEADER_TYPE, HSA_PACKET_HEADER_WIDTH_TYPE) ==
-        HSA_PACKET_TYPE_KERNEL_DISPATCH) {
-      auto it = dev().KernelMap().find(packet.kernel_object);
+    auto pkt_type = extractAqlBits(header, HSA_PACKET_HEADER_TYPE, HSA_PACKET_HEADER_WIDTH_TYPE);
+
+    auto printKernelName = [&](uint64_t kernel_object) {
+      auto it = dev().KernelMap().find(kernel_object);
       if (it != dev().KernelMap().end()) {
-        // @note: It's possible to demangle the name with comgr
-        printf("Kernel Name: %s\n", it->second.name().c_str());
+        fprintf(stderr, "Kernel Name: %s\n", it->second.name().c_str());
       } else {
-        printf("VGPU(%p) Queue(%p). Couldn't find kernel\n", this, gpu_queue_);
+        fprintf(stderr, "VGPU(%p) Queue(%p). Couldn't find kernel\n", this, gpu_queue_);
       }
-      printf("VGPU=%p SWq=%p, HWq=%p, id=%" PRIu64
-             "\n\tDispatch Header ="
-             "0x%x (type=%d, barrier=%d, acquire=%d, release=%d), "
-             "setup=%d\n\tgrid=[%u, %u, %u], workgroup=[%u, %u, %u]\n\tprivate_seg_size=%u, "
-             "group_seg_size=%u\n\tkernel_obj=0x%" PRIx64
-             ", "
-             "kernarg_address=0x%p\n\tcompletion_signal=0x%" PRIx64
-             ", "
-             "correlation_id=%" PRIu64 "\n\trptr=%" PRIu64 ", wptr=%" PRIu64 "\n ",
-             this, gpu_queue_, gpu_queue_->base_address, gpu_queue_->id, header,
+    };
+
+    auto printHeader = [&](const char* label) {
+      fprintf(stderr, "VGPU=%p SWq=%p, HWq=%p, id=%" PRIu64 "\n\t%s Header ="
+             "0x%x (type=%d, barrier=%d, acquire=%d, release=%d), ",
+             this, gpu_queue_, gpu_queue_->base_address, gpu_queue_->id, label, header,
              extractAqlBits(header, HSA_PACKET_HEADER_TYPE, HSA_PACKET_HEADER_WIDTH_TYPE),
              extractAqlBits(header, HSA_PACKET_HEADER_BARRIER, HSA_PACKET_HEADER_WIDTH_BARRIER),
              extractAqlBits(header, HSA_PACKET_HEADER_SCACQUIRE_FENCE_SCOPE,
                             HSA_PACKET_HEADER_WIDTH_SCACQUIRE_FENCE_SCOPE),
              extractAqlBits(header, HSA_PACKET_HEADER_SCRELEASE_FENCE_SCOPE,
-                            HSA_PACKET_HEADER_WIDTH_SCRELEASE_FENCE_SCOPE),
-             0, packet.grid_size_x, packet.grid_size_y, packet.grid_size_z, packet.workgroup_size_x,
-             packet.workgroup_size_y, packet.workgroup_size_z, packet.private_segment_size,
-             packet.group_segment_size, packet.kernel_object, packet.kernarg_address,
+                            HSA_PACKET_HEADER_WIDTH_SCRELEASE_FENCE_SCOPE));
+    };
+
+    if (pkt_type == HSA_PACKET_TYPE_VENDOR_SPECIFIC) {
+      auto* vendor_hdr = reinterpret_cast<const hsa_amd_vendor_packet_header_t*>(aql_loc);
+      if (vendor_hdr->AmdFormat == HSA_AMD_PACKET_TYPE_EXT_KERNEL_DISPATCH) {
+        auto* ext = reinterpret_cast<const hsa_amd_ext_kernel_dispatch_packet_t*>(aql_loc);
+        printKernelName(ext->kernel_object);
+        printHeader("Ext Dispatch");
+        fprintf(stderr,
+               "amd_format=%d, setup=%d\n\tcluster_count=[%u, %u, %u], "
+               "cluster_size=[%u, %u, %u], workgroup=[%u, %u, %u]\n\t"
+               "private_seg_size=%u, group_seg_size=%u\n\t"
+               "kernel_obj=0x%" PRIx64 ", kernarg_address=0x%p\n\t"
+               "dep_signal=0x%" PRIx64 ", completion_signal=0x%" PRIx64
+               "\n\trptr=%" PRIu64 ", wptr=%" PRIu64 "\n",
+               (int)ext->amd_format, ext->setup,
+               ext->cluster_count_x, ext->cluster_count_y, ext->cluster_count_z,
+               ext->cluster_size_x, ext->cluster_size_y, ext->cluster_size_z,
+               ext->workgroup_size_x, ext->workgroup_size_y, ext->workgroup_size_z,
+               ext->private_segment_size, ext->group_segment_size,
+               ext->kernel_object, ext->kernarg_address,
+               ext->dep_signal.handle, ext->completion_signal.handle, read, index);
+      } else {
+        fprintf(stderr, "VGPU(%p) Queue(%p) rptr=%" PRIu64 ", wptr=%" PRIu64
+               ". Vendor packet (amd_format=%d)\n",
+               this, gpu_queue_, read, index, (int)vendor_hdr->AmdFormat);
+      }
+    } else if (pkt_type == HSA_PACKET_TYPE_KERNEL_DISPATCH ||
+               (index == read && packet.kernel_object != 0)) {
+      printKernelName(packet.kernel_object);
+      printHeader("Dispatch");
+      fprintf(stderr,
+             "setup=%d\n\tgrid=[%u, %u, %u], workgroup=[%u, %u, %u]\n\t"
+             "private_seg_size=%u, group_seg_size=%u\n\t"
+             "kernel_obj=0x%" PRIx64 ", kernarg_address=0x%p\n\t"
+             "completion_signal=0x%" PRIx64 ", correlation_id=%" PRIu64
+             "\n\trptr=%" PRIu64 ", wptr=%" PRIu64 "\n",
+             packet.setup, packet.grid_size_x, packet.grid_size_y, packet.grid_size_z,
+             packet.workgroup_size_x, packet.workgroup_size_y, packet.workgroup_size_z,
+             packet.private_segment_size, packet.group_segment_size,
+             packet.kernel_object, packet.kernarg_address,
              packet.completion_signal.handle, packet.reserved2, read, index);
     } else {
-      printf("VGPU(%p) Queue(%p) rptr=%" PRIu64 ", wptr=%" PRIu64
+      fprintf(stderr, "VGPU(%p) Queue(%p) rptr=%" PRIu64 ", wptr=%" PRIu64
              ". A barrier packet in the queue!\n",
              this, gpu_queue_, read, index);
     }
   } else {
-    printf("VGPU(%p) Queue(%p) is idle\n", this, gpu_queue_);
+    fprintf(stderr, "VGPU(%p) Queue(%p) is idle\n", this, gpu_queue_);
   }
 }
 
@@ -1273,12 +1310,15 @@ bool VirtualGPU::dispatchGenericAqlPacket(AqlPacket* packet, uint16_t header, ui
   if (header != 0) {
     packet_store_release(reinterpret_cast<uint32_t*>(aql_loc), header, rest);
   }
-  const auto virtual_pipe_prefix = [this]() -> const char* {
-    if (!roc_device_.settings().queue_pipe_dist_) return "";
-    static thread_local char buf[32];
-    snprintf(buf, sizeof(buf), " virtual_pipe_id=%lu,", gpu_queue_->id % roc_device_.NumHwPipes());
-    return buf;
-  }();
+  const auto virtual_pipe_prefix = IsLogEnabled(amd::LOG_DETAIL_DEBUG, amd::LOG_AQL)
+                                     ? [this]() -> const char* {
+                                         if (!roc_device_.settings().queue_pipe_dist_) return "";
+                                         static thread_local char buf[32];
+                                         snprintf(buf, sizeof(buf), " virtual_pipe_id=%zu,",
+                                                  gpu_queue_->id % roc_device_.NumHwPipes());
+                                         return buf;
+                                       }()
+                                     : "";
   if (dev().settings().ext_dispatch_packet_) {
     logAqlDispatchPacketExtended(
         gpu_queue_, header, reinterpret_cast<hsa_amd_ext_kernel_dispatch_packet_t*>(packet),
@@ -1406,15 +1446,6 @@ bool VirtualGPU::dispatchAqlPacketBatchFlat(const std::vector<uint8_t>& flatPack
     addSystemScope_ = false;
   }
 
-  // Update cached fence state from the last packet's release scope.
-  auto expected_fence_state =
-      extractAqlBits(lastHeader, HSA_PACKET_HEADER_SCRELEASE_FENCE_SCOPE,
-                     HSA_PACKET_HEADER_WIDTH_SCRELEASE_FENCE_SCOPE);
-  if (expected_fence_state == amd::Device::kCacheStateSystem) {
-    setFenceDirty(false);
-  }
-  fence_state_ = static_cast<Device::CacheState>(expected_fence_state);
-
   uint8_t* queueBase = static_cast<uint8_t*>(gpu_queue_->base_address);
 
   // Reserve ALL slots with a single wptr bump, then submit in kPeriod-sized chunks.
@@ -1423,6 +1454,18 @@ bool VirtualGPU::dispatchAqlPacketBatchFlat(const std::vector<uint8_t>& flatPack
   // the yield never fires.
   uint64_t startIndex = Hsa::queue_add_write_index_screlease(gpu_queue_, numPackets);
   setFenceDirty(true);
+
+  // Update cached fence state from the last packet's release scope.
+  // Clear fence dirty if the last packet has system-scope release, matching
+  // the single-dispatch path in dispatchGenericAqlPacket (set dirty on reserve,
+  // then conditionally clear if system scope).
+  auto expected_fence_state =
+      extractAqlBits(lastHeader, HSA_PACKET_HEADER_SCRELEASE_FENCE_SCOPE,
+                     HSA_PACKET_HEADER_WIDTH_SCRELEASE_FENCE_SCOPE);
+  if (expected_fence_state == amd::Device::kCacheStateSystem) {
+    setFenceDirty(false);
+  }
+  fence_state_ = static_cast<Device::CacheState>(expected_fence_state);
 
   const size_t kPeriod = DEBUG_HIP_GRAPH_BATCH_SIZE;
   auto* first_loc = reinterpret_cast<uint32_t*>(
@@ -1532,8 +1575,16 @@ bool VirtualGPU::dispatchAqlPacketBatchFlat(const std::vector<uint8_t>& flatPack
   }
 
   hasPendingDispatch_ = true;
+
   auto* finalLastSlot = reinterpret_cast<hsa_kernel_dispatch_packet_t*>(
       queueBase + ((startIndex + numPackets - 1) & queueMask) * kPacketSize);
+
+  // Skip the pending dispatch only when both conditions are met: a completion
+  // signal tracks the last packet and the fence is already clean (system scope).
+  if (finalLastSlot->completion_signal.handle != 0 && !isFenceDirty()) {
+    hasPendingDispatch_ = false;
+  }
+
   TrackQueueProgress(*finalLastSlot, startIndex + numPackets - 1, pre_patched);
 
   if (blocking) {
@@ -1570,7 +1621,9 @@ bool VirtualGPU::dispatchCounterAqlPacket(hsa_ext_amd_aql_pm4_packet_t* packet,
 
 // ================================================================================================
 void VirtualGPU::WaitCompleteSignal(hsa_signal_t signal) {
-  barrier_packet_.dep_signal[0] = signal;
+  // Add the signal as a dynamic dependency so WaitingSignal() includes it
+  // alongside any pending external signals in the barrier's dep_signal list.
+  Barriers().AddDynamicQueueWait(signal);
   dispatchBarrierPacket(kBarrierPacketHeader, false);
 }
 
@@ -1624,13 +1677,15 @@ void VirtualGPU::dispatchBarrierPacket(uint16_t packetHeader, bool skipSignal,
 
   Hsa::signal_store_screlease(gpu_queue_->doorbell_signal, index);
   logAqlBarrierPacket(gpu_queue_, packetHeader, &barrier_packet_, read, index,
-                      [this]() -> const char* {
-                        if (!roc_device_.settings().queue_pipe_dist_) return "";
-                        static thread_local char buf[32];
-                        snprintf(buf, sizeof(buf), " virtual_pipe_id=%lu,",
-                                 gpu_queue_->id % roc_device_.NumHwPipes());
-                        return buf;
-                      }());
+                      IsLogEnabled(amd::LOG_DETAIL_DEBUG, amd::LOG_AQL)
+                        ? [this]() -> const char* {
+                            if (!roc_device_.settings().queue_pipe_dist_) return "";
+                            static thread_local char buf[32];
+                            snprintf(buf, sizeof(buf), " virtual_pipe_id=%zu,",
+                                     gpu_queue_->id % roc_device_.NumHwPipes());
+                            return buf;
+                          }()
+                        : "");
 
   // Clear dependent signals for the next packet
   barrier_packet_.dep_signal[0] = hsa_signal_t{};
@@ -1707,13 +1762,15 @@ void VirtualGPU::dispatchBarrierValuePacket(uint16_t packetHeader, bool resolveD
   Hsa::signal_store_screlease(gpu_queue_->doorbell_signal, index);
 
   logAqlBarrierValuePacket(gpu_queue_, packetHeader, &barrier_value_packet_, read, index,
-                           [this]() -> const char* {
-                             if (!roc_device_.settings().queue_pipe_dist_) return "";
-                             static thread_local char buf[32];
-                             snprintf(buf, sizeof(buf), " virtual_pipe_id=%lu,",
-                                      gpu_queue_->id % roc_device_.NumHwPipes());
-                             return buf;
-                           }());
+                           IsLogEnabled(amd::LOG_DETAIL_DEBUG, amd::LOG_AQL)
+                             ? [this]() -> const char* {
+                                 if (!roc_device_.settings().queue_pipe_dist_) return "";
+                                 static thread_local char buf[32];
+                                 snprintf(buf, sizeof(buf), " virtual_pipe_id=%zu,",
+                                          gpu_queue_->id % roc_device_.NumHwPipes());
+                                 return buf;
+                               }()
+                             : "");
   // Clear dependent signals for the next packet
   barrier_value_packet_.signal = hsa_signal_t{};
 }
@@ -4059,6 +4116,10 @@ bool VirtualGPU::submitKernelInternal(const amd::NDRangeContainer& sizes, const 
           // Initialize hidden heap buffer
           if (!isGraphCapture) {
             const_cast<Device&>(dev()).HiddenHeapInit(*this);
+            if (!heap_init_fence_emitted_) {
+              addSystemScope();
+              heap_init_fence_emitted_ = true;
+            }
           }
           // Add heap pointer to the code
           size_t heap_ptr = static_cast<size_t>(dev().HeapBuffer()->virtualAddress());
@@ -4433,10 +4494,31 @@ void VirtualGPU::submitMarker(amd::Marker& vcmd) {
     flush(vcmd.GetBatchHead());
   } else {
     profilingBegin(vcmd);
-    if (timestamp_ != nullptr) {
-      const Settings& settings = dev().settings();
-      int32_t releaseFlags = vcmd.getCommandEntryScope();
+    const Settings& settings = dev().settings();
+    hsa_signal_t ipc_s{0};
+    if (vcmd.ipcCompletionSignal() != nullptr) {
+      ipc_s.handle = static_cast<uint64_t>(
+          reinterpret_cast<uintptr_t>(vcmd.ipcCompletionSignal()->getGpuHandle()));
+    }
 
+    if (vcmd.ipcDepSignal() != nullptr) {
+      hsa_signal_t s;
+      s.handle = static_cast<uint64_t>(reinterpret_cast<uintptr_t>(
+          vcmd.ipcDepSignal()->getGpuHandle()));
+      WaitCompleteSignal(s);
+    } else if (timestamp_ != nullptr || ipc_s.handle != 0) {
+      // IPC event record: if ipc_s is non-zero, first dispatch a NOP barrier with
+      // the IPC signal as completion_signal; it fires when prior work completes.
+      if (ipc_s.handle != 0) {
+        if (settings.barrier_value_packet_) {
+          dispatchBarrierValuePacket(kBarrierVendorPacketNopScopeHeader, false, hsa_signal_t{0}, 0,
+                                     0, HSA_SIGNAL_CONDITION_EQ, true, ipc_s);
+        } else {
+          dispatchBarrierPacket(kNopPacketHeader, true, ipc_s);
+        }
+      }
+
+      int32_t releaseFlags = vcmd.getCommandEntryScope();
       if (releaseFlags == Device::CacheState::kCacheStateIgnore) {
         if (settings.barrier_value_packet_ && vcmd.profilingInfo().marker_ts_) {
           dispatchBarrierValuePacket(kBarrierVendorPacketNopScopeHeader, true);
