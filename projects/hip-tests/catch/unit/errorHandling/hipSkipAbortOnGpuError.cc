@@ -10,8 +10,9 @@
  * @ingroup ErrorHandlingTest
  *
  * Tests that GPU hardware exceptions return a HIP error code instead of
- * calling abort() when HIP_SKIP_ABORT_ON_GPU_ERROR=1 is set, mirroring
- * CUDA's CU_COREDUMP_SKIP_ABORT behavior.
+ * calling abort(). HIP_SKIP_ABORT_ON_GPU_ERROR defaults to 1 in CLR so
+ * these tests run unconditionally on AMD hardware, mirroring CUDA's
+ * CU_COREDUMP_SKIP_ABORT behavior.
  *
  * Covered HSA status codes (AMD-only):
  *   HSA_STATUS_ERROR_ILLEGAL_INSTRUCTION  -- CUDA_EXCEPTION_4/8
@@ -34,20 +35,6 @@
 
 #include <hip_test_common.hh>
 #include <hip/hip_runtime_api.h>
-#include "hip_test_context.hh"
-
-// Returns true when abort() would fire (HIP_SKIP_ABORT_ON_GPU_ERROR not set
-// or set to 0). Tests that would abort the process must be skipped in this
-// case since abort() cannot be caught by the Catch2 framework.
-static bool isAbortActive() {
-  std::string v = TestContext::getEnvVar("HIP_SKIP_ABORT_ON_GPU_ERROR");
-  if (!v.empty()) {
-    try {
-      return std::stoi(v) == 0;
-    } catch (...) {}
-  }
-  return true;
-}
 
 // ---------------------------------------------------------------------------
 // Kernels
@@ -79,10 +66,8 @@ __global__ void aperture_violation_kernel() {
  * ------------------------
  *  - Launches a kernel that executes an illegal GPU instruction via
  *    __builtin_trap() (HSA_STATUS_ERROR_ILLEGAL_INSTRUCTION).
- *  - With HIP_SKIP_ABORT_ON_GPU_ERROR=1, expects hipErrorLaunchFailure
- *    to be returned from hipStreamSynchronize() instead of abort().
- *  - Skipped when HIP_SKIP_ABORT_ON_GPU_ERROR is not set, to avoid
- *    aborting the test process.
+ *  - Expects hipErrorLaunchFailure from hipStreamSynchronize() instead of
+ *    abort(), relying on the default HIP_SKIP_ABORT_ON_GPU_ERROR=1 behavior.
  * Test source
  * ------------------------
  *  - unit/errorHandling/hipSkipAbortOnGpuError.cc
@@ -92,18 +77,12 @@ __global__ void aperture_violation_kernel() {
  */
 HIP_TEST_CASE(Unit_HipSkipAbortOnGpuError_IllegalInstruction) {
 #if HT_AMD
-  if (isAbortActive()) {
-    HipTest::HIP_SKIP_TEST(
-        "Set HIP_SKIP_ABORT_ON_GPU_ERROR=1 to run GPU hardware exception tests.");
-    return;
-  }
-
   hipStream_t stream;
   HIP_CHECK(hipStreamCreate(&stream));
   illegal_instruction_kernel<<<1, 1, 0, stream>>>();
   HIP_CHECK_ERROR(hipStreamSynchronize(stream), hipErrorLaunchFailure);
 #else
-  HipTest::HIP_SKIP_TEST("AMD-only: HSA_STATUS_ERROR_ILLEGAL_INSTRUCTION behavior.");
+  HIP_SKIP_TEST("AMD-only: HSA_STATUS_ERROR_ILLEGAL_INSTRUCTION behavior.");
 #endif
 }
 
@@ -113,9 +92,8 @@ HIP_TEST_CASE(Unit_HipSkipAbortOnGpuError_IllegalInstruction) {
  *  - Launches a kernel that writes to an address in the LDS aperture range
  *    through a flat pointer, triggering an aperture violation
  *    (HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION).
- *  - With HIP_SKIP_ABORT_ON_GPU_ERROR=1, expects hipErrorIllegalAddress
- *    to be returned from hipStreamSynchronize() instead of abort().
- *  - Skipped when HIP_SKIP_ABORT_ON_GPU_ERROR is not set.
+ *  - Expects hipErrorIllegalAddress from hipStreamSynchronize() instead of
+ *    abort(), relying on the default HIP_SKIP_ABORT_ON_GPU_ERROR=1 behavior.
  * Test source
  * ------------------------
  *  - unit/errorHandling/hipSkipAbortOnGpuError.cc
@@ -125,18 +103,12 @@ HIP_TEST_CASE(Unit_HipSkipAbortOnGpuError_IllegalInstruction) {
  */
 HIP_TEST_CASE(Unit_HipSkipAbortOnGpuError_ApertureViolation) {
 #if HT_AMD
-  if (isAbortActive()) {
-    HipTest::HIP_SKIP_TEST(
-        "Set HIP_SKIP_ABORT_ON_GPU_ERROR=1 to run GPU hardware exception tests.");
-    return;
-  }
-
   hipStream_t stream;
   HIP_CHECK(hipStreamCreate(&stream));
   aperture_violation_kernel<<<1, 1, 0, stream>>>();
   HIP_CHECK_ERROR(hipStreamSynchronize(stream), hipErrorIllegalAddress);
 #else
-  HipTest::HIP_SKIP_TEST("AMD-only: HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION behavior.");
+  HIP_SKIP_TEST("AMD-only: HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION behavior.");
 #endif
 }
 
