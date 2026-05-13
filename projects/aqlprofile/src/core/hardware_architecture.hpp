@@ -58,11 +58,13 @@ class HardwareArchitecture {
   /// Total bytes needed to store one read of a given block across all XCCs.
   virtual size_t GetBytesNeededForBlock(uint32_t block_id) const;
 
-  /// WGP count: cu_count / 2 for GFX10+ (after any patching in RegisterAgent).
+  /// WGPs per shader array — matches GpuPmcBuilder::wgp_per_sa_ used in Read().
   virtual int GetNumWGPs() const {
     const auto& c = GetConfig();
-    return (c.wgp_count > 0) ? static_cast<int>(c.wgp_count)
-                               : static_cast<int>(c.cu_count / 2);
+    uint32_t wgp_per_sa =
+        (c.cu_count / 2 + c.sa_per_se_count * c.GetSEPerXCC() - 1) /
+        (c.GetSEPerXCC() * c.sa_per_se_count);
+    return static_cast<int>(wgp_per_sa / c.xcc_count);
   }
 
   /// Accumulator register IDs for SQ counters (GFX12 returns 1/1).

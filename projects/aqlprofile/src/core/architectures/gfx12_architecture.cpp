@@ -72,7 +72,7 @@ void Gfx12Architecture::InitializeConfig(const AgentInfo* agent_info) {
 }
 
 void Gfx12Architecture::InitializeBlockTable() {
-  static const GpuBlockInfo* table[LastCounterBlockId + 1]{};
+  static const GpuBlockInfo* table[AQLPROFILE_BLOCKS_NUMBER]{};
 
   // Global blocks
   table[__BLOCK_ID(CHA)]         = &ChaCounterBlockInfo;
@@ -115,7 +115,7 @@ void Gfx12Architecture::InitializeBlockTable() {
   }
 
   block_table_ = table;
-  block_count_ = LastCounterBlockId + 1;
+  block_count_ = AQLPROFILE_BLOCKS_NUMBER;
 }
 
 const GpuBlockInfo* Gfx12Architecture::GetBlockInfo(uint32_t block_id) const {

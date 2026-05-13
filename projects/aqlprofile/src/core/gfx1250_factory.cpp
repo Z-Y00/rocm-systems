@@ -31,6 +31,7 @@
 #include "pm4/gfx12_primitives_provider.hpp"
 #include "pm4/gfx12_spm_builder.hpp"
 #include "pm4/gfx12_sqtt_builder.hpp"
+#include "util/reg_offsets.h"
 
 namespace aql_profile {
 
@@ -49,7 +50,7 @@ class Mi450Factory : public Pm4Factory {
   pm4_builder::Gfx12PrimitivesProvider* prims_{nullptr};
 
   void ConstructBuilders(const AgentInfo* agent_info) {
-    cmd_builder_ = new pm4_builder::Gfx12CmdBuilder(nullptr);
+    cmd_builder_ = new pm4_builder::Gfx12CmdBuilder(acquire_ip_offset_table(agent_info));
     if (cmd_builder_ == NULL) throw aql_profile_exc_msg("CmdBuilder allocation failed");
 
     prims_ = new pm4_builder::Gfx12PrimitivesProvider();
