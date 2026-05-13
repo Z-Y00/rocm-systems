@@ -235,6 +235,7 @@ if(BUILD_TESTS)
       ProxyTests.cpp
       RcclWrapTests.cpp
       TransportTests.cpp
+      mem_manager/MemManagerTests.cpp
       graph/XmlTests.cpp
       common/main_fixtures.cpp
       common/EnvVars.cpp
@@ -282,6 +283,7 @@ if(BUILD_TESTS)
       ImplicitLaunchOrderMPITests.cpp
       CommMPITests.cpp
       RegistrationMPITests.cpp
+      mem_manager/SuspendResumeMPITests.cpp
     )
 
     add_executable(rccl-UnitTestsMPI ${MPI_TEST_SOURCE_FILES})
