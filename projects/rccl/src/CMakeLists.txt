@@ -87,6 +87,7 @@ set(SRC_FILES
   include/bitops.h
   include/bootstrap.h
   include/ce_coll.h
+  include/ce_fault_inject.h
   include/channel.h
   include/checks.h
   include/collectives.h
