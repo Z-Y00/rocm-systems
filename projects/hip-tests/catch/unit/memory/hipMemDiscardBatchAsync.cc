@@ -68,7 +68,7 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_NegativeTests) {
     HIP_CHECK_ERROR(
         hipMemDiscardBatchAsync(dev_ptrs, nullptr, 1, 0, stream),
         hipErrorInvalidValue);
-    hipDeviceptr_t dptrs[1] = {managed_ptr};
+    hipDeviceptr_t dptrs[1] = {reinterpret_cast<hipDeviceptr_t>(managed_ptr)};
     HIP_CHECK_ERROR(
         hipDrvMemDiscardBatchAsync(dptrs, nullptr, 1, 0, stream),
         hipErrorInvalidValue);
@@ -78,7 +78,7 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_NegativeTests) {
     HIP_CHECK_ERROR(
         hipMemDiscardBatchAsync(dev_ptrs, sizes, 0, 0, stream),
         hipErrorInvalidValue);
-    hipDeviceptr_t dptrs[1] = {managed_ptr};
+    hipDeviceptr_t dptrs[1] = {reinterpret_cast<hipDeviceptr_t>(managed_ptr)};
     HIP_CHECK_ERROR(
         hipDrvMemDiscardBatchAsync(dptrs, sizes, 0, 0, stream),
         hipErrorInvalidValue);
@@ -88,7 +88,7 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_NegativeTests) {
     HIP_CHECK_ERROR(
         hipMemDiscardBatchAsync(dev_ptrs, sizes, 1, 1, stream),
         hipErrorInvalidValue);
-    hipDeviceptr_t dptrs[1] = {managed_ptr};
+    hipDeviceptr_t dptrs[1] = {reinterpret_cast<hipDeviceptr_t>(managed_ptr)};
     HIP_CHECK_ERROR(
         hipDrvMemDiscardBatchAsync(dptrs, sizes, 1, 1, stream),
         hipErrorInvalidValue);
@@ -98,7 +98,7 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_NegativeTests) {
     HIP_CHECK_ERROR(
         hipMemDiscardBatchAsync(dev_ptrs, sizes, 1, 0, nullptr),
         hipErrorInvalidValue);
-    hipDeviceptr_t dptrs[1] = {managed_ptr};
+    hipDeviceptr_t dptrs[1] = {reinterpret_cast<hipDeviceptr_t>(managed_ptr)};
     HIP_CHECK_ERROR(
         hipDrvMemDiscardBatchAsync(dptrs, sizes, 1, 0, nullptr),
         hipErrorInvalidValue);
@@ -582,7 +582,7 @@ HIP_TEST_CASE(Unit_hipMemDiscardBatchAsync_DrvApiParity) {
   HIP_CHECK(hipMallocManaged(&managed_ptr2, kSize));
   memset(managed_ptr2, 0xBB, kSize);
   {
-    hipDeviceptr_t dptrs[1] = {managed_ptr2};
+    hipDeviceptr_t dptrs[1] = {reinterpret_cast<hipDeviceptr_t>(managed_ptr2)};
     size_t sizes[1] = {kSize};
     HIP_CHECK(hipDrvMemDiscardBatchAsync(dptrs, sizes, 1, 0, stream));
     HIP_CHECK(hipStreamSynchronize(stream));
