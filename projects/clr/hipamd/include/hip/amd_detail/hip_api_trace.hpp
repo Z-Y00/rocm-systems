@@ -48,7 +48,7 @@
 #define HIP_API_TABLE_STEP_VERSION 0
 #define HIP_COMPILER_API_TABLE_STEP_VERSION 0
 #define HIP_TOOLS_API_TABLE_STEP_VERSION 1
-#define HIP_RUNTIME_API_TABLE_STEP_VERSION 27
+#define HIP_RUNTIME_API_TABLE_STEP_VERSION 28
 
 // HIP API interface
 // HIP compiler dispatch functions
@@ -530,6 +530,10 @@ typedef hipError_t (*t_hipMemPrefetchBatchAsync)(void** dev_ptrs, size_t* sizes,
                                                 hipMemLocation* prefetch_locs, size_t* prefetch_loc_idxs,
                                                 size_t num_prefetch_locs, unsigned long long flags,
                                                 hipStream_t stream);
+typedef hipError_t (*t_hipMemDiscardBatchAsync)(void** dev_ptrs, size_t* sizes, size_t count,
+                                                unsigned long long flags, hipStream_t stream);
+typedef hipError_t (*t_hipDrvMemDiscardBatchAsync)(hipDeviceptr_t* dptrs, size_t* sizes, size_t count,
+                                                   unsigned long long flags, hipStream_t stream);
 typedef hipError_t (*t_hipMemPtrGetInfo)(void* ptr, size_t* size);
 typedef hipError_t (*t_hipMemRangeGetAttribute)(void* data, size_t data_size,
                                                 hipMemRangeAttribute attribute, const void* dev_ptr,
@@ -1744,8 +1748,11 @@ struct HipDispatchTable {
   t_hipOccupancyMaxPotentialClusterSize hipOccupancyMaxPotentialClusterSize_fn;
   t_hipOccupancyMaxActiveClusters hipOccupancyMaxActiveClusters_fn;
 
-  // DO NOT EDIT ABOVE!
   // HIP_RUNTIME_API_TABLE_STEP_VERSION == 28
+  t_hipMemDiscardBatchAsync hipMemDiscardBatchAsync_fn;
+  t_hipDrvMemDiscardBatchAsync hipDrvMemDiscardBatchAsync_fn;
+
+  // DO NOT EDIT ABOVE!
 
   // ******************************************************************************************* //
   //

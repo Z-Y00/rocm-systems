@@ -4015,6 +4015,54 @@ hipError_t hipMemPrefetchBatchAsync(void** dev_ptrs, size_t* sizes, size_t count
                                     size_t num_prefetch_locs, unsigned long long flags,
                                     hipStream_t stream);
 /**
+ * @brief Discards a batch of memory ranges asynchronously.
+ *
+ * @param [in] dev_ptrs      pointers to the memory ranges to discard
+ * @param [in] sizes         sizes in bytes of the memory ranges to discard
+ * @param [in] count         number of memory ranges to discard
+ * @param [in] flags         flags for future use, must be zero now.
+ * @param [in] stream        stream to enqueue the discard operation
+ *
+ * @returns #hipSuccess, #hipErrorInvalidValue, #hipErrorNotSupported
+ *
+ * @warning Reading from a discarded range without first writing or prefetching
+ *          to it will return an indeterminate value.
+ * @warning Concurrent reads, writes, or prefetches to discarded ranges result
+ *          in undefined behavior.
+ *
+ * @note All memory ranges must be managed memory allocated via hipMallocManaged
+ *       or system-allocated memory (if device supports pageable memory access).
+ * @note This API is implemented on Linux and requires XNACK to be enabled.
+ * @note This API is marked as beta, meaning, while this is feature complete,
+ *       it is still open to changes and may have outstanding issues.
+ *
+ * @see hipMemPrefetchBatchAsync, hipMallocManaged
+ */
+hipError_t hipMemDiscardBatchAsync(void** dev_ptrs, size_t* sizes, size_t count,
+                                   unsigned long long flags, hipStream_t stream);
+/**
+ * @brief Discards a batch of memory ranges asynchronously (driver API variant).
+ *
+ * @param [in] dptrs    pointers to the memory ranges to discard
+ * @param [in] sizes    sizes in bytes of the memory ranges to discard
+ * @param [in] count    number of memory ranges to discard
+ * @param [in] flags    flags for future use, must be zero now.
+ * @param [in] stream   stream to enqueue the discard operation
+ *
+ * @returns #hipSuccess, #hipErrorInvalidValue, #hipErrorNotSupported
+ *
+ * @warning Reading from a discarded range without first writing or prefetching
+ *          to it will return an indeterminate value.
+ *
+ * @note This is the driver API variant that uses hipDeviceptr_t instead of void*.
+ *       Both hipMemDiscardBatchAsync and hipDrvMemDiscardBatchAsync use the same
+ *       internal implementation.
+ *
+ * @see hipMemDiscardBatchAsync, hipMemPrefetchBatchAsync, hipMallocManaged
+ */
+hipError_t hipDrvMemDiscardBatchAsync(hipDeviceptr_t* dptrs, size_t* sizes, size_t count,
+                                      unsigned long long flags, hipStream_t stream);
+/**
  * @brief Advise about the usage of a given memory range to HIP.
  *
  * @param [in] dev_ptr  pointer to memory to set the advice for

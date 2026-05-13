@@ -2099,6 +2099,22 @@ inline static hipError_t hipMemPrefetchBatchAsync(void** dev_ptrs, size_t* sizes
 }
 #endif
 
+#if CUDA_VERSION >= 13020
+inline static hipError_t hipMemDiscardBatchAsync(void** dev_ptrs, size_t* sizes,
+                                                 size_t count, unsigned long long flags,
+                                                 hipStream_t stream) {
+  return hipCUDAErrorTohipError(
+      cudaMemDiscardBatchAsync(dev_ptrs, sizes, count, flags, stream));
+}
+
+inline static hipError_t hipDrvMemDiscardBatchAsync(hipDeviceptr_t* dptrs, size_t* sizes,
+                                                    size_t count, unsigned long long flags,
+                                                    hipStream_t stream) {
+  return hipCUResultTohipError(
+      cuMemDiscardBatchAsync(dptrs, sizes, count, flags, (CUstream)stream));
+}
+#endif
+
 inline static hipError_t hipMemAdvise_v2(const void* dev_ptr, size_t count, hipMemoryAdvise advice,
                                          hipMemLocation location) {
 #if CUDA_VERSION >= 13000

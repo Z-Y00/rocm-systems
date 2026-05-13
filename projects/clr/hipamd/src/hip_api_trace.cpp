@@ -433,6 +433,10 @@ hipError_t hipMemPrefetchBatchAsync(void** dev_ptrs, size_t* sizes, size_t count
                                     hipMemLocation* prefetch_locs, size_t* prefetch_loc_idxs,
                                     size_t num_prefetch_locs, unsigned long long flags,
                                     hipStream_t stream);
+hipError_t hipMemDiscardBatchAsync(void** dev_ptrs, size_t* sizes, size_t count,
+                                   unsigned long long flags, hipStream_t stream);
+hipError_t hipDrvMemDiscardBatchAsync(hipDeviceptr_t* dptrs, size_t* sizes, size_t count,
+                                      unsigned long long flags, hipStream_t stream);
 hipError_t hipMemPtrGetInfo(void* ptr, size_t* size);
 hipError_t hipMemRangeGetAttribute(void* data, size_t data_size, hipMemRangeAttribute attribute,
                                    const void* dev_ptr, size_t count);
@@ -1186,6 +1190,8 @@ void UpdateDispatchTable(HipDispatchTable* ptrDispatchTable) {
   ptrDispatchTable->hipMemPrefetchAsync_fn = hip::hipMemPrefetchAsync;
   ptrDispatchTable->hipMemPrefetchAsync_v2_fn = hip::hipMemPrefetchAsync_v2;
   ptrDispatchTable->hipMemPrefetchBatchAsync_fn = hip::hipMemPrefetchBatchAsync;
+  ptrDispatchTable->hipMemDiscardBatchAsync_fn = hip::hipMemDiscardBatchAsync;
+  ptrDispatchTable->hipDrvMemDiscardBatchAsync_fn = hip::hipDrvMemDiscardBatchAsync;
   ptrDispatchTable->hipMemPtrGetInfo_fn = hip::hipMemPtrGetInfo;
   ptrDispatchTable->hipMemRangeGetAttribute_fn = hip::hipMemRangeGetAttribute;
   ptrDispatchTable->hipMemRangeGetAttributes_fn = hip::hipMemRangeGetAttributes;
@@ -2157,6 +2163,9 @@ HIP_ENFORCE_ABI(HipDispatchTable, hipMemPrefetchBatchAsync_fn, 517);
 // HIP_RUNTIME_API_TABLE_STEP_VERSION == 27
 HIP_ENFORCE_ABI(HipDispatchTable, hipOccupancyMaxPotentialClusterSize_fn, 518);
 HIP_ENFORCE_ABI(HipDispatchTable, hipOccupancyMaxActiveClusters_fn, 519);
+// HIP_RUNTIME_API_TABLE_STEP_VERSION == 28
+HIP_ENFORCE_ABI(HipDispatchTable, hipMemDiscardBatchAsync_fn, 520);
+HIP_ENFORCE_ABI(HipDispatchTable, hipDrvMemDiscardBatchAsync_fn, 521);
 
 // if HIP_ENFORCE_ABI entries are added for each new function pointer in the table, the number below
 // will be +1 of the number in the last HIP_ENFORCE_ABI line. E.g.:
@@ -2164,9 +2173,9 @@ HIP_ENFORCE_ABI(HipDispatchTable, hipOccupancyMaxActiveClusters_fn, 519);
 //  HIP_ENFORCE_ABI(<table>, <functor>, 8)
 //
 //  HIP_ENFORCE_ABI_VERSIONING(<table>, 9) <- 8 + 1 = 9
-HIP_ENFORCE_ABI_VERSIONING(HipDispatchTable, 520)
+HIP_ENFORCE_ABI_VERSIONING(HipDispatchTable, 522)
 
-static_assert(HIP_RUNTIME_API_TABLE_MAJOR_VERSION == 0 && HIP_RUNTIME_API_TABLE_STEP_VERSION == 27,
+static_assert(HIP_RUNTIME_API_TABLE_MAJOR_VERSION == 0 && HIP_RUNTIME_API_TABLE_STEP_VERSION == 28,
               "If you get this error, add new HIP_ENFORCE_ABI(...) code for the new function "
               "pointers and then update this check so it is true");
 #endif
