@@ -1,9 +1,11 @@
 # Copyright (c) Advanced Micro Devices, Inc.
 # SPDX-License-Identifier:  MIT
 
-import csv
+import shutil
 import sqlite3
-from contextlib import ExitStack, closing
+from contextlib import closing
+from pathlib import Path
+from typing import Any
 
 from utils.logger import console_error
 
@@ -55,47 +57,48 @@ TABLE_NAME_PREFIX_QUERY = (
     "AND name LIKE '{table_name_prefix}%'"
 )
 INSERT_QUERY = "INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+ROCPD_QUERY_SURFACES = ("counters_collection", "regions")
 
 
-def convert_dbs_to_csv(
-    db_paths: list[str],
-    counter_collection_csv_path: str,
-    marker_trace_csv_path: str,
-) -> None:
-    queries = {
-        counter_collection_csv_path: COUNTERS_COLLECTION_QUERY,
-        marker_trace_csv_path: MARKER_API_TRACE_QUERY,
-    }
-    header_written = {path: False for path in queries}
+def build_pass_db(db_paths: list[str], output_db_path: str) -> None:
+    """Build one pass-level rocpd database from profiler-produced DBs."""
+    sorted_db_paths = sorted(db_paths)
+    if not sorted_db_paths:
+        console_error("No rocpd database files found.")
+        return
 
-    with ExitStack() as stack:
-        writers = {
-            path: csv.writer(stack.enter_context(open(path, "w", newline="")))
-            for path in queries
-        }
-        for db_path in db_paths:
-            with closing(sqlite3.connect(db_path)) as conn:
-                for file_path, query in queries.items():
-                    try:
-                        with closing(conn.execute(query)) as cursor:
-                            if cursor.description is None:
-                                continue
-                            if not header_written[file_path]:
-                                writers[file_path].writerow([
-                                    desc[0] for desc in cursor.description
-                                ])
-                                header_written[file_path] = True
-                            writers[file_path].writerows(cursor)
-                    except OSError as e:
-                        console_error(
-                            f"Database error while extracting {file_path} "
-                            f"from {db_path}: {e}"
-                        )
-                    except Exception as e:
-                        console_error(
-                            f"Unexpected error while extracting {file_path} "
-                            f"from {db_path}: {e}"
-                        )
+    output_path = Path(output_db_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.unlink(missing_ok=True)
+
+    if len(sorted_db_paths) == 1:
+        source_path = Path(sorted_db_paths[0])
+        shutil.copyfile(source_path, output_path)
+        return
+
+    with closing(sqlite3.connect(output_path)) as conn:
+        for surface_name in ROCPD_QUERY_SURFACES:
+            _materialize_query_surface(conn, sorted_db_paths, surface_name)
+
+
+def read_counter_collection_rows(db_paths: list[str]) -> list[dict[str, Any]]:
+    """Read rocpd counter collection rows using the normalized query."""
+    return _read_query_rows(db_paths, COUNTERS_COLLECTION_QUERY)
+
+
+def read_marker_api_trace_rows(db_paths: list[str]) -> list[dict[str, Any]]:
+    """Read rocpd marker API trace rows using the normalized query."""
+    return _read_query_rows(db_paths, MARKER_API_TRACE_QUERY)
+
+
+def count_counter_collection_rows(db_path: str) -> int:
+    """Count rows exposed by the rocpd counters collection query."""
+    with closing(sqlite3.connect(db_path)) as conn:
+        with closing(
+            conn.execute(f"SELECT COUNT(*) FROM ({COUNTERS_COLLECTION_QUERY})")
+        ) as cursor:
+            row = cursor.fetchone()
+            return int(row[0]) if row is not None else 0
 
 
 def update_rocpd_pmc_events(counter_info: list[dict], rocpd_db_path: str) -> None:
@@ -164,3 +167,46 @@ def update_rocpd_pmc_events(counter_info: list[dict], rocpd_db_path: str) -> Non
         console_error(f"Database error while updating pmc_event table: {e}")
     except Exception as e:
         console_error(f"Unexpected error updating pmc_event table: {e}")
+
+
+def _read_query_rows(db_paths: list[str], query: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+
+    for db_path in sorted(db_paths):
+        with closing(sqlite3.connect(db_path)) as conn:
+            conn.row_factory = sqlite3.Row
+            with closing(conn.execute(query)) as cursor:
+                rows.extend(dict(row) for row in cursor.fetchall())
+
+    return rows
+
+
+def _materialize_query_surface(
+    conn: sqlite3.Connection,
+    db_paths: list[str],
+    surface_name: str,
+) -> None:
+    created_surface = False
+
+    for index, db_path in enumerate(db_paths):
+        attached_name = f"source_{index}"
+        conn.execute(f"ATTACH DATABASE ? AS {attached_name}", (db_path,))
+        try:
+            if not created_surface:
+                conn.execute(
+                    f"CREATE TABLE {surface_name} AS "
+                    f"SELECT * FROM {attached_name}.{surface_name} WHERE 0"
+                )
+                created_surface = True
+            conn.execute(
+                f"INSERT INTO {surface_name} "
+                f"SELECT * FROM {attached_name}.{surface_name}"
+            )
+        except sqlite3.Error:
+            if surface_name == "counters_collection":
+                raise
+        finally:
+            conn.commit()
+            conn.execute(f"DETACH DATABASE {attached_name}")
+
+    conn.commit()

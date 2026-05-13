@@ -8,10 +8,13 @@ from pathlib import Path
 import common
 import pandas as pd
 
+from utils.file_io import write_pmc_perf_from_rocpd
 from utils.rocpd_data import (
     COUNTERS_COLLECTION_QUERY,
     MARKER_API_TRACE_QUERY,
-    convert_dbs_to_csv,
+    build_pass_db,
+    read_counter_collection_rows,
+    read_marker_api_trace_rows,
 )
 from utils.utils_analysis import (
     build_call_trees_with_kernel_ids,
@@ -130,7 +133,7 @@ def test_marker_query_uses_stack_id():
     assert "\n    correlation_id" not in query_lower
 
 
-# ---- Test 2: convert_dbs_to_csv populates Correlation_Id from stack_id ----
+# ---- Test 2: rocpd reads populate Correlation_Id from stack_id ----
 
 
 def create_rocpd_test_db(workload_dir):
@@ -173,18 +176,15 @@ def create_rocpd_test_db(workload_dir):
     return db_path
 
 
-def test_counter_csv_has_correlation_id_from_stack_id():
-    """Test that the counter CSV has correlation_id from stack_id."""
+def test_counter_rows_have_correlation_id_from_stack_id():
+    """Test that counter rows have correlation_id from stack_id."""
     workload_dir = common.get_output_dir()
     Path(workload_dir).mkdir(parents=True, exist_ok=True)
 
-    counter_csv = str(Path(workload_dir) / "counter_collection.csv")
-    marker_csv = str(Path(workload_dir) / "marker_api_trace.csv")
-
     db_path = create_rocpd_test_db(workload_dir)
-    convert_dbs_to_csv([db_path], counter_csv, marker_csv)
+    rows = read_counter_collection_rows([db_path])
 
-    df = pd.read_csv(counter_csv)
+    df = pd.DataFrame(rows)
     assert "Correlation_Id" in df.columns
 
     expected_ids = [row[2] for row in COUNTER_ROWS]
@@ -193,22 +193,77 @@ def test_counter_csv_has_correlation_id_from_stack_id():
     common.clean_output_dir(True, workload_dir)
 
 
-def test_marker_csv_has_correlation_id_from_stack_id():
-    """Test that the marker CSV has correlation_id from stack_id."""
+def test_marker_rows_have_correlation_id_from_stack_id():
+    """Test that marker rows have correlation_id from stack_id."""
     workload_dir = common.get_output_dir()
     Path(workload_dir).mkdir(parents=True, exist_ok=True)
 
-    counter_csv = str(Path(workload_dir) / "counter_collection.csv")
-    marker_csv = str(Path(workload_dir) / "marker_api_trace.csv")
-
     db_path = create_rocpd_test_db(workload_dir)
-    convert_dbs_to_csv([db_path], counter_csv, marker_csv)
+    rows = read_marker_api_trace_rows([db_path])
 
-    df = pd.read_csv(marker_csv)
+    df = pd.DataFrame(rows)
     assert "Correlation_Id" in df.columns
 
     expected_ids = sorted(row[4] for row in MARKER_ROWS)
     assert sorted(df["Correlation_Id"].tolist()) == expected_ids
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_build_pass_db_preserves_rocpd_query_surfaces():
+    """Test that pass DB creation keeps query surfaces used by analysis."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    db_path = create_rocpd_test_db(workload_dir)
+    pass_db_path = str(Path(workload_dir) / "pmc_perf_0.db")
+    build_pass_db([db_path], pass_db_path)
+
+    counter_rows = read_counter_collection_rows([pass_db_path])
+    marker_rows = read_marker_api_trace_rows([pass_db_path])
+
+    assert len(counter_rows) == len(COUNTER_ROWS)
+    assert len(marker_rows) == len(MARKER_ROWS)
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_build_pass_db_merges_multiple_rocpd_databases():
+    """Test same-pass DB merge across multiple profiler-produced DB files."""
+    workload_dir = common.get_output_dir()
+    first_dir = Path(workload_dir) / "first"
+    second_dir = Path(workload_dir) / "second"
+    first_dir.mkdir(parents=True, exist_ok=True)
+    second_dir.mkdir(parents=True, exist_ok=True)
+
+    first_db_path = create_rocpd_test_db(first_dir)
+    second_db_path = create_rocpd_test_db(second_dir)
+    pass_db_path = str(Path(workload_dir) / "pmc_perf_0.db")
+    build_pass_db([first_db_path, second_db_path], pass_db_path)
+
+    counter_rows = read_counter_collection_rows([pass_db_path])
+    marker_rows = read_marker_api_trace_rows([pass_db_path])
+
+    assert len(counter_rows) == len(COUNTER_ROWS) * 2
+    assert len(marker_rows) == len(MARKER_ROWS) * 2
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_write_pmc_perf_from_rocpd_loads_database_without_results_csv():
+    """Test that analyze can build pmc_perf.csv directly from a rocpd database."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_rocpd_test_db(workload_dir)
+    pmc_perf_path = Path(workload_dir) / "pmc_perf.csv"
+
+    assert write_pmc_perf_from_rocpd(workload_dir, str(pmc_perf_path))
+
+    pmc_df = pd.read_csv(pmc_perf_path)
+    assert "SQ_WAVES" not in pmc_df.columns
+    assert "Counter_Name" in pmc_df.columns
+    assert list(pmc_df["Dispatch_ID"]) == [0, 1, 2]
 
     common.clean_output_dir(True, workload_dir)
 

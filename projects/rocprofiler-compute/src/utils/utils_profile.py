@@ -67,7 +67,6 @@ def run_prof(
     loglevel: int,
     format_rocprof_output: str,
     torch_trace_enabled: bool = False,
-    retain_rocpd_output: bool = False,
 ) -> None:
     multiple_files = isinstance(fnames, list)
     if multiple_files and (
@@ -204,12 +203,13 @@ def run_prof(
     results_files: list[str] = []
 
     if format_rocprof_output == "rocpd":
+        db_paths = sorted(glob.glob(workload_dir + "/out/pmc_1/*/*.db"))
         # If using native tool for counter collection
         if (
             get_rocprof_cmd() == "rocprofiler-sdk"
             and options["ROCPROF_COUNTER_COLLECTION"] == "0"
         ):
-            for db_name in glob.glob(workload_dir + "/out/pmc_1/*/*.db"):
+            for db_name in db_paths:
                 pid = Path(db_name).stem.split("_")[0]
                 # Read CSV as list of dicts instead of pandas DataFrame
                 counter_rows, _ = csv_ops.read_csv_as_dicts(
@@ -220,83 +220,22 @@ def run_prof(
                     db_name,
                 )
                 console_debug(f"Updated rocpd db {db_name} with native tool counters.")
-        # Write results_fbase.csv
-        rocpd_data.convert_dbs_to_csv(
-            glob.glob(workload_dir + "/out/pmc_1/*/*.db"),
-            workload_dir + f"/out/pmc_1/{fbase}_counter_collection.csv",
-            workload_dir + f"/out/pmc_1/{fbase}_marker_api_trace.csv",
-        )
-        # Subprocess succeeded but may have dispatched zero GPU kernels,
-        # in which case the CSV is missing or has no data rows.
-        try:
-            combined_rows, _ = csv_ops.read_csv_as_dicts(
-                workload_dir + f"/out/pmc_1/{fbase}_counter_collection.csv"
-            )
-        except (FileNotFoundError, ValueError):
-            combined_rows = []
-        if not combined_rows:
+
+        pass_db_path = Path(workload_dir) / f"{fbase}.db"
+        rocpd_data.build_pass_db(db_paths, str(pass_db_path))
+
+        if rocpd_data.count_counter_collection_rows(str(pass_db_path)) == 0:
             console_warning(
                 "No GPU kernel data collected. "
                 "The workload may not have dispatched any GPU kernels."
             )
+            pass_db_path.unlink(missing_ok=True)
             shutil.rmtree(f"{workload_dir}/out", ignore_errors=True)
             return
-        else:
-            # Reset Dispatch_ID based on PID, Kernel_Name, Grid_Size,
-            # Workgroup_Size, LDS_Per_Workgroup, Start_Timestamp, End_Timestamp
-            csv_ops.assign_group_ids(
-                combined_rows,
-                [
-                    "PID",
-                    "Kernel_Name",
-                    "Grid_Size",
-                    "Workgroup_Size",
-                    "LDS_Per_Workgroup",
-                    "Start_Timestamp",
-                    "End_Timestamp",
-                ],
-                "Dispatch_ID",
-            )
-            # Reset Kernel_ID based on Kernel_Name, Grid_Size,
-            # Workgroup_Size, LDS_Per_Workgroup
-            csv_ops.assign_group_ids(
-                combined_rows,
-                ["Kernel_Name", "Grid_Size", "Workgroup_Size", "LDS_Per_Workgroup"],
-                "Kernel_ID",
-            )
-            # Drop PID since its not required
-            csv_ops.drop_column_from_rows(combined_rows, "PID")
-            # Write back to CSV
-            csv_ops.write_csv_from_dicts(
-                workload_dir + f"/out/pmc_1/{fbase}_counter_collection.csv",
-                combined_rows,
-            )
-            csv_ops.write_csv_from_dicts(
-                workload_dir + f"/results_{fbase}.csv", combined_rows
-            )
-            console_warning(
-                "Intermediate results_*.csv generation from rocpd databases is "
-                "deprecated and will be replaced with automatic .db file "
-                "retention in a future release."
-            )
+
+        console_log("profiling", f"Created rocpd database: {pass_db_path}")
         if torch_trace_enabled:
-            # move counter collection and marker trace to workload dir
-            save_torch_trace_inputs(workload_dir, fbase, format_rocprof_output)
-        if retain_rocpd_output:
-            console_warning(
-                "--retain-rocpd-output is deprecated and will be removed in "
-                "a future release. .db files will be retained automatically."
-            )
-            for db_path in glob.glob(workload_dir + "/out/pmc_1/*/*.db"):
-                pid = Path(db_path).stem.split("_")[0]
-                shutil.copyfile(
-                    db_path,
-                    workload_dir + f"/{fbase}_{pid}.db",
-                )
-                console_warning(
-                    f"Retaining large raw rocpd database: "
-                    f"{workload_dir}/{fbase}_{pid}.db"
-                )
+            write_rocpd_torch_trace_inputs(workload_dir, fbase, str(pass_db_path))
         # Remove temp directory
         shutil.rmtree(workload_dir + "/" + "out")
         return
@@ -830,6 +769,32 @@ def process_rocprofv3_output(workload_dir: str, using_native_tool: bool) -> list
         return []
 
     return results_files_csv
+
+
+@demarcate
+def write_rocpd_torch_trace_inputs(
+    workload_dir: str,
+    fbase: str,
+    rocpd_db_path: str,
+) -> None:
+    """
+    Write the trace-specific CSV bridge used by current torch trace analysis.
+    """
+    counter_rows = rocpd_data.read_counter_collection_rows([rocpd_db_path])
+    marker_rows = rocpd_data.read_marker_api_trace_rows([rocpd_db_path])
+
+    dst_counter = Path(workload_dir) / f"torch_trace_{fbase}_counter_collection.csv"
+    dst_marker = Path(workload_dir) / f"torch_trace_{fbase}_marker_api_trace.csv"
+    csv_ops.write_csv_from_dicts(str(dst_counter), counter_rows)
+    csv_ops.write_csv_from_dicts(str(dst_marker), marker_rows)
+
+    console_log(
+        "torch trace",
+        "Wrote counter collection and marker trace files "
+        "to workload dir for PyTorch trace creation.",
+    )
+    console_log("Counter Collection: ", str(dst_counter))
+    console_log("Marker API Trace: ", str(dst_marker))
 
 
 @demarcate

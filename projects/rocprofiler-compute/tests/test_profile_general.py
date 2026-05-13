@@ -19,6 +19,8 @@ import pytest
 import yaml
 from scipy.stats import zscore
 
+from utils.rocpd_data import read_counter_collection_rows
+
 # Runtime config options
 config = {}
 config["kernel_name_1"] = "vecCopy"
@@ -647,18 +649,37 @@ def test_path_rocpd(
     options = ["--format-rocprof-output", "rocpd"]
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    # Validate profile outputs (results_*.csv for rocpd format)
     common.check_csv_files(workload_dir, num_devices, num_kernels)
+    assert list(Path(workload_dir).glob("*.db"))
     assert common.check_file_pattern(
         "format_rocprof_output: rocpd", f"{workload_dir}/profiling_config.yaml"
     )
 
-    # Run analyze to create merged pmc_perf.csv
     code = binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     assert code == 0
+    assert (Path(workload_dir) / "pmc_perf.csv").exists()
 
-    # Validate merged pmc_perf.csv content
-    assert common.check_file_pattern("Counter_Name", f"{workload_dir}/pmc_perf.csv")
+    common.clean_output_dir(config["cleanup"], workload_dir)
+
+
+@pytest.mark.path
+def test_path_rocpd_db_contains_profiled_counter(
+    binary_handler_profile_rocprof_compute,
+):
+    lds_block = "3" if is_rdna35_halo_soc() else "12"
+    options = ["--format-rocprof-output", "rocpd", "--block", lds_block]
+    workload_dir = common.get_output_dir()
+    binary_handler_profile_rocprof_compute(
+        config, workload_dir, options, check_success=True, roof=False
+    )
+
+    db_paths = [str(path) for path in Path(workload_dir).glob("*.db")]
+    assert db_paths
+    assert not list(Path(workload_dir).glob("results_*.csv"))
+
+    counter_rows = read_counter_collection_rows(db_paths)
+    counter_names = {row["Counter_Name"] for row in counter_rows}
+    assert "SQ_INSTS_LDS" in counter_names
 
     common.clean_output_dir(config["cleanup"], workload_dir)
 
@@ -1055,17 +1076,15 @@ def test_roof_rocpd(
 
     # Validate profile outputs
     common.check_csv_files(workload_dir, num_devices, num_kernels)
+    assert list(Path(workload_dir).glob("*.db"))
     assert (Path(workload_dir) / "roofline.csv").exists()
     assert common.check_file_pattern(
         "format_rocprof_output: rocpd", f"{workload_dir}/profiling_config.yaml"
     )
 
-    # Run analyze to create merged pmc_perf.csv
     code = binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     assert code == 0
-
-    # Validate merged pmc_perf.csv content
-    assert common.check_file_pattern("Counter_Name", f"{workload_dir}/pmc_perf.csv")
+    assert (Path(workload_dir) / "pmc_perf.csv").exists()
 
     common.clean_output_dir(config["cleanup"], workload_dir)
 
@@ -1342,6 +1361,7 @@ def test_bench_only_basic(binary_handler_profile_rocprof_compute):
     assert not (workload_path / "profiling_config.yaml").exists()
     assert not list(workload_path.glob("results_*.csv"))
     assert not list(workload_path.glob("pmc_perf_*.csv"))
+    assert not list(workload_path.glob("*.db"))
 
 
 @pytest.mark.roofline_1
@@ -1814,7 +1834,7 @@ def test_roof_sort_kernels(
 @pytest.mark.section
 def test_lds_section(binary_handler_profile_rocprof_compute):
     lds_block = "3" if is_rdna35_halo_soc() else "12"
-    options = ["--block", lds_block]
+    options = ["--format-rocprof-output", "csv", "--block", lds_block]
     workload_dir = common.get_output_dir()
     _ = binary_handler_profile_rocprof_compute(
         config, workload_dir, options, check_success=True, roof=False
@@ -1838,7 +1858,7 @@ def test_lds_section(binary_handler_profile_rocprof_compute):
 @pytest.mark.section
 def test_instmix_memchart_section(binary_handler_profile_rocprof_compute):
     instmix_block = "7" if is_rdna35_halo_soc() else "10"
-    options = ["--block", instmix_block, "3"]
+    options = ["--format-rocprof-output", "csv", "--block", instmix_block, "3"]
     workload_dir = common.get_output_dir()
     _ = binary_handler_profile_rocprof_compute(
         config, workload_dir, options, check_success=True, roof=False
@@ -1870,7 +1890,7 @@ def test_instmix_memchart_section(binary_handler_profile_rocprof_compute):
 @pytest.mark.section
 def test_lds_sol_section(binary_handler_profile_rocprof_compute):
     lds_sol_block = "3" if is_rdna35_halo_soc() else "12.1"
-    options = ["--block", lds_sol_block]
+    options = ["--format-rocprof-output", "csv", "--block", lds_sol_block]
     workload_dir = common.get_output_dir()
     _ = binary_handler_profile_rocprof_compute(
         config, workload_dir, options, check_success=True, roof=False
@@ -1899,7 +1919,14 @@ def test_lds_sol_section(binary_handler_profile_rocprof_compute):
 @pytest.mark.section
 def test_instmix_section_global_write_kernel(binary_handler_profile_rocprof_compute):
     instmix_block = "7" if is_rdna35_halo_soc() else "10"
-    options = ["-k", "global_write", "--block", instmix_block]
+    options = [
+        "--format-rocprof-output",
+        "csv",
+        "-k",
+        "global_write",
+        "--block",
+        instmix_block,
+    ]
     custom_config = dict(config)
     custom_config["kernel_name_1"] = "global_write"
     custom_config["app_1"] = ["./tests/vmem"]
@@ -2430,7 +2457,16 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
 
     # These metrics should cover the deterministic counters being checked
     # Block 4 (roofline) included to verify roofline counters under multiplexing
-    options = ["--block", "4", "6.1.5", "6.1.6", "7.2.2", "10.1"]
+    options = [
+        "--format-rocprof-output",
+        "csv",
+        "--block",
+        "4",
+        "6.1.5",
+        "6.1.6",
+        "7.2.2",
+        "10.1",
+    ]
     workload_dir = common.get_output_dir(param_id="no_iter_mplx")
     _ = binary_handler_profile_rocprof_compute(
         config,
@@ -2452,6 +2488,8 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         "6.1.6",
         "7.2.2",
         "10.1",
+        "--format-rocprof-output",
+        "csv",
         "--iteration-multiplexing",
         "kernel",
     ]
@@ -2476,6 +2514,8 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         "6.1.6",
         "7.2.2",
         "10.1",
+        "--format-rocprof-output",
+        "csv",
         "--iteration-multiplexing",
         "kernel_launch_params",
     ]
@@ -2513,7 +2553,7 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
     workload_dir = common.get_output_dir(param_id="no_iter_mplx")
     # These metrics should cover the L1 cache stochastic counters
     # Block 4 (roofline) included to verify roofline counters under multiplexing
-    options = ["--block", "4", "16.1", "16.3"]
+    options = ["--format-rocprof-output", "csv", "--block", "4", "16.1", "16.3"]
     _ = binary_handler_profile_rocprof_compute(
         config,
         workload_dir,
@@ -2532,6 +2572,8 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         "4",
         "16.1",
         "16.3",
+        "--format-rocprof-output",
+        "csv",
         "--iteration-multiplexing",
         "kernel",
     ]
@@ -2554,6 +2596,8 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         "4",
         "16.1",
         "16.3",
+        "--format-rocprof-output",
+        "csv",
         "--iteration-multiplexing",
         "kernel_launch_params",
     ]
@@ -2590,6 +2634,7 @@ def test_iteration_multiplexing_all_counter_accuracy(
     _ = binary_handler_profile_rocprof_compute(
         config,
         workload_dir,
+        ["--format-rocprof-output", "csv"],
         check_success=True,
         roof=False,
         app_name="app_laplace_eqn",
@@ -2599,7 +2644,7 @@ def test_iteration_multiplexing_all_counter_accuracy(
     counters_no_multiplexing = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
 
-    options = ["--iteration-multiplexing", "kernel"]
+    options = ["--format-rocprof-output", "csv", "--iteration-multiplexing", "kernel"]
     workload_dir = common.get_output_dir(param_id="iter_mplx_kernel")
     _ = binary_handler_profile_rocprof_compute(
         config,
@@ -2614,7 +2659,12 @@ def test_iteration_multiplexing_all_counter_accuracy(
     counters_kernel = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
 
-    options = ["--iteration-multiplexing", "kernel_launch_params"]
+    options = [
+        "--format-rocprof-output",
+        "csv",
+        "--iteration-multiplexing",
+        "kernel_launch_params",
+    ]
     workload_dir = common.get_output_dir(param_id="iter_mplx_params")
     _ = binary_handler_profile_rocprof_compute(
         config,
@@ -3076,7 +3126,11 @@ def test_torch_trace_overhead(
     returncode_baseline = binary_handler_profile_rocprof_compute(
         config,
         workload_dir_baseline,
-        ["--iteration-multiplexing"],  # Baseline without --torch-trace
+        [
+            "--format-rocprof-output",
+            "csv",
+            "--iteration-multiplexing",
+        ],  # Baseline without --torch-trace
         check_success=True,
         roof=False,
         app_name="torch_test_app",
@@ -3099,7 +3153,13 @@ def test_torch_trace_overhead(
     returncode_with_flag = binary_handler_profile_rocprof_compute(
         config,
         workload_dir_with_flag,
-        ["--experimental", "--torch-trace", "--iteration-multiplexing"],
+        [
+            "--format-rocprof-output",
+            "csv",
+            "--experimental",
+            "--torch-trace",
+            "--iteration-multiplexing",
+        ],
         check_success=True,
         roof=False,
         app_name="torch_test_app",

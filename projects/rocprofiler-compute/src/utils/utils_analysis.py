@@ -568,10 +568,13 @@ def is_workload_empty(path: str) -> None:
     """Peek workload directory to verify valid profiling output"""
     workload_dir = Path(path)
     pmc_perf_path = workload_dir / "pmc_perf.csv"
+    rocpd_db_paths = list(workload_dir.glob("*.db"))
 
     # Find PMC data files (merged or separate)
     if pmc_perf_path.is_file():
         files_to_check = [pmc_perf_path]
+    elif rocpd_db_paths:
+        return
     else:
         files_to_check = list(workload_dir.glob("results_*.csv"))
 
@@ -854,3 +857,31 @@ def process_rocpd_csv(df: pd.DataFrame) -> pd.DataFrame:
     # Reset dispatch IDs
     df["Dispatch_ID"] = range(len(df))
     return df
+
+
+def normalize_rocpd_counter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Apply rocprofiler-compute rocpd counter ID normalization in memory.
+    """
+    if df.empty:
+        return df
+
+    normalized_df = df.copy()
+    dispatch_group_columns = [
+        "PID",
+        "Kernel_Name",
+        "Grid_Size",
+        "Workgroup_Size",
+        "LDS_Per_Workgroup",
+        "Start_Timestamp",
+        "End_Timestamp",
+    ]
+    normalized_df["Dispatch_ID"] = normalized_df.groupby(
+        dispatch_group_columns, sort=False, dropna=False
+    ).ngroup()
+    normalized_df["Kernel_ID"] = normalized_df.groupby(
+        ["Kernel_Name", "Grid_Size", "Workgroup_Size", "LDS_Per_Workgroup"],
+        sort=False,
+        dropna=False,
+    ).ngroup()
+    return normalized_df.drop(columns=["PID"], errors="ignore")

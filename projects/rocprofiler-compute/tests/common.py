@@ -153,16 +153,18 @@ def check_csv_files(output_dir, num_devices, num_kernels):
     """
     files_in_workload = os.listdir(output_dir)
 
-    # Validate PMC data exists (profile creates pmc_perf_*.csv or results_*.csv)
+    # Validate PMC data exists. rocpd profile creates .db files; explicit CSV
+    # profile creates pmc_perf_*.csv or results_*.csv.
     has_separate = any(
         f.startswith("pmc_perf_") and f.endswith(".csv") for f in files_in_workload
     )
     has_results = any(
         f.startswith("results_") and f.endswith(".csv") for f in files_in_workload
     )
+    has_rocpd_db = any(f.endswith(".db") for f in files_in_workload)
 
-    assert has_separate or has_results, (
-        "Expected pmc_perf_*.csv or results_*.csv from profile mode"
+    assert has_separate or has_results or has_rocpd_db, (
+        "Expected .db, pmc_perf_*.csv, or results_*.csv from profile mode"
     )
 
     # Validate row counts for PMC files (but don't add to return dict)

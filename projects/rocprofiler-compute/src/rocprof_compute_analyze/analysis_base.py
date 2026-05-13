@@ -3,7 +3,6 @@
 
 import argparse
 import copy
-import csv
 import re
 import sys
 from abc import abstractmethod
@@ -390,10 +389,10 @@ class OmniAnalyze_Base:
     def join_prof(
         self, workload_dir: Path, out: Optional[str] = None
     ) -> Optional[pd.DataFrame]:
-        """Join separated rocprof runs into single pmc_perf.csv.
+        """Join separated profiler outputs into single pmc_perf.csv.
 
         Args:
-            workload_dir: Path to workload directory containing CSV files
+            workload_dir: Path to workload directory containing profile outputs
             out: Optional output file path (defaults to workload_dir/pmc_perf.csv)
 
         Returns:
@@ -407,31 +406,15 @@ class OmniAnalyze_Base:
         join_type = profiling_config.get("join_type", "grid")
         kokkos_trace = profiling_config.get("kokkos_trace", False)
 
-        # handle rocpd format
         if format_rocprof == "rocpd":
-            # Vertically concat (by rows) results_*.csv into pmc_perf.csv
-            result_files = list(workload_dir.glob("results_*.csv"))
-
-            console_warning(
-                "Reading intermediate results_*.csv files is deprecated and "
-                "will be removed in a future release."
-            )
-
-            with open(output_file, "w", newline="") as outfile:
-                writer = None
-                for file in result_files:
-                    with open(file, newline="") as infile:
-                        reader = csv.reader(infile)
-                        header = next(reader)
-                        # Write header only once
-                        if writer is None:
-                            writer = csv.writer(outfile)
-                            writer.writerow(header)
-                        for row in reader:
-                            writer.writerow(row)
-
+            if not file_io.write_pmc_perf_from_rocpd(str(workload_dir), output_file):
+                console_error(
+                    f"No rocpd profiling data found in {workload_dir}.\n"
+                    "Expected: one or more .db files\n"
+                    "Please run 'rocprof-compute profile' first."
+                )
+                return None
             console_debug(f"Created file: {output_file}")
-
             return None
 
         # Collect files to process - normalize to Path objects
@@ -625,47 +608,70 @@ class OmniAnalyze_Base:
         return None
 
     def join_workload_csvs(self, workload_dir: Path) -> None:
-        """Join CSV files for a workload directory.
+        """Ensure each workload directory has pmc_perf.csv for analysis.
 
         Handles multi-node and spatial multiplexing.
 
-        This method checks if the workload uses multi-node or spatial multiplexing,
-        and joins CSV files accordingly:
-        - Multi-node/spatial: Joins CSV files in each subdirectory (0/, 1/, 2/, etc.)
-        - Regular single-node: Joins CSV files in the workload directory directly
+        Multi-node and spatial multiplexing workloads are processed one
+        subdirectory at a time. Regular single-node workloads are processed at
+        the workload root.
 
         Args:
             workload_dir: Path to the workload directory
         """
         args = self.get_args()
-
-        # Helper to process and join CSV files in a single directory
-        def process_and_join_directory(directory: Path) -> None:
-            pmc_perf = directory / "pmc_perf.csv"
-            results_files = list(directory.glob("results_*.csv"))
-
-            if pmc_perf.exists():
-                console_debug(f"Using existing {pmc_perf}")
-            elif results_files:
-                console_log(f"Joining results_*.csv for {directory}...")
-                self.join_prof(directory, out=str(pmc_perf))
-                console_log(f"Created {pmc_perf}")
-            else:
-                console_error(
-                    f"No profiling data found in {directory}.\n"
-                    f"Expected: pmc_perf.csv or results_*.csv\n"
-                    f"Please run 'rocprof-compute profile' first."
-                )
+        profiling_config = file_io.load_profiling_config(str(workload_dir))
+        format_rocprof = profiling_config.get("format_rocprof_output", "rocpd")
 
         # Handle multi-node and spatial multiplexing cases
         if args.nodes is not None or args.spatial_multiplexing:
             # Multi-node or spatial case: CSV files are in subdirectories
             for subdir in workload_dir.iterdir():
                 if subdir.is_dir():
-                    process_and_join_directory(subdir)
+                    self._prepare_profile_data_directory(subdir, format_rocprof)
         else:
             # Regular single-node case: CSV files are in workload_dir directly
-            process_and_join_directory(workload_dir)
+            self._prepare_profile_data_directory(workload_dir, format_rocprof)
+
+    def _prepare_profile_data_directory(
+        self, directory: Path, format_rocprof: str
+    ) -> None:
+        """Ensure profiling data exists in the expected format for analysis."""
+        if format_rocprof == "rocpd":
+            pmc_perf = directory / "pmc_perf.csv"
+            if pmc_perf.exists():
+                console_debug(f"Using existing {pmc_perf}")
+                return
+
+            db_paths = list(directory.glob("*.db"))
+            if db_paths:
+                console_log(f"Joining rocpd database files for {directory}...")
+                self.join_prof(directory, out=str(pmc_perf))
+                console_log(f"Created {pmc_perf}")
+                return
+            console_error(
+                f"No rocpd profiling data found in {directory}.\n"
+                "Expected: pmc_perf.csv or one or more .db files\n"
+                "Please run 'rocprof-compute profile' first."
+            )
+            return
+
+        pmc_perf = directory / "pmc_perf.csv"
+        results_files = list(directory.glob("results_*.csv"))
+
+        if pmc_perf.exists():
+            console_debug(f"Using existing {pmc_perf}")
+        elif results_files:
+            console_log(f"Joining results_*.csv for {directory}...")
+            self.join_prof(directory, out=str(pmc_perf))
+            console_log(f"Created {pmc_perf}")
+        else:
+            console_error(
+                f"No CSV profiling data found in {directory}.\n"
+                "Expected: pmc_perf.csv or results_*.csv\n"
+                "Please run 'rocprof-compute profile --format-rocprof-output csv' "
+                "first."
+            )
 
     # ----------------------------------------------------
     # Required methods to be implemented by child classes

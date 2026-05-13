@@ -10,7 +10,7 @@ import pandas as pd
 import yaml
 
 import config
-from utils import schema, utils_analysis
+from utils import rocpd_data, schema, utils_analysis
 from utils.kernel_name_shortener import kernel_name_shortener
 from utils.logger import (
     console_debug,
@@ -283,6 +283,30 @@ def process_pc_sampling_kernel_trace(
 
 
 @demarcate
+def write_pmc_perf_from_rocpd(raw_data_dir: str, output_file: str) -> bool:
+    """Write pmc_perf.csv by joining rocpd database counter rows."""
+    db_paths = [str(path) for path in sorted(Path(raw_data_dir).glob("*.db"))]
+    if not db_paths:
+        return False
+
+    counter_dfs: list[pd.DataFrame] = []
+    for db_path in db_paths:
+        counter_rows = rocpd_data.read_counter_collection_rows([db_path])
+        if not counter_rows:
+            continue
+
+        counter_df = pd.DataFrame(counter_rows)
+        counter_dfs.append(utils_analysis.normalize_rocpd_counter_dataframe(counter_df))
+
+    if not counter_dfs:
+        return False
+
+    counter_df = pd.concat(counter_dfs, ignore_index=True)
+    counter_df.to_csv(output_file, index=False)
+    return True
+
+
+@demarcate
 def create_df_pmc(
     raw_data_root_dir: str,
     nodes: Optional[list[str]],
@@ -306,6 +330,9 @@ def create_df_pmc(
 
         if config_dict.get("format_rocprof_output") == "rocpd":
             df = utils_analysis.process_rocpd_csv(df)
+
+        if df.empty:
+            return df
 
         # Demangle original KernelNames
         # Skip for Standalone Roofline with -1 to keep full kernel names
