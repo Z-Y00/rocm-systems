@@ -148,9 +148,9 @@ class db_analysis(OmniAnalyze_Base):
                 Database.get_session().add(
                     orm.KernelRooflineData(
                         total_flops=roofline_data.total_flops,
-                        l1_cache_data=roofline_data.l1_cache_data,
-                        l2_cache_data=roofline_data.l2_cache_data,
-                        hbm_cache_data=roofline_data.hbm_cache_data,
+                        l1_cache_data=getattr(roofline_data, "l1_cache_data", None),
+                        l2_cache_data=getattr(roofline_data, "l2_cache_data", None),
+                        hbm_cache_data=getattr(roofline_data, "hbm_cache_data", None),
                         kernel=kernel_objs[roofline_data.kernel_name],
                     )
                 )

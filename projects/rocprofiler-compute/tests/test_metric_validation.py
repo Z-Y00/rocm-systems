@@ -54,7 +54,7 @@ VALIDATE_METRICS = {
         ],
         "MI350": [
             {
-                "profile_metric_id": ["4.1.10"],
+                "profile_metric_id": ["4.1.11"],
                 "expected_values": [4096.0],
                 "tolerance": 0.10,
                 "get_actual_data": {
