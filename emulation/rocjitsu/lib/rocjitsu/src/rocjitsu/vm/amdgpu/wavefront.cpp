@@ -9,8 +9,8 @@ namespace rocjitsu {
 namespace amdgpu {
 
 void Wavefront::halt() {
-  state_ = WfState::HALTED;
-  cu_.release_wf(dispatch_id_, wg_id_);
+  set_state(WfState::HALTED);
+  cu_.release_wf(state_.dispatch_id, state_.wg_id);
 }
 
 } // namespace amdgpu

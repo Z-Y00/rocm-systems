@@ -187,13 +187,13 @@ def gen_vector_unary(dst: list[str], src: list[str], op: str | None, dtype: str 
         L.append(f'    float lo = util::fp8_e4m3_to_f32(static_cast<uint8_t>(raw & 0xFF));')
         L.append(f'    float hi = util::fp8_e4m3_to_f32(static_cast<uint8_t>((raw >> 8) & 0xFF));')
         L.append(f'    {dst[0]}.write_lane(wf, lane, std::bit_cast<uint32_t>(lo));')
-        L.append(f'    wf.cu().write_vgpr(wf.vgpr_alloc().base + {dst[0]}.encoding_value_ + 1, lane, std::bit_cast<uint32_t>(hi));')
+        L.append(f'    wf.cu().write_vgpr(wf.vgpr_alloc().base + {dst[0]}.state_.encoding_value + 1, lane, std::bit_cast<uint32_t>(hi));')
     elif op == 'cvt_pk_f32_bf8':
         L.append(f'    uint32_t raw = {src[0]}.read_lane(wf, lane);')
         L.append(f'    float lo = util::bf8_e5m2_to_f32(static_cast<uint8_t>(raw & 0xFF));')
         L.append(f'    float hi = util::bf8_e5m2_to_f32(static_cast<uint8_t>((raw >> 8) & 0xFF));')
         L.append(f'    {dst[0]}.write_lane(wf, lane, std::bit_cast<uint32_t>(lo));')
-        L.append(f'    wf.cu().write_vgpr(wf.vgpr_alloc().base + {dst[0]}.encoding_value_ + 1, lane, std::bit_cast<uint32_t>(hi));')
+        L.append(f'    wf.cu().write_vgpr(wf.vgpr_alloc().base + {dst[0]}.state_.encoding_value + 1, lane, std::bit_cast<uint32_t>(hi));')
     elif op in ('not', 'bfrev', 'ffbh_u32', 'ffbl', 'ffbh_i32', 'bcnt', 'mbcnt_lo', 'mbcnt_hi'):
         L.append(f'    uint32_t s = {src[0]}.read_lane(wf, lane);')
         int_op_map = {

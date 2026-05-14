@@ -39,8 +39,8 @@ SfenceVmaInst::SfenceVmaInst(uint32_t raw)
       rs1(64, OperandType::OPR_GPR, inst_.rs1), rs2(64, OperandType::OPR_GPR, inst_.rs2) {
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 0;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
 }
 void SfenceVmaInst::execute_impl(HartState &ctx) {
   (void)ctx; // No-op: no TLB in this simulation.

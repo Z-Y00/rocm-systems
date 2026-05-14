@@ -27,8 +27,8 @@ VInterpP10F32Vinterp::VInterpP10F32Vinterp(const MachineInst *inst)
   src_operands_[0] = &src0;
   src_operands_[1] = &src1;
   src_operands_[2] = &src2;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP10F32Vinterp::execute_impl(amdgpu::Wavefront &wf) {
@@ -46,8 +46,8 @@ VInterpP2F32Vinterp::VInterpP2F32Vinterp(const MachineInst *inst)
   src_operands_[0] = &src0;
   src_operands_[1] = &src1;
   src_operands_[2] = &src2;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP2F32Vinterp::execute_impl(amdgpu::Wavefront &wf) {
@@ -65,8 +65,8 @@ VInterpP10F16F32Vinterp::VInterpP10F16F32Vinterp(const MachineInst *inst)
   src_operands_[0] = &src0;
   src_operands_[1] = &src1;
   src_operands_[2] = &src2;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP10F16F32Vinterp::execute_impl(amdgpu::Wavefront &wf) {
@@ -84,8 +84,8 @@ VInterpP2F16F32Vinterp::VInterpP2F16F32Vinterp(const MachineInst *inst)
   src_operands_[0] = &src0;
   src_operands_[1] = &src1;
   src_operands_[2] = &src2;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP2F16F32Vinterp::execute_impl(amdgpu::Wavefront &wf) {
@@ -103,8 +103,8 @@ VInterpP10RtzF16F32Vinterp::VInterpP10RtzF16F32Vinterp(const MachineInst *inst)
   src_operands_[0] = &src0;
   src_operands_[1] = &src1;
   src_operands_[2] = &src2;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP10RtzF16F32Vinterp::execute_impl(amdgpu::Wavefront &wf) {
@@ -122,8 +122,8 @@ VInterpP2RtzF16F32Vinterp::VInterpP2RtzF16F32Vinterp(const MachineInst *inst)
   src_operands_[0] = &src0;
   src_operands_[1] = &src1;
   src_operands_[2] = &src2;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP2RtzF16F32Vinterp::execute_impl(amdgpu::Wavefront &wf) {

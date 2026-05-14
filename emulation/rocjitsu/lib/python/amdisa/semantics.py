@@ -1430,7 +1430,7 @@ def _derive_ds(name: str) -> InstructionSemantics | None:
         return InstructionSemantics(name, 'ds_read', elem_size=4, num_elems=1)
     # DS atomic operations — extract the specific op and data width.
     # RTN variants use the same operation; the codegen sets is_load based
-    # on whether vdst is an explicit destination (num_dst_ > 0).
+    # on whether vdst is an explicit destination (state_.num_dst_operands > 0).
     _DS_ATOMIC_MAP: dict[str, tuple[str, int, int]] = {
         # keyword -> (operation, elem_size, data_dwords)
         '_ADD_U32': ('add', 4, 1), '_ADD_U64': ('add', 8, 2),

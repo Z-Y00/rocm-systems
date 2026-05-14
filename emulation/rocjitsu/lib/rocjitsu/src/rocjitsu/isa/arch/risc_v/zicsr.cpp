@@ -14,15 +14,15 @@ CsrrwInst::CsrrwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &csr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void CsrrwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  auto csr_addr = static_cast<uint16_t>(csr.encoding_value_);
+  auto csr_addr = static_cast<uint16_t>(csr.state_.encoding_value);
   uint64_t old = h->read_csr(csr_addr);
-  h->write_csr(csr_addr, static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)));
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(old));
+  h->write_csr(csr_addr, static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(old));
 }
 
 CsrrsInst::CsrrsInst(uint32_t raw)
@@ -31,15 +31,15 @@ CsrrsInst::CsrrsInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &csr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void CsrrsInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  auto csr_addr = static_cast<uint16_t>(csr.encoding_value_);
+  auto csr_addr = static_cast<uint16_t>(csr.state_.encoding_value);
   uint64_t old = h->read_csr(csr_addr);
-  h->write_csr(csr_addr, old | static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)));
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(old));
+  h->write_csr(csr_addr, old | static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(old));
 }
 
 CsrrcInst::CsrrcInst(uint32_t raw)
@@ -48,15 +48,15 @@ CsrrcInst::CsrrcInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &csr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void CsrrcInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  auto csr_addr = static_cast<uint16_t>(csr.encoding_value_);
+  auto csr_addr = static_cast<uint16_t>(csr.state_.encoding_value);
   uint64_t old = h->read_csr(csr_addr);
-  h->write_csr(csr_addr, old & ~static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)));
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(old));
+  h->write_csr(csr_addr, old & ~static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(old));
 }
 
 CsrrwiInst::CsrrwiInst(uint32_t raw)
@@ -65,15 +65,15 @@ CsrrwiInst::CsrrwiInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &uimm;
   src_operands_[1] = &csr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void CsrrwiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  auto csr_addr = static_cast<uint16_t>(csr.encoding_value_);
+  auto csr_addr = static_cast<uint16_t>(csr.state_.encoding_value);
   uint64_t old = h->read_csr(csr_addr);
-  h->write_csr(csr_addr, static_cast<uint64_t>(uimm.encoding_value_));
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(old));
+  h->write_csr(csr_addr, static_cast<uint64_t>(uimm.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(old));
 }
 
 CsrrsiInst::CsrrsiInst(uint32_t raw)
@@ -82,15 +82,15 @@ CsrrsiInst::CsrrsiInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &uimm;
   src_operands_[1] = &csr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void CsrrsiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  auto csr_addr = static_cast<uint16_t>(csr.encoding_value_);
+  auto csr_addr = static_cast<uint16_t>(csr.state_.encoding_value);
   uint64_t old = h->read_csr(csr_addr);
-  h->write_csr(csr_addr, old | static_cast<uint64_t>(uimm.encoding_value_));
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(old));
+  h->write_csr(csr_addr, old | static_cast<uint64_t>(uimm.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(old));
 }
 
 CsrrciInst::CsrrciInst(uint32_t raw)
@@ -99,15 +99,15 @@ CsrrciInst::CsrrciInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &uimm;
   src_operands_[1] = &csr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void CsrrciInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  auto csr_addr = static_cast<uint16_t>(csr.encoding_value_);
+  auto csr_addr = static_cast<uint16_t>(csr.state_.encoding_value);
   uint64_t old = h->read_csr(csr_addr);
-  h->write_csr(csr_addr, old & ~static_cast<uint64_t>(uimm.encoding_value_));
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(old));
+  h->write_csr(csr_addr, old & ~static_cast<uint64_t>(uimm.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(old));
 }
 
 } // namespace detail

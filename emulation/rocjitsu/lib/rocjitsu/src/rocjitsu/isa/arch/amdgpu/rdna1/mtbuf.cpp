@@ -34,9 +34,9 @@ TbufferLoadFormatXMtbuf::TbufferLoadFormatXMtbuf(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatXMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -63,9 +63,9 @@ TbufferLoadFormatXyMtbuf::TbufferLoadFormatXyMtbuf(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatXyMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -92,9 +92,9 @@ TbufferLoadFormatXyzMtbuf::TbufferLoadFormatXyzMtbuf(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatXyzMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -121,9 +121,9 @@ TbufferLoadFormatXyzwMtbuf::TbufferLoadFormatXyzwMtbuf(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatXyzwMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -150,9 +150,9 @@ TbufferStoreFormatXMtbuf::TbufferStoreFormatXMtbuf(const MachineInst *inst)
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatXMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -187,9 +187,9 @@ TbufferStoreFormatXyMtbuf::TbufferStoreFormatXyMtbuf(const MachineInst *inst)
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatXyMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -226,9 +226,9 @@ TbufferStoreFormatXyzMtbuf::TbufferStoreFormatXyzMtbuf(const MachineInst *inst)
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatXyzMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -267,9 +267,9 @@ TbufferStoreFormatXyzwMtbuf::TbufferStoreFormatXyzwMtbuf(const MachineInst *inst
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatXyzwMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -310,9 +310,9 @@ TbufferLoadFormatD16XMtbuf::TbufferLoadFormatD16XMtbuf(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatD16XMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -340,9 +340,9 @@ TbufferLoadFormatD16XyMtbuf::TbufferLoadFormatD16XyMtbuf(const MachineInst *inst
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatD16XyMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -370,9 +370,9 @@ TbufferLoadFormatD16XyzMtbuf::TbufferLoadFormatD16XyzMtbuf(const MachineInst *in
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatD16XyzMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -400,9 +400,9 @@ TbufferLoadFormatD16XyzwMtbuf::TbufferLoadFormatD16XyzwMtbuf(const MachineInst *
   src_operands_[0] = &vaddr;
   src_operands_[1] = &srsrc;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferLoadFormatD16XyzwMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -430,9 +430,9 @@ TbufferStoreFormatD16XMtbuf::TbufferStoreFormatD16XMtbuf(const MachineInst *inst
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatD16XMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -467,9 +467,9 @@ TbufferStoreFormatD16XyMtbuf::TbufferStoreFormatD16XyMtbuf(const MachineInst *in
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatD16XyMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -506,9 +506,9 @@ TbufferStoreFormatD16XyzMtbuf::TbufferStoreFormatD16XyzMtbuf(const MachineInst *
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatD16XyzMtbuf::execute_impl(amdgpu::Wavefront &wf) {
@@ -547,9 +547,9 @@ TbufferStoreFormatD16XyzwMtbuf::TbufferStoreFormatD16XyzwMtbuf(const MachineInst
   src_operands_[1] = &vaddr;
   src_operands_[2] = &srsrc;
   src_operands_[3] = &soffset;
-  num_src_ = 4;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void TbufferStoreFormatD16XyzwMtbuf::execute_impl(amdgpu::Wavefront &wf) {

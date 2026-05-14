@@ -51,17 +51,17 @@ public:
   TestInstruction(std::string_view mnemonic, std::initializer_list<RegisterRef> defs,
                   std::initializer_list<RegisterRef> uses, uint64_t flags = 0)
       : Instruction(mnemonic, nullptr) {
-    size_ = 4;
-    flags_ = flags;
+    state_.size_bytes = 4;
+    state_.flags = flags;
     for (RegisterRef ref : defs) {
-      dst_storage_[num_dst_] = TestOperand(ref);
-      dst_operands_[num_dst_] = &dst_storage_[num_dst_];
-      ++num_dst_;
+      dst_storage_[state_.num_dst_operands] = TestOperand(ref);
+      dst_operands_[state_.num_dst_operands] = &dst_storage_[state_.num_dst_operands];
+      ++state_.num_dst_operands;
     }
     for (RegisterRef ref : uses) {
-      src_storage_[num_src_] = TestOperand(ref);
-      src_operands_[num_src_] = &src_storage_[num_src_];
-      ++num_src_;
+      src_storage_[state_.num_src_operands] = TestOperand(ref);
+      src_operands_[state_.num_src_operands] = &src_storage_[state_.num_src_operands];
+      ++state_.num_src_operands;
     }
   }
 

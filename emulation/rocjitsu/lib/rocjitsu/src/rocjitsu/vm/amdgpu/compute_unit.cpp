@@ -132,16 +132,16 @@ Wavefront *ComputeUnitCore::dispatch_wf(uint32_t wg_id, uint64_t pc, uint32_t sg
   l1_scalar_.invalidate_all();
 
   auto *wf = wfs_[slot].get();
-  wf->wg_id_ = wg_id;
+  wf->state_.wg_id = wg_id;
   wf->pc = pc;
-  wf->sgpr_alloc_ = {static_cast<uint32_t>(sgpr_base), sgprs};
-  wf->vgpr_alloc_ = {static_cast<uint32_t>(vgpr_base), vgprs};
-  wf->num_sgprs_ = sgprs;
-  wf->num_vgprs_ = vgprs;
-  wf->exec_ = wf_size_ == 64 ? ~0ULL : (1ULL << wf_size_) - 1;
-  wf->vcc_ = 0;
-  wf->m0_ = 0;
-  wf->state_ = WfState::RUNNING;
+  wf->state_.sgpr_alloc = {static_cast<uint32_t>(sgpr_base), sgprs};
+  wf->state_.vgpr_alloc = {static_cast<uint32_t>(vgpr_base), vgprs};
+  wf->state_.num_sgprs = sgprs;
+  wf->state_.num_vgprs = vgprs;
+  wf->state_.exec = wf_size_ == 64 ? ~0ULL : (1ULL << wf_size_) - 1;
+  wf->state_.vcc = 0;
+  wf->state_.m0 = 0;
+  wf->set_state(WfState::RUNNING);
   return wf;
 }
 
@@ -168,7 +168,7 @@ void ComputeUnitCore::retire_halted_wfs_no_lds_reset() {
     if (w->is_halted() && w->sgpr_alloc().count > 0) {
       sgpr_file_.free(w->sgpr_alloc().base);
       free_vgprs(w->vgpr_alloc().base);
-      w->trace_inst_count_ = 0;
+      w->state_.trace_inst_count = 0;
       w->reset();
     }
   }
@@ -179,7 +179,7 @@ void ComputeUnitCore::retire_halted_wfs() {
     if (w->is_halted() && w->sgpr_alloc().count > 0) {
       sgpr_file_.free(w->sgpr_alloc().base);
       free_vgprs(w->vgpr_alloc().base);
-      w->trace_inst_count_ = 0;
+      w->state_.trace_inst_count = 0;
       w->reset();
     }
   }
@@ -393,7 +393,7 @@ bool ComputeUnitCore::step() {
   for (int i = 0; i < 4; ++i)
     words[i] = memory_->fetch32(active->pc + i * 4);
 
-  active->trace_inst_count_++;
+  active->state_.trace_inst_count++;
 
   // No instruction-count safety valve — real kernels (Triton flash attention)
   // can legitimately execute hundreds of thousands of instructions per wavefront.
@@ -454,15 +454,15 @@ bool ComputeUnitCore::step() {
 
   // Per-instruction trace: snapshot registers and flags for wf0 (and wf2 first 100).
   if constexpr (util::Logger::group_enabled(util::Logger::GROUP_VM)) {
-    if (((active->wf_id() == 0 && active->trace_inst_count_ <= 2000) ||
-         (active->wf_id() == 2 && active->trace_inst_count_ <= 100)) &&
-        active->num_vgprs_ >= 32) {
+    if (((active->wf_id() == 0 && active->state_.trace_inst_count <= 2000) ||
+         (active->wf_id() == 2 && active->state_.trace_inst_count <= 100)) &&
+        active->state_.num_vgprs >= 32) {
       util::Logger::vm([&](auto &os) {
         uint32_t sb = active->sgpr_alloc().base;
         uint32_t vb = active->vgpr_alloc().base;
         os << std::format("{} wg[{}] wf[{}] EXECUTE #{} pc={:#x} {} w={:08x},{:08x}",
                           this->full_path(), active->wg_id(), active->wf_id(),
-                          active->trace_inst_count_, active->pc, inst->mnemonic(), words[0],
+                          active->state_.trace_inst_count, active->pc, inst->mnemonic(), words[0],
                           words[1]);
         os << std::format(" s[0:7]={:x},{:x},{:x},{:x},{:x},{:x},{:x},{:x}"
                           " s[8:15]={:x},{:x},{:x},{:x},{:x},{:x},{:x},{:x}",
@@ -487,7 +487,7 @@ bool ComputeUnitCore::step() {
             read_vgpr(vb + 11, 0), read_vgpr(vb + 12, 0), read_vgpr(vb + 13, 0),
             read_vgpr(vb + 14, 0), read_vgpr(vb + 15, 0), active->read_scc(), active->vcc(),
             active->exec());
-        if (active->num_sgprs_ >= 80)
+        if (active->state_.num_sgprs >= 80)
           os << std::format(
               " s[64:79]={:x},{:x},{:x},{:x},{:x},{:x},{:x},{:x}"
               ",{:x},{:x},{:x},{:x},{:x},{:x},{:x},{:x}",
@@ -504,14 +504,14 @@ bool ComputeUnitCore::step() {
   execute_instruction(inst, *active);
 
   if constexpr (util::Logger::group_enabled(util::Logger::GROUP_VM)) {
-    if (active->wf_id() == 0 && active->trace_inst_count_ <= 2000 && active->num_vgprs_ >= 32) {
+    if (active->wf_id() == 0 && active->state_.trace_inst_count <= 2000 && active->state_.num_vgprs >= 32) {
       util::Logger::vm([&](auto &os) {
         uint32_t sb = active->sgpr_alloc().base;
         uint32_t vb = active->vgpr_alloc().base;
         os << std::format("RESULT  #{}"
                           " s[0:7]={:x},{:x},{:x},{:x},{:x},{:x},{:x},{:x}"
                           " s[8:15]={:x},{:x},{:x},{:x},{:x},{:x},{:x},{:x}",
-                          active->trace_inst_count_, read_sgpr(sb), read_sgpr(sb + 1),
+                          active->state_.trace_inst_count, read_sgpr(sb), read_sgpr(sb + 1),
                           read_sgpr(sb + 2), read_sgpr(sb + 3), read_sgpr(sb + 4),
                           read_sgpr(sb + 5), read_sgpr(sb + 6), read_sgpr(sb + 7),
                           read_sgpr(sb + 8), read_sgpr(sb + 9), read_sgpr(sb + 10),

@@ -10,6 +10,8 @@
 #include "rocjitsu/isa/operand.h"
 #include "util/intrusive_list.h"
 
+#include "emulator_state.h"
+
 #include <array>
 #include <cassert>
 #include <cstdint>
@@ -22,31 +24,35 @@
 namespace rocjitsu {
 
 /// @brief Instruction property flags.
+///
+/// @details Enumerator values are pinned to the corresponding
+/// @ref emulator_instruction_flag constants so the flags bitmask stored in
+/// @ref Instruction::state_.flags matches the emulator plugin ABI.
 enum InstFlags : uint64_t {
   /// @brief Unconditional branch.
-  BRANCH = 1,
+  BRANCH = EMULATOR_INSTRUCTION_FLAG_BRANCH,
   /// @brief Conditional branch.
-  COND_BRANCH = (1ULL << 1),
+  COND_BRANCH = EMULATOR_INSTRUCTION_FLAG_COND_BRANCH,
   /// @brief Indirect branch (target from register).
-  INDIRECT_BRANCH = (1ULL << 2),
+  INDIRECT_BRANCH = EMULATOR_INSTRUCTION_FLAG_INDIRECT_BRANCH,
   /// @brief Indirect call (target from register, returns to fallthrough).
-  INDIRECT_CALL = (1ULL << 3),
+  INDIRECT_CALL = EMULATOR_INSTRUCTION_FLAG_INDIRECT_CALL,
   /// @brief Terminates the program.
-  PROGRAM_TERMINATOR = (1ULL << 4),
+  PROGRAM_TERMINATOR = EMULATOR_INSTRUCTION_FLAG_PROGRAM_TERMINATOR,
   /// @brief Executes immediately without scheduling latency.
-  IMMEDIATELY_EXECUTED = (1ULL << 5),
+  IMMEDIATELY_EXECUTED = EMULATOR_INSTRUCTION_FLAG_IMMEDIATELY_EXECUTED,
   /// @brief Memory operation (load or store).
-  MEMORY_OP = (1ULL << 6),
+  MEMORY_OP = EMULATOR_INSTRUCTION_FLAG_MEMORY_OP,
   /// @brief Wait-counter instruction (s_waitcnt, s_wait_loadcnt, s_wait_storecnt, etc.).
-  WAITCNT = (1ULL << 7),
+  WAITCNT = EMULATOR_INSTRUCTION_FLAG_WAITCNT,
   /// @brief Barrier instruction (s_barrier, s_barrier_signal, s_barrier_wait).
-  BARRIER = (1ULL << 8),
+  BARRIER = EMULATOR_INSTRUCTION_FLAG_BARRIER,
   /// @brief Matrix FMA instruction (v_mfma_*, v_smfmac_*).
-  MFMA = (1ULL << 9),
+  MFMA = EMULATOR_INSTRUCTION_FLAG_MFMA,
   /// @brief AccVGPR move instruction (v_accvgpr_write, v_accvgpr_read, v_accvgpr_mov).
-  ACCVGPR = (1ULL << 10),
+  ACCVGPR = EMULATOR_INSTRUCTION_FLAG_ACCVGPR,
   /// @brief Destination update is conditional and must not kill the old value.
-  PREDICATED_DEF = (1ULL << 11)
+  PREDICATED_DEF = EMULATOR_INSTRUCTION_FLAG_PREDICATED_DEF,
 };
 
 class BasicBlock;
@@ -80,7 +86,9 @@ public:
   /// @param[in] mnemonic Human-readable mnemonic (must point to static storage
   ///            or storage that outlives the instruction — typically a string
   ///            literal or a member of the encoding base class).
-  Instruction(std::string_view mnemonic, ExecuteFn exec) : execute(exec), mnemonic_(mnemonic) {}
+  Instruction(std::string_view mnemonic, ExecuteFn exec) : execute(exec) {
+    state_.mnemonic = mnemonic.data();
+  }
   virtual ~Instruction() = default;
 
   /// @brief Pool allocator hooks, set by the decoder's enable_pool().
@@ -143,7 +151,9 @@ public:
 
   /// @brief The instruction's human-readable mnemonic.
   /// @returns Reference to the mnemonic string.
-  std::string_view mnemonic() const { return mnemonic_; }
+  std::string_view mnemonic() const {
+    return state_.mnemonic ? std::string_view(state_.mnemonic) : std::string_view{};
+  }
 
   /// @brief The instruction's total number of operands.
   /// @returns Sum of source and destination operand counts.
@@ -151,49 +161,51 @@ public:
 
   /// @brief The instruction's number of source operands.
   /// @returns Source operand count.
-  int num_src_operands() const { return num_src_; }
+  int num_src_operands() const { return static_cast<int>(state_.num_src_operands); }
 
   /// @brief The instruction's number of destination operands.
   /// @returns Destination operand count.
-  int num_dst_operands() const { return num_dst_; }
+  int num_dst_operands() const { return static_cast<int>(state_.num_dst_operands); }
 
   /// @brief Access a source operand by index.
   /// @param i  Operand index (0-based, must be < num_src_operands()).
   /// @returns Pointer to the operand, or nullptr if index out of range.
   [[nodiscard]] const Operand *src_operand(int i) const {
-    return (i >= 0 && i < num_src_) ? src_operands_[i] : nullptr;
+    return (i >= 0 && static_cast<uint32_t>(i) < state_.num_src_operands) ? src_operands_[i]
+                                                                          : nullptr;
   }
 
   /// @brief Access a destination operand by index.
   /// @param i  Operand index (0-based, must be < num_dst_operands()).
   /// @returns Pointer to the operand, or nullptr if index out of range.
   [[nodiscard]] const Operand *dst_operand(int i) const {
-    return (i >= 0 && i < num_dst_) ? dst_operands_[i] : nullptr;
+    return (i >= 0 && static_cast<uint32_t>(i) < state_.num_dst_operands) ? dst_operands_[i]
+                                                                          : nullptr;
   }
 
   /// @brief Size of the instruction's encoding in bytes.
   /// @returns Encoding size in bytes.
-  int size() const { return size_; }
+  int size() const { return static_cast<int>(state_.size_bytes); }
 
   /// @brief Whether this instruction is a direct branch.
   /// @retval true The instruction has BRANCH or COND_BRANCH metadata.
   /// @retval false The instruction is not a direct branch.
-  bool is_branch() const { return flags_ & (BRANCH | COND_BRANCH); }
+  bool is_branch() const { return state_.flags & (BRANCH | COND_BRANCH); }
 
   /// @brief Whether this instruction is a memory operation.
   /// @retval true The instruction has the MEMORY_OP flag set.
   /// @retval false The instruction is not a memory operation.
-  bool is_memory_op() const { return flags_ & MEMORY_OP; }
+  bool is_memory_op() const { return state_.flags & MEMORY_OP; }
 
-  uint64_t flags() const { return flags_; }
+  uint64_t flags() const { return state_.flags; }
 
-  bool is_waitcnt() const { return flags_ & WAITCNT; }
+  bool is_waitcnt() const { return state_.flags & WAITCNT; }
 
-  bool is_barrier() const { return flags_ & BARRIER; }
+  bool is_barrier() const { return state_.flags & BARRIER; }
 
-  bool is_mfma() const { return flags_ & MFMA; }
+  bool is_mfma() const { return state_.flags & MFMA; }
 
-  bool is_accvgpr() const { return flags_ & ACCVGPR; }
+  bool is_accvgpr() const { return state_.flags & ACCVGPR; }
 
   /// @brief Signed byte offset for a direct branch target.
   ///
@@ -213,13 +225,13 @@ public:
 
   /// @brief Raw encoding words of this instruction.
   /// @returns Pointer to the encoding words (size()/4 words), or nullptr if not set.
-  const uint32_t *raw_encoding() const { return raw_encoding_; }
+  const uint32_t *raw_encoding() const { return state_.raw_encoding; }
 
   /// @brief Encoding format ID (the encoding prefix from the machine instruction).
-  [[nodiscard]] uint16_t encoding_id() const { return encoding_id_; }
+  [[nodiscard]] uint16_t encoding_id() const { return static_cast<uint16_t>(state_.encoding_id); }
 
   /// @brief Opcode within the encoding format.
-  [[nodiscard]] uint16_t opcode() const { return opcode_; }
+  [[nodiscard]] uint16_t opcode() const { return static_cast<uint16_t>(state_.opcode); }
 
   /// @brief Produce the disassembly string for this instruction.
   ///
@@ -228,14 +240,14 @@ public:
   /// @returns Reference to the disassembly string.
   const std::string &disassemble() const {
     if (disassembly_.empty()) {
-      disassembly_ = mnemonic_;
+      disassembly_ = state_.mnemonic ? state_.mnemonic : "";
       bool first = true;
-      for (uint8_t i = 0; i < num_dst_; ++i) {
+      for (uint32_t i = 0; i < state_.num_dst_operands; ++i) {
         disassembly_ += (first ? " " : ", ");
         disassembly_ += dst_operands_[i]->name();
         first = false;
       }
-      for (uint8_t i = 0; i < num_src_; ++i) {
+      for (uint32_t i = 0; i < state_.num_src_operands; ++i) {
         disassembly_ += (first ? " " : ", ");
         disassembly_ += src_operands_[i]->name();
         first = false;
@@ -246,32 +258,26 @@ public:
   }
 
 protected:
-  /// @brief Size of the instruction's encoding in bytes.
-  int size_ = 0;
   /// @brief Instruction's source operands (max 4).
   std::array<Operand *, 4> src_operands_{};
-  uint8_t num_src_ = 0;
   /// @brief Instruction's destination operands (max 2).
   std::array<Operand *, 2> dst_operands_{};
-  uint8_t num_dst_ = 0;
   /// @brief Append modifier flags to the disassembly string (e.g. " sc0 sc1").
   /// Overridden by memory encoding bases that have flag bits to display.
   /// Default: no modifiers. Called lazily by disassemble().
   virtual void build_modifiers(std::string & /*out*/) const {}
   /// @brief Cached disassembly string.
   mutable std::string disassembly_;
-  /// @brief Instruction property flags bitmask.
-  uint64_t flags_ = 0;
   std::unique_ptr<DynamicInstState> data_;
-  /// @brief Pointer to the raw encoding words (set by encoding base class constructors).
-  const uint32_t *raw_encoding_ = nullptr;
-  /// @brief Encoding format ID (the encoding prefix from the machine instruction).
-  uint16_t encoding_id_ = 0;
-  /// @brief Opcode within the encoding format.
-  uint16_t opcode_ = 0;
 
-protected:
-  std::string_view mnemonic_;
+  /// @brief Plain-data state backing this instruction in the C ABI layout.
+  ///
+  /// @details Public POD storage so plugins and the C++ runtime share the
+  /// same representation. The C struct's @c src_operands / @c dst_operands
+  /// pointer arrays are left empty; the C++ runtime uses the typed
+  /// @ref src_operands_ / @ref dst_operands_ arrays for virtual dispatch.
+  /// Field-level meaning: see @ref emulator_instruction_t.
+  emulator_instruction_t state_{};
 };
 
 /// @brief Abstract class that holds static ISA state for a specific instruction instance.

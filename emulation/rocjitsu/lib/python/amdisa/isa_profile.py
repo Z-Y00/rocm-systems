@@ -210,10 +210,10 @@ class IsaProfile(ABC):
         lgkmcnt at [13:8]. Subclasses may override for different layouts.
         """
         return (
-            'uint32_t vmcnt = (encoding_value_ & 0xF) | '
-            '(((encoding_value_ >> 14) & 0x3) << 4);\n'
-            f'uint32_t expcnt = (encoding_value_ >> 4) & 0x7;\n'
-            f'uint32_t lgkmcnt = (encoding_value_ >> 8) & {self.waitcnt_lgkmcnt_mask};\n'
+            'uint32_t vmcnt = (state_.encoding_value & 0xF) | '
+            '(((state_.encoding_value >> 14) & 0x3) << 4);\n'
+            f'uint32_t expcnt = (state_.encoding_value >> 4) & 0x7;\n'
+            f'uint32_t lgkmcnt = (state_.encoding_value >> 8) & {self.waitcnt_lgkmcnt_mask};\n'
         )
 
     @property
@@ -1053,9 +1053,9 @@ class Rdna3Profile(_AmdgpuProfileBase):
         vmcnt[5:0]   = bits [15:10]
         """
         return (
-            'uint32_t expcnt = encoding_value_ & 0x7;\n'
-            'uint32_t lgkmcnt = (encoding_value_ >> 4) & 0x3F;\n'
-            'uint32_t vmcnt = (encoding_value_ >> 10) & 0x3F;\n'
+            'uint32_t expcnt = state_.encoding_value & 0x7;\n'
+            'uint32_t lgkmcnt = (state_.encoding_value >> 4) & 0x3F;\n'
+            'uint32_t vmcnt = (state_.encoding_value >> 10) & 0x3F;\n'
         )
 
     @property

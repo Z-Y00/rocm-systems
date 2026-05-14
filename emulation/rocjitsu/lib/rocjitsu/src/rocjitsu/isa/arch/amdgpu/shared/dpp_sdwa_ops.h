@@ -229,7 +229,7 @@ inline void apply_dpp(Operand *&src0, uint32_t dpp_ctrl, uint32_t row_mask, uint
                       amdgpu::Wavefront &wf) {
   auto &cu = wf.cu();
   uint32_t ws = wf.wf_size();
-  uint32_t vbase = wf.vgpr_alloc().base + src0->encoding_value_;
+  uint32_t vbase = wf.vgpr_alloc().base + src0->state_.encoding_value;
   uint32_t raw[64], result[64];
   for (uint32_t i = 0; i < ws; ++i)
     raw[i] = cu.read_vgpr(vbase, i);

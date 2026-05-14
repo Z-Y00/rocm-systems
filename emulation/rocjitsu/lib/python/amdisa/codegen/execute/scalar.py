@@ -520,10 +520,10 @@ def gen_scalar_cmpk(dst: list[str], src: list[str], op: str | None, dtype: str |
     }
     if dtype in ('i32',):
         L.append(f'  int32_t s0 = static_cast<int32_t>({dst[0]}.read_scalar(wf));')
-        L.append(f'  int32_t imm = static_cast<int16_t>({src[0]}.encoding_value_);')
+        L.append(f'  int32_t imm = static_cast<int16_t>({src[0]}.state_.encoding_value);')
     else:
         L.append(f'  uint32_t s0 = {dst[0]}.read_scalar(wf);')
-        L.append(f'  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>({src[0]}.encoding_value_));')
+        L.append(f'  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>({src[0]}.state_.encoding_value));')
     L.append(f'  wf.write_scc(s0 {cmp_map[op]} imm);')
     return '\n'.join(L)
 

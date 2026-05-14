@@ -19,14 +19,14 @@ MulInst::MulInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void MulInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int64_t a = h->read_xreg(rs1.encoding_value_);
-  int64_t b = h->read_xreg(rs2.encoding_value_);
-  h->write_xreg(rd.encoding_value_, a * b);
+  int64_t a = h->read_xreg(rs1.state_.encoding_value);
+  int64_t b = h->read_xreg(rs2.state_.encoding_value);
+  h->write_xreg(rd.state_.encoding_value, a * b);
 }
 
 MulhInst::MulhInst(uint32_t raw)
@@ -35,15 +35,15 @@ MulhInst::MulhInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void MulhInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  __int128 a = static_cast<int64_t>(h->read_xreg(rs1.encoding_value_));
-  __int128 b = static_cast<int64_t>(h->read_xreg(rs2.encoding_value_));
+  __int128 a = static_cast<int64_t>(h->read_xreg(rs1.state_.encoding_value));
+  __int128 b = static_cast<int64_t>(h->read_xreg(rs2.state_.encoding_value));
   __int128 result = a * b;
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(result >> 64));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(result >> 64));
 }
 
 MulhsuInst::MulhsuInst(uint32_t raw)
@@ -52,15 +52,15 @@ MulhsuInst::MulhsuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void MulhsuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  __int128 a = static_cast<int64_t>(h->read_xreg(rs1.encoding_value_));
-  __int128 b = static_cast<__int128>(static_cast<uint64_t>(h->read_xreg(rs2.encoding_value_)));
+  __int128 a = static_cast<int64_t>(h->read_xreg(rs1.state_.encoding_value));
+  __int128 b = static_cast<__int128>(static_cast<uint64_t>(h->read_xreg(rs2.state_.encoding_value)));
   __int128 result = a * b;
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(result >> 64));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(result >> 64));
 }
 
 MulhuInst::MulhuInst(uint32_t raw)
@@ -69,15 +69,15 @@ MulhuInst::MulhuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void MulhuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  unsigned __int128 a = static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_));
-  unsigned __int128 b = static_cast<uint64_t>(h->read_xreg(rs2.encoding_value_));
+  unsigned __int128 a = static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value));
+  unsigned __int128 b = static_cast<uint64_t>(h->read_xreg(rs2.state_.encoding_value));
   unsigned __int128 result = a * b;
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(static_cast<uint64_t>(result >> 64)));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(static_cast<uint64_t>(result >> 64)));
 }
 
 DivInst::DivInst(uint32_t raw)
@@ -86,13 +86,13 @@ DivInst::DivInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void DivInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int64_t a = h->read_xreg(rs1.encoding_value_);
-  int64_t b = h->read_xreg(rs2.encoding_value_);
+  int64_t a = h->read_xreg(rs1.state_.encoding_value);
+  int64_t b = h->read_xreg(rs2.state_.encoding_value);
   int64_t result;
   if (b == 0) {
     result = -1;
@@ -101,7 +101,7 @@ void DivInst::execute_impl(HartState &ctx) {
   } else {
     result = a / b;
   }
-  h->write_xreg(rd.encoding_value_, result);
+  h->write_xreg(rd.state_.encoding_value, result);
 }
 
 DivuInst::DivuInst(uint32_t raw)
@@ -110,20 +110,20 @@ DivuInst::DivuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void DivuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  uint64_t a = static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_));
-  uint64_t b = static_cast<uint64_t>(h->read_xreg(rs2.encoding_value_));
+  uint64_t a = static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value));
+  uint64_t b = static_cast<uint64_t>(h->read_xreg(rs2.state_.encoding_value));
   uint64_t result;
   if (b == 0) {
     result = UINT64_MAX;
   } else {
     result = a / b;
   }
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(result));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(result));
 }
 
 RemInst::RemInst(uint32_t raw)
@@ -132,13 +132,13 @@ RemInst::RemInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void RemInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int64_t a = h->read_xreg(rs1.encoding_value_);
-  int64_t b = h->read_xreg(rs2.encoding_value_);
+  int64_t a = h->read_xreg(rs1.state_.encoding_value);
+  int64_t b = h->read_xreg(rs2.state_.encoding_value);
   int64_t result;
   if (b == 0) {
     result = a;
@@ -147,7 +147,7 @@ void RemInst::execute_impl(HartState &ctx) {
   } else {
     result = a % b;
   }
-  h->write_xreg(rd.encoding_value_, result);
+  h->write_xreg(rd.state_.encoding_value, result);
 }
 
 RemuInst::RemuInst(uint32_t raw)
@@ -156,20 +156,20 @@ RemuInst::RemuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void RemuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  uint64_t a = static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_));
-  uint64_t b = static_cast<uint64_t>(h->read_xreg(rs2.encoding_value_));
+  uint64_t a = static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value));
+  uint64_t b = static_cast<uint64_t>(h->read_xreg(rs2.state_.encoding_value));
   uint64_t result;
   if (b == 0) {
     result = a;
   } else {
     result = a % b;
   }
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(result));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(result));
 }
 
 MulwInst::MulwInst(uint32_t raw)
@@ -178,14 +178,14 @@ MulwInst::MulwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void MulwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int32_t a = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_));
-  int32_t b = static_cast<int32_t>(h->read_xreg(rs2.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(a * b));
+  int32_t a = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value));
+  int32_t b = static_cast<int32_t>(h->read_xreg(rs2.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(a * b));
 }
 
 DivwInst::DivwInst(uint32_t raw)
@@ -194,13 +194,13 @@ DivwInst::DivwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void DivwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int32_t a = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_));
-  int32_t b = static_cast<int32_t>(h->read_xreg(rs2.encoding_value_));
+  int32_t a = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value));
+  int32_t b = static_cast<int32_t>(h->read_xreg(rs2.state_.encoding_value));
   int32_t result;
   if (b == 0) {
     result = -1;
@@ -209,7 +209,7 @@ void DivwInst::execute_impl(HartState &ctx) {
   } else {
     result = a / b;
   }
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 DivuwInst::DivuwInst(uint32_t raw)
@@ -218,20 +218,20 @@ DivuwInst::DivuwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void DivuwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  uint32_t a = static_cast<uint32_t>(h->read_xreg(rs1.encoding_value_));
-  uint32_t b = static_cast<uint32_t>(h->read_xreg(rs2.encoding_value_));
+  uint32_t a = static_cast<uint32_t>(h->read_xreg(rs1.state_.encoding_value));
+  uint32_t b = static_cast<uint32_t>(h->read_xreg(rs2.state_.encoding_value));
   int32_t result;
   if (b == 0) {
     result = static_cast<int32_t>(UINT32_MAX);
   } else {
     result = static_cast<int32_t>(a / b);
   }
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 RemwInst::RemwInst(uint32_t raw)
@@ -240,13 +240,13 @@ RemwInst::RemwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void RemwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int32_t a = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_));
-  int32_t b = static_cast<int32_t>(h->read_xreg(rs2.encoding_value_));
+  int32_t a = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value));
+  int32_t b = static_cast<int32_t>(h->read_xreg(rs2.state_.encoding_value));
   int32_t result;
   if (b == 0) {
     result = a;
@@ -255,7 +255,7 @@ void RemwInst::execute_impl(HartState &ctx) {
   } else {
     result = a % b;
   }
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 RemuwInst::RemuwInst(uint32_t raw)
@@ -264,20 +264,20 @@ RemuwInst::RemuwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void RemuwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  uint32_t a = static_cast<uint32_t>(h->read_xreg(rs1.encoding_value_));
-  uint32_t b = static_cast<uint32_t>(h->read_xreg(rs2.encoding_value_));
+  uint32_t a = static_cast<uint32_t>(h->read_xreg(rs1.state_.encoding_value));
+  uint32_t b = static_cast<uint32_t>(h->read_xreg(rs2.state_.encoding_value));
   int32_t result;
   if (b == 0) {
     result = static_cast<int32_t>(a);
   } else {
     result = static_cast<int32_t>(a % b);
   }
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 } // namespace detail

@@ -52,7 +52,7 @@ public:
   void disable_pool() { deactivate_pool(); }
 
 protected:
-  using Pool = util::ArenaAlloc<512, 128>;
+  using Pool = util::ArenaAlloc<1024, 128>;
   using AllocFn = void *(*)(void *, size_t);
   using DeallocFn = void (*)(void *, void *);
 

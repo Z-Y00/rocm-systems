@@ -23,8 +23,8 @@ ImageMsaaLoadVsample::ImageMsaaLoadVsample(const MachineInst *inst)
       rsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc) {
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void ImageMsaaLoadVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -41,8 +41,8 @@ ImageSampleVsample::ImageSampleVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -58,8 +58,8 @@ ImageSampleDVsample::ImageSampleDVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -75,8 +75,8 @@ ImageSampleLVsample::ImageSampleLVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleLVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -92,8 +92,8 @@ ImageSampleBVsample::ImageSampleBVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleBVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -109,8 +109,8 @@ ImageSampleLzVsample::ImageSampleLzVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleLzVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -126,8 +126,8 @@ ImageSampleCVsample::ImageSampleCVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -143,8 +143,8 @@ ImageSampleCDVsample::ImageSampleCDVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -160,8 +160,8 @@ ImageSampleCLVsample::ImageSampleCLVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCLVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -177,8 +177,8 @@ ImageSampleCBVsample::ImageSampleCBVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCBVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -194,8 +194,8 @@ ImageSampleCLzVsample::ImageSampleCLzVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCLzVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -211,8 +211,8 @@ ImageSampleOVsample::ImageSampleOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -228,8 +228,8 @@ ImageSampleDOVsample::ImageSampleDOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -245,8 +245,8 @@ ImageSampleLOVsample::ImageSampleLOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleLOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -262,8 +262,8 @@ ImageSampleBOVsample::ImageSampleBOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleBOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -279,8 +279,8 @@ ImageSampleLzOVsample::ImageSampleLzOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleLzOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -296,8 +296,8 @@ ImageSampleCOVsample::ImageSampleCOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -313,8 +313,8 @@ ImageSampleCDOVsample::ImageSampleCDOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -330,8 +330,8 @@ ImageSampleCLOVsample::ImageSampleCLOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCLOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -347,8 +347,8 @@ ImageSampleCBOVsample::ImageSampleCBOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCBOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -364,8 +364,8 @@ ImageSampleCLzOVsample::ImageSampleCLzOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCLzOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -381,8 +381,8 @@ ImageGather4Vsample::ImageGather4Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -398,8 +398,8 @@ ImageGather4LVsample::ImageGather4LVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4LVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -415,8 +415,8 @@ ImageGather4BVsample::ImageGather4BVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4BVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -432,8 +432,8 @@ ImageGather4LzVsample::ImageGather4LzVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4LzVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -449,8 +449,8 @@ ImageGather4CVsample::ImageGather4CVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -466,8 +466,8 @@ ImageGather4CLzVsample::ImageGather4CLzVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CLzVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -483,8 +483,8 @@ ImageGather4OVsample::ImageGather4OVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4OVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -500,8 +500,8 @@ ImageGather4LzOVsample::ImageGather4LzOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4LzOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -517,8 +517,8 @@ ImageGather4CLzOVsample::ImageGather4CLzOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CLzOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -534,8 +534,8 @@ ImageGetLodVsample::ImageGetLodVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGetLodVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -551,8 +551,8 @@ ImageSampleDG16Vsample::ImageSampleDG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -568,8 +568,8 @@ ImageSampleCDG16Vsample::ImageSampleCDG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -585,8 +585,8 @@ ImageSampleDOG16Vsample::ImageSampleDOG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -602,8 +602,8 @@ ImageSampleCDOG16Vsample::ImageSampleCDOG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -619,8 +619,8 @@ ImageSampleClVsample::ImageSampleClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -636,8 +636,8 @@ ImageSampleDClVsample::ImageSampleDClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -653,8 +653,8 @@ ImageSampleBClVsample::ImageSampleBClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleBClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -670,8 +670,8 @@ ImageSampleCClVsample::ImageSampleCClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -687,8 +687,8 @@ ImageSampleCDClVsample::ImageSampleCDClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -704,8 +704,8 @@ ImageSampleCBClVsample::ImageSampleCBClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCBClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -721,8 +721,8 @@ ImageSampleClOVsample::ImageSampleClOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleClOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -738,8 +738,8 @@ ImageSampleDClOVsample::ImageSampleDClOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDClOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -755,8 +755,8 @@ ImageSampleBClOVsample::ImageSampleBClOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleBClOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -772,8 +772,8 @@ ImageSampleCClOVsample::ImageSampleCClOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCClOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -789,8 +789,8 @@ ImageSampleCDClOVsample::ImageSampleCDClOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDClOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -806,8 +806,8 @@ ImageSampleCBClOVsample::ImageSampleCBClOVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCBClOVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -823,8 +823,8 @@ ImageSampleCDClG16Vsample::ImageSampleCDClG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDClG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -840,8 +840,8 @@ ImageSampleDClOG16Vsample::ImageSampleDClOG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDClOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -857,8 +857,8 @@ ImageSampleCDClOG16Vsample::ImageSampleCDClOG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleCDClOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -874,8 +874,8 @@ ImageSampleDClG16Vsample::ImageSampleDClG16Vsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageSampleDClG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -891,8 +891,8 @@ ImageGather4ClVsample::ImageGather4ClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4ClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -908,8 +908,8 @@ ImageGather4BClVsample::ImageGather4BClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4BClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -925,8 +925,8 @@ ImageGather4CClVsample::ImageGather4CClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -942,8 +942,8 @@ ImageGather4CLVsample::ImageGather4CLVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CLVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -959,8 +959,8 @@ ImageGather4CBVsample::ImageGather4CBVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CBVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -976,8 +976,8 @@ ImageGather4CBClVsample::ImageGather4CBClVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4CBClVsample::execute_impl(amdgpu::Wavefront &wf) {
@@ -993,8 +993,8 @@ ImageGather4hVsample::ImageGather4hVsample(const MachineInst *inst)
   dst_operands_[0] = &vdata;
   src_operands_[0] = &rsrc;
   src_operands_[1] = &samp;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void ImageGather4hVsample::execute_impl(amdgpu::Wavefront &wf) {

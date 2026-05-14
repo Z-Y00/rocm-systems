@@ -15,15 +15,15 @@ Operand::Operand(int size_bits, OperandType opr_type, int encoding_value)
 std::string Operand::name() const {
   switch (opr_type_) {
   case OperandType::OPR_GPR:
-    return "x" + std::to_string(encoding_value_);
+    return "x" + std::to_string(state_.encoding_value);
   case OperandType::OPR_FPR:
-    return "f" + std::to_string(encoding_value_);
+    return "f" + std::to_string(state_.encoding_value);
   case OperandType::OPR_IMM:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_CSR:
-    return std::format("0x{:x}", encoding_value_);
+    return std::format("0x{:x}", state_.encoding_value);
   }
-  return std::to_string(encoding_value_);
+  return std::to_string(state_.encoding_value);
 }
 
 } // namespace detail

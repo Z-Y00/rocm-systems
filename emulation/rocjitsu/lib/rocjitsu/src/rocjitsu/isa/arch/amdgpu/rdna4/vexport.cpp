@@ -28,8 +28,8 @@ ExportVexport::ExportVexport(const MachineInst *inst)
   src_operands_[1] = &vsrc1;
   src_operands_[2] = &vsrc2;
   src_operands_[3] = &vsrc3;
-  num_src_ = 4;
-  num_dst_ = 1;
+  state_.num_src_operands = 4;
+  state_.num_dst_operands = 1;
 }
 
 void ExportVexport::execute_impl(amdgpu::Wavefront &wf) {

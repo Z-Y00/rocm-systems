@@ -9,6 +9,8 @@
 
 #include "rocjitsu/isa/register_set.h"
 
+#include "emulator_state.h"
+
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -29,12 +31,14 @@ public:
   /// @brief Construct an operand with the given size and encoding value.
   /// @param size_bits Operand width in bits.
   /// @param encoding_value ISA-specific encoding value identifying the register or literal.
-  Operand(int size_bits, int encoding_value)
-      : size_bits_(size_bits), encoding_value_(encoding_value) {}
+  Operand(int size_bits, int encoding_value) {
+    state_.size_bits = static_cast<uint32_t>(size_bits);
+    state_.encoding_value = encoding_value;
+  }
   virtual ~Operand() = default;
 
   /// @brief Human-readable name for this operand (e.g. "v0", "s4", or a literal).
-  virtual std::string name() const { return std::to_string(encoding_value_); }
+  virtual std::string name() const { return std::to_string(state_.encoding_value); }
 
   /// @brief Map this operand to an analysis register reference.
   ///
@@ -45,32 +49,32 @@ public:
   [[nodiscard]] virtual std::optional<RegisterRef> to_register_ref() const;
 
   /// @brief Raw encoding value from the instruction binary.
-  int encoding_value() const { return encoding_value_; }
+  int encoding_value() const { return state_.encoding_value; }
 
   /// @brief Operand width in bits.
-  int size_bits() const { return size_bits_; }
+  int size_bits() const { return static_cast<int>(state_.size_bits); }
 
   /// @brief Whether this operand references a VGPR or AccVGPR.
   /// @details Classified at construction time by ISA-specific subclasses using
   /// the auto-generated is_vgpr_operand_type() from operand_types.h.
-  [[nodiscard]] bool is_vgpr() const { return is_vgpr_; }
+  [[nodiscard]] bool is_vgpr() const { return state_.is_vgpr; }
 
   /// @brief Unified VGPR index for this operand (0-511).
   /// @details Maps AMDGPU encoding ranges to a unified index space:
   ///   VGPRs 0-255, AccVGPRs 256-511. Only valid when is_vgpr() is true.
   [[nodiscard]] uint16_t unified_vgpr_index() const {
-    if (encoding_value_ >= 768)
-      return static_cast<uint16_t>(encoding_value_ - 512);
-    if (encoding_value_ >= 512)
-      return static_cast<uint16_t>(encoding_value_ - 256);
-    if (encoding_value_ >= 256)
-      return static_cast<uint16_t>(encoding_value_ - 256);
-    return static_cast<uint16_t>(encoding_value_);
+    if (state_.encoding_value >= 768)
+      return static_cast<uint16_t>(state_.encoding_value - 512);
+    if (state_.encoding_value >= 512)
+      return static_cast<uint16_t>(state_.encoding_value - 256);
+    if (state_.encoding_value >= 256)
+      return static_cast<uint16_t>(state_.encoding_value - 256);
+    return static_cast<uint16_t>(state_.encoding_value);
   }
 
   /// @brief Number of consecutive VGPRs this operand spans.
   [[nodiscard]] uint16_t vgpr_count() const {
-    return static_cast<uint16_t>(std::max(1, size_bits_ / 32));
+    return static_cast<uint16_t>(std::max<uint32_t>(1u, state_.size_bits / 32u));
   }
 
   /// @brief Read this operand as a scalar 32-bit value.
@@ -128,9 +132,12 @@ public:
   void clear_delegate() { delegate_ = nullptr; }
   Operand *delegate() const { return delegate_; }
 
-  int size_bits_ = 0;
-  int encoding_value_ = 0;
-  bool is_vgpr_ = false;
+  /// @brief Plain-data state backing this operand.
+  ///
+  /// @details Public POD storage in the C ABI layout so plugins and the C++
+  /// runtime share the same representation. Mutated by ISA-specific
+  /// subclasses during construction.
+  emulator_operand_t state_{};
 
 private:
   Operand *delegate_ = nullptr;
@@ -170,7 +177,8 @@ public:
   /// @param data Pre-permuted lane values (one per lane).
   /// @param lane_count Number of valid lanes.
   DppOperand(const Operand &base, const uint32_t *data, int lane_count)
-      : Operand(base.size_bits_, base.encoding_value_), lane_count_(lane_count) {
+      : Operand(static_cast<int>(base.state_.size_bits), base.state_.encoding_value),
+        lane_count_(lane_count) {
     for (int i = 0; i < lane_count && i < MAX_LANES; ++i)
       data_[i] = data[i];
   }

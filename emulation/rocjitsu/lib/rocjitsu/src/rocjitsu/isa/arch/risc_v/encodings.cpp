@@ -11,12 +11,12 @@ namespace detail {
 
 RType::RType(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<RTypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 IType::IType(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<ITypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 int32_t IType::imm() const {
@@ -26,7 +26,7 @@ int32_t IType::imm() const {
 
 SType::SType(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<STypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 int32_t SType::imm() const {
@@ -37,7 +37,7 @@ int32_t SType::imm() const {
 
 BType::BType(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<BTypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 int32_t BType::imm() const {
@@ -49,7 +49,7 @@ int32_t BType::imm() const {
 
 UType::UType(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<UTypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 int32_t UType::imm() const {
@@ -59,7 +59,7 @@ int32_t UType::imm() const {
 
 JType::JType(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<JTypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 int32_t JType::imm() const {
@@ -71,7 +71,7 @@ int32_t JType::imm() const {
 
 R4Type::R4Type(std::string_view mnemonic, uint32_t raw, ExecuteFn exec_fn)
     : IsaInstruction<Isa>(mnemonic, exec_fn), inst_(std::bit_cast<R4TypeMachineInst>(raw)) {
-  size_ = 4;
+  state_.size_bytes = 4;
 }
 
 } // namespace detail

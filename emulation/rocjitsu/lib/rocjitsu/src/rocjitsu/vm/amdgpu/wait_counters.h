@@ -4,6 +4,8 @@
 #ifndef ROCJITSU_VM_AMDGPU_WAIT_COUNTERS_H_
 #define ROCJITSU_VM_AMDGPU_WAIT_COUNTERS_H_
 
+#include "emulator_state.h"
+
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
@@ -31,25 +33,13 @@ enum class WaitCounterType : uint8_t {
 
 /// @brief Outstanding memory operation counters for a wavefront.
 ///
-/// Unified counter set that covers all ISA families.  CDNA1-4 use only
-/// vmcnt/lgkmcnt/expcnt.  RDNA1/2 add vscnt.  RDNA3/3.5/4 use the
-/// fine-grained counters (loadcnt/storecnt/dscnt/kmcnt/expcnt) which
-/// are stored in the same fields as aliases:
-///   loadcnt → vmcnt, storecnt → vscnt, dscnt + kmcnt → lgkmcnt.
-///
-/// For RDNA3+, the split counters (dscnt, kmcnt) are tracked independently
-/// but their sum is also reflected in lgkmcnt for backward compatibility
-/// with the monolithic S_WAITCNT instruction that RDNA3/3.5 still support.
-struct WaitCounters {
-  // GFX9/10 counters (primary)
-  uint8_t vmcnt = 0;   ///< VMEM load count (GFX9/10) / loadcnt alias (GFX11+).
-  uint8_t lgkmcnt = 0; ///< LDS+GDS+K+M count (GFX9/10) / sum of dscnt+kmcnt (GFX11+).
-  uint8_t expcnt = 0;  ///< Export count (all ISAs).
-  uint8_t vscnt = 0;   ///< Vector store count (GFX10) / storecnt alias (GFX11+).
-
-  // GFX11+ fine-grained counters
-  uint8_t dscnt = 0; ///< DS (LDS/GDS) count (GFX11+).
-  uint8_t kmcnt = 0; ///< Scalar/constant memory count (GFX11+).
+/// @details Inherits the field layout from the C ABI
+/// @ref emulator_wait_counters_t so rocjitsu and plugins share the same
+/// representation. See @ref emulator_wait_counters_t for the per-field
+/// semantics across ISA families.
+struct WaitCounters : ::emulator_wait_counters_t {
+  /// @brief Zero-initialize all counter fields.
+  WaitCounters() : ::emulator_wait_counters_t{} {}
 
   /// @brief Check whether all counters are zero (no outstanding memory ops).
   bool empty() const {

@@ -47,9 +47,9 @@ SLoadDwordSmem::SLoadDwordSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SLoadDwordSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -71,9 +71,9 @@ SLoadDwordx2Smem::SLoadDwordx2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SLoadDwordx2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -95,9 +95,9 @@ SLoadDwordx4Smem::SLoadDwordx4Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SLoadDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -119,9 +119,9 @@ SLoadDwordx8Smem::SLoadDwordx8Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SLoadDwordx8Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -143,9 +143,9 @@ SLoadDwordx16Smem::SLoadDwordx16Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SLoadDwordx16Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -167,9 +167,9 @@ SScratchLoadDwordSmem::SScratchLoadDwordSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SScratchLoadDwordSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -191,9 +191,9 @@ SScratchLoadDwordx2Smem::SScratchLoadDwordx2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SScratchLoadDwordx2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -215,9 +215,9 @@ SScratchLoadDwordx4Smem::SScratchLoadDwordx4Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SScratchLoadDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -239,9 +239,9 @@ SBufferLoadDwordSmem::SBufferLoadDwordSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferLoadDwordSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -263,9 +263,9 @@ SBufferLoadDwordx2Smem::SBufferLoadDwordx2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferLoadDwordx2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -287,9 +287,9 @@ SBufferLoadDwordx4Smem::SBufferLoadDwordx4Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferLoadDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -311,9 +311,9 @@ SBufferLoadDwordx8Smem::SBufferLoadDwordx8Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferLoadDwordx8Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -335,9 +335,9 @@ SBufferLoadDwordx16Smem::SBufferLoadDwordx16Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferLoadDwordx16Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -359,9 +359,9 @@ SStoreDwordSmem::SStoreDwordSmem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SStoreDwordSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -386,9 +386,9 @@ SStoreDwordx2Smem::SStoreDwordx2Smem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SStoreDwordx2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -413,9 +413,9 @@ SStoreDwordx4Smem::SStoreDwordx4Smem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SStoreDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -440,9 +440,9 @@ SScratchStoreDwordSmem::SScratchStoreDwordSmem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SScratchStoreDwordSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -467,9 +467,9 @@ SScratchStoreDwordx2Smem::SScratchStoreDwordx2Smem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SScratchStoreDwordx2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -494,9 +494,9 @@ SScratchStoreDwordx4Smem::SScratchStoreDwordx4Smem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SScratchStoreDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -521,9 +521,9 @@ SBufferStoreDwordSmem::SBufferStoreDwordSmem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferStoreDwordSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -548,9 +548,9 @@ SBufferStoreDwordx2Smem::SBufferStoreDwordx2Smem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferStoreDwordx2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -575,9 +575,9 @@ SBufferStoreDwordx4Smem::SBufferStoreDwordx4Smem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void SBufferStoreDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -596,8 +596,8 @@ void SBufferStoreDwordx4Smem::execute_impl(amdgpu::Wavefront &wf) {
 SDcacheInvSmem::SDcacheInvSmem(const MachineInst *inst)
     : Smem("s_dcache_inv", reinterpret_cast<const OpEncoding *>(inst),
            make_exec_fn<SDcacheInvSmem>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void SDcacheInvSmem::execute_impl(amdgpu::Wavefront &wf) { wf.cu().l1_scalar().invalidate_all(); }
@@ -605,8 +605,8 @@ void SDcacheInvSmem::execute_impl(amdgpu::Wavefront &wf) { wf.cu().l1_scalar().i
 SDcacheWbSmem::SDcacheWbSmem(const MachineInst *inst)
     : Smem("s_dcache_wb", reinterpret_cast<const OpEncoding *>(inst),
            make_exec_fn<SDcacheWbSmem>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void SDcacheWbSmem::execute_impl(amdgpu::Wavefront &wf) { wf.cu().l1_scalar().writeback_all(); }
@@ -614,8 +614,8 @@ void SDcacheWbSmem::execute_impl(amdgpu::Wavefront &wf) { wf.cu().l1_scalar().wr
 SDcacheInvVolSmem::SDcacheInvVolSmem(const MachineInst *inst)
     : Smem("s_dcache_inv_vol", reinterpret_cast<const OpEncoding *>(inst),
            make_exec_fn<SDcacheInvVolSmem>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void SDcacheInvVolSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -625,8 +625,8 @@ void SDcacheInvVolSmem::execute_impl(amdgpu::Wavefront &wf) {
 SDcacheWbVolSmem::SDcacheWbVolSmem(const MachineInst *inst)
     : Smem("s_dcache_wb_vol", reinterpret_cast<const OpEncoding *>(inst),
            make_exec_fn<SDcacheWbVolSmem>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void SDcacheWbVolSmem::execute_impl(amdgpu::Wavefront &wf) { wf.cu().l1_scalar().writeback_all(); }
@@ -635,8 +635,8 @@ SMemtimeSmem::SMemtimeSmem(const MachineInst *inst)
     : Smem("s_memtime", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SMemtimeSmem>()),
       sdata(64, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->sdata) {
   dst_operands_[0] = &sdata;
-  num_src_ = 0;
-  num_dst_ = 1;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 1;
 }
 
 void SMemtimeSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -649,8 +649,8 @@ SMemrealtimeSmem::SMemrealtimeSmem(const MachineInst *inst)
            make_exec_fn<SMemrealtimeSmem>()),
       sdata(64, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->sdata) {
   dst_operands_[0] = &sdata;
-  num_src_ = 0;
-  num_dst_ = 1;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 1;
 }
 
 void SMemrealtimeSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -667,8 +667,8 @@ SAtcProbeSmem::SAtcProbeSmem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void SAtcProbeSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -685,8 +685,8 @@ SAtcProbeBufferSmem::SAtcProbeBufferSmem(const MachineInst *inst)
   src_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void SAtcProbeBufferSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -701,8 +701,8 @@ SDcacheDiscardSmem::SDcacheDiscardSmem(const MachineInst *inst)
       soffset(make_smem_offset(reinterpret_cast<const OpEncoding *>(inst))) {
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 0;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
 }
 
 void SDcacheDiscardSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -717,8 +717,8 @@ SDcacheDiscardX2Smem::SDcacheDiscardX2Smem(const MachineInst *inst)
       soffset(make_smem_offset(reinterpret_cast<const OpEncoding *>(inst))) {
   src_operands_[0] = &sbase;
   src_operands_[1] = &soffset;
-  num_src_ = 2;
-  num_dst_ = 0;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
 }
 
 void SDcacheDiscardX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -736,8 +736,8 @@ SBufferAtomicSwapSmem::SBufferAtomicSwapSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSwapSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -755,8 +755,8 @@ SBufferAtomicCmpswapSmem::SBufferAtomicCmpswapSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicCmpswapSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -774,8 +774,8 @@ SBufferAtomicAddSmem::SBufferAtomicAddSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicAddSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -793,8 +793,8 @@ SBufferAtomicSubSmem::SBufferAtomicSubSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSubSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -812,8 +812,8 @@ SBufferAtomicSminSmem::SBufferAtomicSminSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSminSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -831,8 +831,8 @@ SBufferAtomicUminSmem::SBufferAtomicUminSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicUminSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -850,8 +850,8 @@ SBufferAtomicSmaxSmem::SBufferAtomicSmaxSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSmaxSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -869,8 +869,8 @@ SBufferAtomicUmaxSmem::SBufferAtomicUmaxSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicUmaxSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -888,8 +888,8 @@ SBufferAtomicAndSmem::SBufferAtomicAndSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicAndSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -907,8 +907,8 @@ SBufferAtomicOrSmem::SBufferAtomicOrSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicOrSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -926,8 +926,8 @@ SBufferAtomicXorSmem::SBufferAtomicXorSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicXorSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -945,8 +945,8 @@ SBufferAtomicIncSmem::SBufferAtomicIncSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicIncSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -964,8 +964,8 @@ SBufferAtomicDecSmem::SBufferAtomicDecSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicDecSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -983,8 +983,8 @@ SBufferAtomicSwapX2Smem::SBufferAtomicSwapX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSwapX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1002,8 +1002,8 @@ SBufferAtomicCmpswapX2Smem::SBufferAtomicCmpswapX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicCmpswapX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1021,8 +1021,8 @@ SBufferAtomicAddX2Smem::SBufferAtomicAddX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicAddX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1040,8 +1040,8 @@ SBufferAtomicSubX2Smem::SBufferAtomicSubX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSubX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1059,8 +1059,8 @@ SBufferAtomicSminX2Smem::SBufferAtomicSminX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSminX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1078,8 +1078,8 @@ SBufferAtomicUminX2Smem::SBufferAtomicUminX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicUminX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1097,8 +1097,8 @@ SBufferAtomicSmaxX2Smem::SBufferAtomicSmaxX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicSmaxX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1116,8 +1116,8 @@ SBufferAtomicUmaxX2Smem::SBufferAtomicUmaxX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicUmaxX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1135,8 +1135,8 @@ SBufferAtomicAndX2Smem::SBufferAtomicAndX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicAndX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1154,8 +1154,8 @@ SBufferAtomicOrX2Smem::SBufferAtomicOrX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicOrX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1173,8 +1173,8 @@ SBufferAtomicXorX2Smem::SBufferAtomicXorX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicXorX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1192,8 +1192,8 @@ SBufferAtomicIncX2Smem::SBufferAtomicIncX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicIncX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1211,8 +1211,8 @@ SBufferAtomicDecX2Smem::SBufferAtomicDecX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SBufferAtomicDecX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1230,8 +1230,8 @@ SAtomicSwapSmem::SAtomicSwapSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSwapSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1249,8 +1249,8 @@ SAtomicCmpswapSmem::SAtomicCmpswapSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicCmpswapSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1268,8 +1268,8 @@ SAtomicAddSmem::SAtomicAddSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicAddSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1287,8 +1287,8 @@ SAtomicSubSmem::SAtomicSubSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSubSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1306,8 +1306,8 @@ SAtomicSminSmem::SAtomicSminSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSminSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1325,8 +1325,8 @@ SAtomicUminSmem::SAtomicUminSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicUminSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1344,8 +1344,8 @@ SAtomicSmaxSmem::SAtomicSmaxSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSmaxSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1363,8 +1363,8 @@ SAtomicUmaxSmem::SAtomicUmaxSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicUmaxSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1382,8 +1382,8 @@ SAtomicAndSmem::SAtomicAndSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicAndSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1401,8 +1401,8 @@ SAtomicOrSmem::SAtomicOrSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicOrSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1420,8 +1420,8 @@ SAtomicXorSmem::SAtomicXorSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicXorSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1439,8 +1439,8 @@ SAtomicIncSmem::SAtomicIncSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicIncSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1458,8 +1458,8 @@ SAtomicDecSmem::SAtomicDecSmem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicDecSmem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1477,8 +1477,8 @@ SAtomicSwapX2Smem::SAtomicSwapX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSwapX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1496,8 +1496,8 @@ SAtomicCmpswapX2Smem::SAtomicCmpswapX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicCmpswapX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1515,8 +1515,8 @@ SAtomicAddX2Smem::SAtomicAddX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicAddX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1534,8 +1534,8 @@ SAtomicSubX2Smem::SAtomicSubX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSubX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1553,8 +1553,8 @@ SAtomicSminX2Smem::SAtomicSminX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSminX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1572,8 +1572,8 @@ SAtomicUminX2Smem::SAtomicUminX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicUminX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1591,8 +1591,8 @@ SAtomicSmaxX2Smem::SAtomicSmaxX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicSmaxX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1610,8 +1610,8 @@ SAtomicUmaxX2Smem::SAtomicUmaxX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicUmaxX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1629,8 +1629,8 @@ SAtomicAndX2Smem::SAtomicAndX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicAndX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1648,8 +1648,8 @@ SAtomicOrX2Smem::SAtomicOrX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicOrX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1667,8 +1667,8 @@ SAtomicXorX2Smem::SAtomicXorX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicXorX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1686,8 +1686,8 @@ SAtomicIncX2Smem::SAtomicIncX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicIncX2Smem::execute_impl(amdgpu::Wavefront &wf) {
@@ -1705,8 +1705,8 @@ SAtomicDecX2Smem::SAtomicDecX2Smem(const MachineInst *inst)
   dst_operands_[0] = &sdata;
   src_operands_[1] = &sbase;
   src_operands_[2] = &soffset;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void SAtomicDecX2Smem::execute_impl(amdgpu::Wavefront &wf) {

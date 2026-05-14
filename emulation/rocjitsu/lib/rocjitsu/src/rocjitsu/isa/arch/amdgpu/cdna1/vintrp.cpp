@@ -25,8 +25,8 @@ VInterpP1F32Vintrp::VInterpP1F32Vintrp(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vsrc;
   src_operands_[1] = &attr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP1F32Vintrp::execute_impl(amdgpu::Wavefront &wf) {
@@ -43,8 +43,8 @@ VInterpP2F32Vintrp::VInterpP2F32Vintrp(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &attr;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpP2F32Vintrp::execute_impl(amdgpu::Wavefront &wf) {
@@ -60,8 +60,8 @@ VInterpMovF32Vintrp::VInterpMovF32Vintrp(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vsrc;
   src_operands_[1] = &attr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void VInterpMovF32Vintrp::execute_impl(amdgpu::Wavefront &wf) {

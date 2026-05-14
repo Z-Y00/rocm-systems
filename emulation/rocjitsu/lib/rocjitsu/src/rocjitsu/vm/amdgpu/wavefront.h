@@ -32,10 +32,10 @@ enum class WfState : uint8_t {
 };
 
 /// @brief Allocation slice within a register file.
-struct RegAllocation {
-  uint32_t base = 0;  ///< First register index in the physical file.
-  uint32_t count = 0; ///< Number of registers allocated.
-};
+///
+/// @details Type alias for the C ABI @ref emulator_register_allocation_t so
+/// rocjitsu and plugins share the same layout.
+using RegAllocation = ::emulator_register_allocation_t;
 
 /// @brief AMDGPU wavefront execution state.
 ///
@@ -49,7 +49,7 @@ struct RegAllocation {
 /// execution masks) is set when the slot is activated and reset by reset().
 ///
 /// A slot is considered dispatched (active) when it has a nonzero register
-/// allocation (sgpr_alloc_.count > 0). After clear(), the slot is idle.
+/// allocation (state_.sgpr_alloc.count > 0). After clear(), the slot is idle.
 ///
 /// wf_size and max register counts come from the ISA struct and are fixed
 /// at construction. num_sgprs and num_vgprs are the per-dispatch allocation
@@ -63,23 +63,23 @@ public:
 
   /// @brief Return the number of lanes per wavefront.
   /// @returns Lanes per wavefront (ISA-fixed).
-  uint32_t wf_size() const { return wf_size_; }
+  uint32_t wf_size() const { return state_.wf_size; }
 
   /// @brief Return the ISA maximum SGPRs per wavefront.
   /// @returns Maximum scalar registers.
-  uint32_t max_sgprs() const { return max_sgprs_; }
+  uint32_t max_sgprs() const { return state_.max_sgprs; }
 
   /// @brief Return the ISA maximum VGPRs per wavefront.
   /// @returns Maximum vector registers.
-  uint32_t max_vgprs() const { return max_vgprs_; }
+  uint32_t max_vgprs() const { return state_.max_vgprs; }
 
   /// @brief Return the number of allocated scalar registers.
   /// @returns Per-dispatch SGPR allocation count.
-  uint32_t num_sgprs() const { return num_sgprs_; }
+  uint32_t num_sgprs() const { return state_.num_sgprs; }
 
   /// @brief Return the number of allocated vector registers.
   /// @returns Per-dispatch VGPR allocation count.
-  uint32_t num_vgprs() const { return num_vgprs_; }
+  uint32_t num_vgprs() const { return state_.num_vgprs; }
 
   /// @brief Read the raw status register value.
   /// @returns Status register as a raw uint32_t.
@@ -91,31 +91,31 @@ public:
 
   /// @brief Return the wavefront slot index within the CU.
   /// @returns Permanent slot index.
-  uint32_t wf_id() const { return wf_id_; }
+  uint32_t wf_id() const { return state_.wf_id; }
 
   /// @brief Return the workgroup ID assigned at dispatch.
   /// @returns Workgroup ID.
-  uint32_t wg_id() const { return wg_id_; }
+  uint32_t wg_id() const { return state_.wg_id; }
 
   /// @brief Return the dispatch ID assigned at dispatch.
-  uint32_t dispatch_id() const { return dispatch_id_; }
+  uint32_t dispatch_id() const { return state_.dispatch_id; }
 
   /// @brief Set the dispatch ID (called by DispatchController).
-  void set_dispatch_id(uint32_t id) { dispatch_id_ = id; }
+  void set_dispatch_id(uint32_t id) { state_.dispatch_id = id; }
 
   /// @brief Return the per-WG LDS base offset assigned at dispatch.
-  uint32_t lds_base() const { return lds_base_; }
+  uint32_t lds_base() const { return state_.lds_base; }
 
   /// @brief Set the per-WG LDS base offset.
-  void set_lds_base(uint32_t base) { lds_base_ = base; }
+  void set_lds_base(uint32_t base) { state_.lds_base = base; }
 
   /// @brief Return the SGPR register file allocation.
   /// @returns Const reference to the SGPR allocation slice.
-  const RegAllocation &sgpr_alloc() const { return sgpr_alloc_; }
+  const RegAllocation &sgpr_alloc() const { return state_.sgpr_alloc; }
 
   /// @brief Return the VGPR register file allocation.
   /// @returns Const reference to the VGPR allocation slice.
-  const RegAllocation &vgpr_alloc() const { return vgpr_alloc_; }
+  const RegAllocation &vgpr_alloc() const { return state_.vgpr_alloc; }
 
   /// @brief Return the parent compute unit.
   /// @returns Reference to the owning ComputeUnitCore.
@@ -126,35 +126,35 @@ public:
 
   /// @brief Return the EXEC mask.
   /// @returns EXEC mask (one bit per lane, 1 = active).
-  uint64_t exec() const { return exec_; }
+  uint64_t exec() const { return state_.exec; }
 
   /// @brief Set the EXEC mask.
   /// @param val New EXEC mask value.
-  void set_exec(uint64_t val) { exec_ = val; }
+  void set_exec(uint64_t val) { state_.exec = val; }
 
   /// @brief Return the vector condition code.
   /// @returns VCC register value.
-  uint64_t vcc() const { return vcc_; }
+  uint64_t vcc() const { return state_.vcc; }
 
   /// @brief Set the vector condition code.
   /// @param val New VCC value.
-  void set_vcc(uint64_t val) { vcc_ = val; }
+  void set_vcc(uint64_t val) { state_.vcc = val; }
 
   /// @brief Return the M0 special register.
   /// @returns M0 register value.
-  uint32_t m0() const { return m0_; }
+  uint32_t m0() const { return state_.m0; }
 
   /// @brief Set the M0 special register.
   /// @param val New M0 value.
-  void set_m0(uint32_t val) { m0_ = val; }
+  void set_m0(uint32_t val) { state_.m0 = val; }
 
   /// @brief Return the per-wavefront scratch (private segment) base address.
   /// @returns Byte address in GPU memory where this wavefront's scratch starts.
-  uint64_t scratch_base() const { return scratch_base_; }
+  uint64_t scratch_base() const { return state_.scratch_base; }
 
   /// @brief Set the per-wavefront scratch base address.
   /// @param val Scratch base byte address (set at dispatch by CP).
-  void set_scratch_base(uint64_t val) { scratch_base_ = val; }
+  void set_scratch_base(uint64_t val) { state_.scratch_base = val; }
 
   /// @brief Return the wait counters for outstanding memory operations.
   /// @returns Reference to the wait counters.
@@ -177,42 +177,42 @@ public:
     wait_target_.lgkmcnt = lgkmcnt;
     wait_target_.expcnt = expcnt;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set the VSCNT target (GFX10 S_WAITCNT_VSCNT).
   void set_wait_target_vscnt(uint8_t threshold) {
     wait_target_.vscnt = threshold;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set the LOADCNT target (GFX11+ S_WAITCNT_VMCNT / S_WAIT_LOADCNT).
   void set_wait_target_loadcnt(uint8_t threshold) {
     wait_target_.vmcnt = threshold;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set the STORECNT target (GFX11+ S_WAITCNT_VSCNT / S_WAIT_STORECNT).
   void set_wait_target_storecnt(uint8_t threshold) {
     wait_target_.vscnt = threshold;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set the DSCNT target (GFX11+ S_WAITCNT_LGKMCNT / S_WAIT_DSCNT).
   void set_wait_target_dscnt(uint8_t threshold) {
     wait_target_.dscnt = threshold;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set the KMCNT target (GFX11+ S_WAIT_KMCNT).
   void set_wait_target_kmcnt(uint8_t threshold) {
     wait_target_.kmcnt = threshold;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set combined STORECNT + DSCNT targets (GFX12 S_WAIT_STORECNT_DSCNT).
@@ -220,7 +220,7 @@ public:
     wait_target_.vscnt = storecnt;
     wait_target_.dscnt = dscnt;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set combined LOADCNT + DSCNT targets (GFX12 S_WAIT_LOADCNT_DSCNT).
@@ -228,7 +228,7 @@ public:
     wait_target_.vmcnt = loadcnt;
     wait_target_.dscnt = dscnt;
     if (!wait_satisfied())
-      state_ = WfState::WAITCNT;
+      set_state(WfState::WAITCNT);
   }
 
   /// @brief Set a single split-wait counter threshold by name.
@@ -250,11 +250,11 @@ public:
     else if (name == "wait_expcnt") {
       wait_target_.expcnt = static_cast<uint8_t>(threshold & 0x07);
       if (!wait_satisfied())
-        state_ = WfState::WAITCNT;
+        set_state(WfState::WAITCNT);
     } else if (name == "wait_samplecnt" || name == "wait_bvhcnt") {
       wait_target_.vmcnt = t; // map to vmcnt
       if (!wait_satisfied())
-        state_ = WfState::WAITCNT;
+        set_state(WfState::WAITCNT);
     } else if (name == "wait_loadcnt_dscnt") {
       set_wait_target_loadcnt_dscnt(static_cast<uint8_t>((threshold >> 8) & 0x3F),
                                     static_cast<uint8_t>(threshold & 0x3F));
@@ -283,16 +283,16 @@ public:
 
   /// @brief Return the current execution state.
   /// @returns Current WfState.
-  WfState state() const { return state_; }
+  WfState state() const { return static_cast<WfState>(state_.state); }
 
   /// @brief Set the execution state.
   /// @param s New execution state.
-  void set_state(WfState s) { state_ = s; }
+  void set_state(WfState s) { state_.state = static_cast<emulator_wavefront_state_t>(s); }
 
   /// @brief Check whether this wavefront slot is halted.
   /// @retval true Slot is halted and available for dispatch.
   /// @retval false Slot is active (running, waiting, or at a barrier).
-  bool is_halted() const { return state_ == WfState::HALTED; }
+  bool is_halted() const { return state_.state == EMULATOR_WAVEFRONT_STATE_HALTED; }
 
   /// @brief Halt this wavefront and notify the CU for WG completion tracking.
   /// @details Transitions to HALTED and decrements the CU's per-WG refcount.
@@ -308,7 +308,7 @@ public:
     if (wait_counters_.empty())
       halt();
     else
-      state_ = WfState::ENDING;
+      set_state(WfState::ENDING);
   }
 
   /// @brief Log instruction count at end for trace/debug.
@@ -317,23 +317,26 @@ public:
   /// @brief Reset dynamic dispatch state so this slot can be reused.
   ///
   /// @details Resets register allocations, workgroup ID, and execution state back
-  /// to defaults. Does not change permanent bindings (cu_, wf_id_) or ISA-fixed
-  /// properties (wf_size_, max_sgprs_, max_vgprs_) or the status register.
+  /// to defaults. Does not change permanent bindings (cu_, state_.wf_id) or ISA-fixed
+  /// properties (state_.wf_size, state_.max_sgprs, state_.max_vgprs) or the status register.
   void reset() {
     pc = 0;
-    wg_id_ = 0;
-    dispatch_id_ = 0;
-    num_sgprs_ = 0;
-    num_vgprs_ = 0;
-    sgpr_alloc_ = {};
-    vgpr_alloc_ = {};
-    exec_ = ~0ULL;
-    vcc_ = 0;
-    m0_ = 0;
-    scratch_base_ = 0;
+    state_.wg_id = 0;
+    state_.dispatch_id = 0;
+    state_.lds_base = 0;
+    state_.num_sgprs = 0;
+    state_.num_vgprs = 0;
+    state_.sgpr_alloc = {};
+    state_.vgpr_alloc = {};
+    state_.exec = ~0ULL;
+    state_.vcc = 0;
+    state_.m0 = 0;
+    state_.scratch_base = 0;
+    state_.trace_inst_count = 0;
+    state_.wait_counters = {};
     wait_counters_ = {};
     wait_target_ = {};
-    state_ = WfState::HALTED;
+    set_state(WfState::HALTED);
   }
 
 protected:
@@ -345,35 +348,29 @@ protected:
   /// @param max_vgprs Maximum VGPRs per wavefront (ISA-fixed).
   Wavefront(ComputeUnitCore &cu, uint32_t wf_id, uint32_t wf_size, uint32_t max_sgprs,
             uint32_t max_vgprs)
-      : cu_(cu), wf_id_(wf_id), wf_size_(wf_size), max_sgprs_(max_sgprs), max_vgprs_(max_vgprs) {}
-
-  ComputeUnitCore &cu_;      ///< Parent CU (permanent, set at construction).
-  uint32_t wf_id_ = 0;       ///< Slot index within the CU (permanent).
-  uint32_t wg_id_ = 0;       ///< Workgroup ID (set per dispatch).
-  uint32_t dispatch_id_ = 0; ///< Dispatch ID (set per dispatch, unique per dispatch).
-  uint32_t lds_base_ = 0;    ///< Per-WG LDS base offset (set per dispatch).
-
-  uint32_t wf_size_ = 0;   ///< Lanes per wavefront (ISA-fixed).
-  uint32_t num_sgprs_ = 0; ///< Allocated scalar registers (set at dispatch).
-  uint32_t num_vgprs_ = 0; ///< Allocated vector registers (set at dispatch).
-  uint32_t max_sgprs_ = 0; ///< ISA maximum SGPRs per wavefront.
-  uint32_t max_vgprs_ = 0; ///< ISA maximum VGPRs per wavefront.
-
-  RegAllocation sgpr_alloc_; ///< Slice in CU's SGPR file.
-  RegAllocation vgpr_alloc_; ///< Slice in CU's VGPR file.
-
-private:
-  uint64_t exec_ = ~0ULL;           ///< EXEC mask -- one bit per lane (1 = active).
-  uint64_t vcc_ = 0;                ///< Vector condition code (per-lane comparison result).
-  uint32_t m0_ = 0;                 ///< M0 special register (misc addressing).
-  uint64_t scratch_base_ = 0;       ///< Per-wavefront scratch (private segment) base address.
-  WfState state_ = WfState::HALTED; ///< Current execution state.
-  WaitCounters wait_counters_;      ///< Outstanding memory operation counters.
+      : cu_(cu) {
+    state_.wf_id = wf_id;
+    state_.wf_size = wf_size;
+    state_.max_sgprs = max_sgprs;
+    state_.max_vgprs = max_vgprs;
+    state_.exec = ~0ULL;
+  }
 
 public:
-  uint32_t trace_inst_count_ = 0; ///< Debug: instruction count for trace.
+  /// @brief Plain-data wavefront state shared with the emulator plugin ABI.
+  ///
+  /// @details Backs the per-dispatch and per-slot fields (pc lives in the
+  /// ThreadContext base; @c wait_counters mirrors the C++ @c wait_counters_
+  /// wrapper). Direct access is allowed; accessors are preserved for
+  /// readability.
+  emulator_wavefront_t state_{};
+
+protected:
+  ComputeUnitCore &cu_;        ///< Parent CU (permanent, set at construction).
+
 private:
-  WaitTarget wait_target_; ///< Current s_waitcnt thresholds.
+  WaitCounters wait_counters_; ///< Outstanding memory operation counters (C++ wrapper).
+  WaitTarget wait_target_;     ///< Current s_waitcnt thresholds.
 
   friend class ComputeUnitCore; // CU sets allocation fields during dispatch.
 };

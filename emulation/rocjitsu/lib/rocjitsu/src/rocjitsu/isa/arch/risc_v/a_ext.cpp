@@ -18,15 +18,15 @@ LrWInst::LrWInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
 
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 void LrWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t val = sext32(static_cast<int32_t>(m->read32(addr)));
-  h->write_xreg(rd.encoding_value_, val);
+  h->write_xreg(rd.state_.encoding_value, val);
   h->reservation_valid = true;
   h->reservation_addr = addr;
 }
@@ -38,18 +38,18 @@ ScWInst::ScWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void ScWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   if (h->reservation_valid && h->reservation_addr == addr) {
-    m->write32(addr, static_cast<uint32_t>(h->read_xreg(rs2.encoding_value_)));
-    h->write_xreg(rd.encoding_value_, 0);
+    m->write32(addr, static_cast<uint32_t>(h->read_xreg(rs2.state_.encoding_value)));
+    h->write_xreg(rd.state_.encoding_value, 0);
   } else {
-    h->write_xreg(rd.encoding_value_, 1);
+    h->write_xreg(rd.state_.encoding_value, 1);
   }
   h->reservation_valid = false;
 }
@@ -61,18 +61,18 @@ AmoswapWInst::AmoswapWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoswapWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = rs2_val;
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoaddWInst::AmoaddWInst(uint32_t raw)
@@ -82,18 +82,18 @@ AmoaddWInst::AmoaddWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoaddWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int32_t>(static_cast<uint32_t>(old_val + rs2_val));
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoxorWInst::AmoxorWInst(uint32_t raw)
@@ -103,18 +103,18 @@ AmoxorWInst::AmoxorWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoxorWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int32_t>(static_cast<uint32_t>(old_val ^ rs2_val));
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoandWInst::AmoandWInst(uint32_t raw)
@@ -124,18 +124,18 @@ AmoandWInst::AmoandWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoandWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int32_t>(static_cast<uint32_t>(old_val & rs2_val));
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoorWInst::AmoorWInst(uint32_t raw)
@@ -145,18 +145,18 @@ AmoorWInst::AmoorWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoorWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int32_t>(static_cast<uint32_t>(old_val | rs2_val));
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmominWInst::AmominWInst(uint32_t raw)
@@ -166,18 +166,18 @@ AmominWInst::AmominWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmominWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = std::min(old_val, rs2_val);
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmomaxWInst::AmomaxWInst(uint32_t raw)
@@ -187,18 +187,18 @@ AmomaxWInst::AmomaxWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmomaxWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = std::max(old_val, rs2_val);
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmominuWInst::AmominuWInst(uint32_t raw)
@@ -208,19 +208,19 @@ AmominuWInst::AmominuWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmominuWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int64_t>(
       std::min(static_cast<uint64_t>(old_val), static_cast<uint64_t>(rs2_val)));
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmomaxuWInst::AmomaxuWInst(uint32_t raw)
@@ -230,19 +230,19 @@ AmomaxuWInst::AmomaxuWInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmomaxuWInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = sext32(static_cast<int32_t>(m->read32(addr)));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int64_t>(
       std::max(static_cast<uint64_t>(old_val), static_cast<uint64_t>(rs2_val)));
   m->write32(addr, static_cast<uint32_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 LrDInst::LrDInst(uint32_t raw)
@@ -251,15 +251,15 @@ LrDInst::LrDInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
 
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 void LrDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t val = static_cast<int64_t>(m->read64(addr));
-  h->write_xreg(rd.encoding_value_, val);
+  h->write_xreg(rd.state_.encoding_value, val);
   h->reservation_valid = true;
   h->reservation_addr = addr;
 }
@@ -271,18 +271,18 @@ ScDInst::ScDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void ScDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   if (h->reservation_valid && h->reservation_addr == addr) {
-    m->write64(addr, static_cast<uint64_t>(h->read_xreg(rs2.encoding_value_)));
-    h->write_xreg(rd.encoding_value_, 0);
+    m->write64(addr, static_cast<uint64_t>(h->read_xreg(rs2.state_.encoding_value)));
+    h->write_xreg(rd.state_.encoding_value, 0);
   } else {
-    h->write_xreg(rd.encoding_value_, 1);
+    h->write_xreg(rd.state_.encoding_value, 1);
   }
   h->reservation_valid = false;
 }
@@ -294,18 +294,18 @@ AmoswapDInst::AmoswapDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoswapDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = rs2_val;
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoaddDInst::AmoaddDInst(uint32_t raw)
@@ -315,18 +315,18 @@ AmoaddDInst::AmoaddDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoaddDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = old_val + rs2_val;
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoxorDInst::AmoxorDInst(uint32_t raw)
@@ -336,18 +336,18 @@ AmoxorDInst::AmoxorDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoxorDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = old_val ^ rs2_val;
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoandDInst::AmoandDInst(uint32_t raw)
@@ -357,18 +357,18 @@ AmoandDInst::AmoandDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoandDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = old_val & rs2_val;
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmoorDInst::AmoorDInst(uint32_t raw)
@@ -378,18 +378,18 @@ AmoorDInst::AmoorDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmoorDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = old_val | rs2_val;
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmominDInst::AmominDInst(uint32_t raw)
@@ -399,18 +399,18 @@ AmominDInst::AmominDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmominDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = std::min(old_val, rs2_val);
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmomaxDInst::AmomaxDInst(uint32_t raw)
@@ -420,18 +420,18 @@ AmomaxDInst::AmomaxDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmomaxDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = std::max(old_val, rs2_val);
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmominuDInst::AmominuDInst(uint32_t raw)
@@ -441,19 +441,19 @@ AmominuDInst::AmominuDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmominuDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int64_t>(
       std::min(static_cast<uint64_t>(old_val), static_cast<uint64_t>(rs2_val)));
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 AmomaxuDInst::AmomaxuDInst(uint32_t raw)
@@ -463,19 +463,19 @@ AmomaxuDInst::AmomaxuDInst(uint32_t raw)
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
 
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 void AmomaxuDInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = h->read_xreg(rs1.encoding_value_);
+  uint64_t addr = h->read_xreg(rs1.state_.encoding_value);
   int64_t old_val = static_cast<int64_t>(m->read64(addr));
-  int64_t rs2_val = h->read_xreg(rs2.encoding_value_);
+  int64_t rs2_val = h->read_xreg(rs2.state_.encoding_value);
   int64_t new_val = static_cast<int64_t>(
       std::max(static_cast<uint64_t>(old_val), static_cast<uint64_t>(rs2_val)));
   m->write64(addr, static_cast<uint64_t>(new_val));
-  h->write_xreg(rd.encoding_value_, old_val);
+  h->write_xreg(rd.state_.encoding_value, old_val);
 }
 
 // All A-extension atomics share the same aq/rl modifier pattern.

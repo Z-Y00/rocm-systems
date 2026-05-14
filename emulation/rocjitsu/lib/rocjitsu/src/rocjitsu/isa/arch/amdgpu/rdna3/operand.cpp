@@ -26,472 +26,472 @@ std::string reg_name(const char *prefix, int reg_num, int size_bits) {
 
 Operand::Operand(int size_bits, OperandType opr_type, int encoding_value)
     : IsaOperand<Isa>(size_bits, opr_type, encoding_value) {
-  is_vgpr_ = is_vgpr_operand_type(opr_type);
+  state_.is_vgpr = is_vgpr_operand_type(opr_type);
 }
 
 std::string Operand::name() const {
   switch (opr_type_) {
   case OperandType::OPR_ATTR: {
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR0)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR0)
       return "attr0";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR1)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR1)
       return "attr1";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR2)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR2)
       return "attr2";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR3)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR3)
       return "attr3";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR4)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR4)
       return "attr4";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR5)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR5)
       return "attr5";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR6)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR6)
       return "attr6";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR7)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR7)
       return "attr7";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR8)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR8)
       return "attr8";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR9)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR9)
       return "attr9";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR10)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR10)
       return "attr10";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR11)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR11)
       return "attr11";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR12)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR12)
       return "attr12";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR13)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR13)
       return "attr13";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR14)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR14)
       return "attr14";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR15)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR15)
       return "attr15";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR16)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR16)
       return "attr16";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR17)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR17)
       return "attr17";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR18)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR18)
       return "attr18";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR19)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR19)
       return "attr19";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR20)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR20)
       return "attr20";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR21)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR21)
       return "attr21";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR22)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR22)
       return "attr22";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR23)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR23)
       return "attr23";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR24)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR24)
       return "attr24";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR25)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR25)
       return "attr25";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR26)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR26)
       return "attr26";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR27)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR27)
       return "attr27";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR28)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR28)
       return "attr28";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR29)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR29)
       return "attr29";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR30)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR30)
       return "attr30";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR31)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR31)
       return "attr31";
-    if (encoding_value_ == OpSelAttr::OPR_ATTR_ATTR32)
+    if (state_.encoding_value == OpSelAttr::OPR_ATTR_ATTR32)
       return "attr32";
     break;
   }
   case OperandType::OPR_DSMEM: {
-    if (encoding_value_ == OpSelDsmem::OPR_DSMEM_DSMEM)
+    if (state_.encoding_value == OpSelDsmem::OPR_DSMEM_DSMEM)
       return "dsmem";
     break;
   }
   case OperandType::OPR_EXEC: {
-    if (encoding_value_ == OpSelExec::OPR_EXEC_EXEC)
+    if (state_.encoding_value == OpSelExec::OPR_EXEC_EXEC)
       return "exec";
     break;
   }
   case OperandType::OPR_FLAT_SCRATCH: {
-    if (encoding_value_ == OpSelFlatScratch::OPR_FLAT_SCRATCH_FLAT_SCRATCH)
+    if (state_.encoding_value == OpSelFlatScratch::OPR_FLAT_SCRATCH_FLAT_SCRATCH)
       return "flat_scratch";
     break;
   }
   case OperandType::OPR_PC: {
-    if (encoding_value_ == OpSelPc::OPR_PC_PC)
+    if (state_.encoding_value == OpSelPc::OPR_PC_PC)
       return "pc";
     break;
   }
   case OperandType::OPR_SDST: {
-    if (encoding_value_ >= OpSelSdst::OPR_SDST_SGPR_MIN &&
-        encoding_value_ <= OpSelSdst::OPR_SDST_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSdst::OPR_SDST_SGPR_MIN, size_bits_);
-    if (encoding_value_ >= OpSelSdst::OPR_SDST_TTMP_MIN &&
-        encoding_value_ <= OpSelSdst::OPR_SDST_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSdst::OPR_SDST_TTMP_MIN, size_bits_);
-    if (encoding_value_ == OpSelSdst::OPR_SDST_VCC_LO)
+    if (state_.encoding_value >= OpSelSdst::OPR_SDST_SGPR_MIN &&
+        state_.encoding_value <= OpSelSdst::OPR_SDST_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN, state_.size_bits);
+    if (state_.encoding_value >= OpSelSdst::OPR_SDST_TTMP_MIN &&
+        state_.encoding_value <= OpSelSdst::OPR_SDST_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSdst::OPR_SDST_TTMP_MIN, state_.size_bits);
+    if (state_.encoding_value == OpSelSdst::OPR_SDST_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSdst::OPR_SDST_VCC_HI)
+    if (state_.encoding_value == OpSelSdst::OPR_SDST_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSdst::OPR_SDST_NULL)
+    if (state_.encoding_value == OpSelSdst::OPR_SDST_NULL)
       return "null";
-    if (encoding_value_ == OpSelSdst::OPR_SDST_M0)
+    if (state_.encoding_value == OpSelSdst::OPR_SDST_M0)
       return "m0";
-    if (encoding_value_ == OpSelSdst::OPR_SDST_EXEC_LO)
+    if (state_.encoding_value == OpSelSdst::OPR_SDST_EXEC_LO)
       return "exec_lo";
-    if (encoding_value_ == OpSelSdst::OPR_SDST_EXEC_HI)
+    if (state_.encoding_value == OpSelSdst::OPR_SDST_EXEC_HI)
       return "exec_hi";
     break;
   }
   case OperandType::OPR_SDST_EXEC: {
-    if (encoding_value_ == OpSelSdstExec::OPR_SDST_EXEC_EXEC_LO)
+    if (state_.encoding_value == OpSelSdstExec::OPR_SDST_EXEC_EXEC_LO)
       return "exec_lo";
-    if (encoding_value_ == OpSelSdstExec::OPR_SDST_EXEC_EXEC_HI)
+    if (state_.encoding_value == OpSelSdstExec::OPR_SDST_EXEC_EXEC_HI)
       return "exec_hi";
     break;
   }
   case OperandType::OPR_SDST_M0: {
-    if (encoding_value_ == OpSelSdstM0::OPR_SDST_M0_M0)
+    if (state_.encoding_value == OpSelSdstM0::OPR_SDST_M0_M0)
       return "m0";
     break;
   }
   case OperandType::OPR_SDST_NULL: {
-    if (encoding_value_ == OpSelSdstNull::OPR_SDST_NULL_NULL)
+    if (state_.encoding_value == OpSelSdstNull::OPR_SDST_NULL_NULL)
       return "null";
     break;
   }
   case OperandType::OPR_SMEM_OFFSET: {
-    if (encoding_value_ >= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN &&
-        encoding_value_ <= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN, size_bits_);
-    if (encoding_value_ >= OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MIN &&
-        encoding_value_ <= OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MIN,
-                      size_bits_);
-    if (encoding_value_ == OpSelSmemOffset::OPR_SMEM_OFFSET_VCC_LO)
+    if (state_.encoding_value >= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN &&
+        state_.encoding_value <= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN, state_.size_bits);
+    if (state_.encoding_value >= OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MIN &&
+        state_.encoding_value <= OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MIN,
+                      state_.size_bits);
+    if (state_.encoding_value == OpSelSmemOffset::OPR_SMEM_OFFSET_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSmemOffset::OPR_SMEM_OFFSET_VCC_HI)
+    if (state_.encoding_value == OpSelSmemOffset::OPR_SMEM_OFFSET_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSmemOffset::OPR_SMEM_OFFSET_NULL)
+    if (state_.encoding_value == OpSelSmemOffset::OPR_SMEM_OFFSET_NULL)
       return "null";
-    if (encoding_value_ == OpSelSmemOffset::OPR_SMEM_OFFSET_M0)
+    if (state_.encoding_value == OpSelSmemOffset::OPR_SMEM_OFFSET_M0)
       return "m0";
     break;
   }
   case OperandType::OPR_SRC: {
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_SGPR_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSrc::OPR_SRC_SGPR_MIN, size_bits_);
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_TTMP_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSrc::OPR_SRC_TTMP_MIN, size_bits_);
-    if (encoding_value_ == OpSelSrc::OPR_SRC_VCC_LO)
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_SGPR_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSrc::OPR_SRC_SGPR_MIN, state_.size_bits);
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_TTMP_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSrc::OPR_SRC_TTMP_MIN, state_.size_bits);
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_VCC_HI)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_NULL)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_NULL)
       return "null";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_M0)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_M0)
       return "m0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_EXEC_LO)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_EXEC_LO)
       return "exec_lo";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_EXEC_HI)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_EXEC_HI)
       return "exec_hi";
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_POS_INT_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_POS_INT_MAX)
-      return std::to_string(encoding_value_ - OpSelSrc::OPR_SRC_POS_INT_MIN);
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_NEG_INT_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_NEG_INT_MAX)
-      return std::to_string(-(encoding_value_ - OpSelSrc::OPR_SRC_NEG_INT_MIN + 1));
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_HALF)
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_POS_INT_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_POS_INT_MAX)
+      return std::to_string(state_.encoding_value - OpSelSrc::OPR_SRC_POS_INT_MIN);
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_NEG_INT_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_NEG_INT_MAX)
+      return std::to_string(-(state_.encoding_value - OpSelSrc::OPR_SRC_NEG_INT_MIN + 1));
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_HALF)
       return "0.5";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_NEG_HALF)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_NEG_HALF)
       return "-0.5";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_ONE)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_ONE)
       return "1.0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_NEG_ONE)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_NEG_ONE)
       return "-1.0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_TWO)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_TWO)
       return "2.0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_NEG_TWO)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_NEG_TWO)
       return "-2.0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_FOUR)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_FOUR)
       return "4.0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_NEG_FOUR)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_NEG_FOUR)
       return "-4.0";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_FLOAT_ONE_OVER_TWO_PI)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_FLOAT_ONE_OVER_TWO_PI)
       return "0.15915494";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_SRC_SCC)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_SRC_SCC)
       return "src_scc";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_SRC_SHARED_BASE)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_SRC_SHARED_BASE)
       return "src_shared_base";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_SRC_SHARED_LIMIT)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_SRC_SHARED_LIMIT)
       return "src_shared_limit";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_SRC_PRIVATE_BASE)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_SRC_PRIVATE_BASE)
       return "src_private_base";
-    if (encoding_value_ == OpSelSrc::OPR_SRC_SRC_PRIVATE_LIMIT)
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_SRC_PRIVATE_LIMIT)
       return "src_private_limit";
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_VGPR_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_VGPR_MAX)
-      return reg_name("v", encoding_value_ - OpSelSrc::OPR_SRC_VGPR_MIN, size_bits_);
-    if (encoding_value_ == OpSelSrc::OPR_SRC_SRC_LITERAL)
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_VGPR_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_VGPR_MAX)
+      return reg_name("v", state_.encoding_value - OpSelSrc::OPR_SRC_VGPR_MIN, state_.size_bits);
+    if (state_.encoding_value == OpSelSrc::OPR_SRC_SRC_LITERAL)
       return "literal";
     break;
   }
   case OperandType::OPR_SRC_VGPR: {
-    if (encoding_value_ >= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN &&
-        encoding_value_ <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
-      return reg_name("v", encoding_value_ - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN, size_bits_);
+    if (state_.encoding_value >= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN &&
+        state_.encoding_value <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
+      return reg_name("v", state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN, state_.size_bits);
     break;
   }
   case OperandType::OPR_SRC_VGPR_OR_INLINE: {
-    if (encoding_value_ >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_POS_INT_MIN &&
-        encoding_value_ <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_POS_INT_MAX)
-      return std::to_string(encoding_value_ -
+    if (state_.encoding_value >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_POS_INT_MIN &&
+        state_.encoding_value <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_POS_INT_MAX)
+      return std::to_string(state_.encoding_value -
                             OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_POS_INT_MIN);
-    if (encoding_value_ >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_NEG_INT_MIN &&
-        encoding_value_ <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_NEG_INT_MAX)
+    if (state_.encoding_value >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_NEG_INT_MIN &&
+        state_.encoding_value <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_NEG_INT_MAX)
       return std::to_string(
-          -(encoding_value_ - OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_NEG_INT_MIN + 1));
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_HALF)
+          -(state_.encoding_value - OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_NEG_INT_MIN + 1));
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_HALF)
       return "0.5";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_HALF)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_HALF)
       return "-0.5";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_ONE)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_ONE)
       return "1.0";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_ONE)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_ONE)
       return "-1.0";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_TWO)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_TWO)
       return "2.0";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_TWO)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_TWO)
       return "-2.0";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_FOUR)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_FOUR)
       return "4.0";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_FOUR)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_NEG_FOUR)
       return "-4.0";
-    if (encoding_value_ == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_ONE_OVER_TWO_PI)
+    if (state_.encoding_value == OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_FLOAT_ONE_OVER_TWO_PI)
       return "0.15915494";
-    if (encoding_value_ >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN &&
-        encoding_value_ <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MAX)
-      return reg_name("v", encoding_value_ - OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN,
-                      size_bits_);
+    if (state_.encoding_value >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN &&
+        state_.encoding_value <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MAX)
+      return reg_name("v", state_.encoding_value - OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_SREG: {
-    if (encoding_value_ >= OpSelSreg::OPR_SREG_SGPR_MIN &&
-        encoding_value_ <= OpSelSreg::OPR_SREG_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSreg::OPR_SREG_SGPR_MIN, size_bits_);
-    if (encoding_value_ >= OpSelSreg::OPR_SREG_TTMP_MIN &&
-        encoding_value_ <= OpSelSreg::OPR_SREG_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSreg::OPR_SREG_TTMP_MIN, size_bits_);
-    if (encoding_value_ == OpSelSreg::OPR_SREG_VCC_LO)
+    if (state_.encoding_value >= OpSelSreg::OPR_SREG_SGPR_MIN &&
+        state_.encoding_value <= OpSelSreg::OPR_SREG_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN, state_.size_bits);
+    if (state_.encoding_value >= OpSelSreg::OPR_SREG_TTMP_MIN &&
+        state_.encoding_value <= OpSelSreg::OPR_SREG_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSreg::OPR_SREG_TTMP_MIN, state_.size_bits);
+    if (state_.encoding_value == OpSelSreg::OPR_SREG_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSreg::OPR_SREG_VCC_HI)
+    if (state_.encoding_value == OpSelSreg::OPR_SREG_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSreg::OPR_SREG_NULL)
+    if (state_.encoding_value == OpSelSreg::OPR_SREG_NULL)
       return "null";
     break;
   }
   case OperandType::OPR_SREG_M0_INL: {
-    if (encoding_value_ >= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN &&
-        encoding_value_ <= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN, size_bits_);
-    if (encoding_value_ >= OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MIN &&
-        encoding_value_ <= OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MIN,
-                      size_bits_);
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_VCC_LO)
+    if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN &&
+        state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN, state_.size_bits);
+    if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MIN &&
+        state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MIN,
+                      state_.size_bits);
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_VCC_HI)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_NULL)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_NULL)
       return "null";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_M0)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_M0)
       return "m0";
-    if (encoding_value_ >= OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MIN &&
-        encoding_value_ <= OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MAX)
-      return std::to_string(encoding_value_ - OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MIN);
-    if (encoding_value_ >= OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN &&
-        encoding_value_ <= OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MAX)
-      return std::to_string(-(encoding_value_ - OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN + 1));
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_HALF)
+    if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MIN &&
+        state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MAX)
+      return std::to_string(state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MIN);
+    if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN &&
+        state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MAX)
+      return std::to_string(-(state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN + 1));
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_HALF)
       return "0.5";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_HALF)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_HALF)
       return "-0.5";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_ONE)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_ONE)
       return "1.0";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_ONE)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_ONE)
       return "-1.0";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_TWO)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_TWO)
       return "2.0";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_TWO)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_TWO)
       return "-2.0";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_FOUR)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_FOUR)
       return "4.0";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_FOUR)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_FOUR)
       return "-4.0";
-    if (encoding_value_ == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_ONE_OVER_TWO_PI)
+    if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_ONE_OVER_TWO_PI)
       return "0.15915494";
     break;
   }
   case OperandType::OPR_SSRC: {
-    if (encoding_value_ >= OpSelSsrc::OPR_SSRC_SGPR_MIN &&
-        encoding_value_ <= OpSelSsrc::OPR_SSRC_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSsrc::OPR_SSRC_SGPR_MIN, size_bits_);
-    if (encoding_value_ >= OpSelSsrc::OPR_SSRC_TTMP_MIN &&
-        encoding_value_ <= OpSelSsrc::OPR_SSRC_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSsrc::OPR_SSRC_TTMP_MIN, size_bits_);
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_VCC_LO)
+    if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_SGPR_MIN &&
+        state_.encoding_value <= OpSelSsrc::OPR_SSRC_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN, state_.size_bits);
+    if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_TTMP_MIN &&
+        state_.encoding_value <= OpSelSsrc::OPR_SSRC_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSsrc::OPR_SSRC_TTMP_MIN, state_.size_bits);
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_VCC_HI)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_NULL)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_NULL)
       return "null";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_M0)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_M0)
       return "m0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_EXEC_LO)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_EXEC_LO)
       return "exec_lo";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_EXEC_HI)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_EXEC_HI)
       return "exec_hi";
-    if (encoding_value_ >= OpSelSsrc::OPR_SSRC_POS_INT_MIN &&
-        encoding_value_ <= OpSelSsrc::OPR_SSRC_POS_INT_MAX)
-      return std::to_string(encoding_value_ - OpSelSsrc::OPR_SSRC_POS_INT_MIN);
-    if (encoding_value_ >= OpSelSsrc::OPR_SSRC_NEG_INT_MIN &&
-        encoding_value_ <= OpSelSsrc::OPR_SSRC_NEG_INT_MAX)
-      return std::to_string(-(encoding_value_ - OpSelSsrc::OPR_SSRC_NEG_INT_MIN + 1));
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_HALF)
+    if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_POS_INT_MIN &&
+        state_.encoding_value <= OpSelSsrc::OPR_SSRC_POS_INT_MAX)
+      return std::to_string(state_.encoding_value - OpSelSsrc::OPR_SSRC_POS_INT_MIN);
+    if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_NEG_INT_MIN &&
+        state_.encoding_value <= OpSelSsrc::OPR_SSRC_NEG_INT_MAX)
+      return std::to_string(-(state_.encoding_value - OpSelSsrc::OPR_SSRC_NEG_INT_MIN + 1));
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_HALF)
       return "0.5";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_NEG_HALF)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_NEG_HALF)
       return "-0.5";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_ONE)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_ONE)
       return "1.0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_NEG_ONE)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_NEG_ONE)
       return "-1.0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_TWO)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_TWO)
       return "2.0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_NEG_TWO)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_NEG_TWO)
       return "-2.0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_FOUR)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_FOUR)
       return "4.0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_NEG_FOUR)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_NEG_FOUR)
       return "-4.0";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_FLOAT_ONE_OVER_TWO_PI)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_FLOAT_ONE_OVER_TWO_PI)
       return "0.15915494";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_SRC_SCC)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_SRC_SCC)
       return "src_scc";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_SRC_SHARED_BASE)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_SRC_SHARED_BASE)
       return "src_shared_base";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_SRC_SHARED_LIMIT)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_SRC_SHARED_LIMIT)
       return "src_shared_limit";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_SRC_PRIVATE_BASE)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_SRC_PRIVATE_BASE)
       return "src_private_base";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_SRC_PRIVATE_LIMIT)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_SRC_PRIVATE_LIMIT)
       return "src_private_limit";
-    if (encoding_value_ == OpSelSsrc::OPR_SSRC_SRC_LITERAL)
+    if (state_.encoding_value == OpSelSsrc::OPR_SSRC_SRC_LITERAL)
       return "literal";
     break;
   }
   case OperandType::OPR_SSRC_LANESEL: {
-    if (encoding_value_ >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN &&
-        encoding_value_ <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MAX)
-      return reg_name("s", encoding_value_ - OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN,
-                      size_bits_);
-    if (encoding_value_ >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_TTMP_MIN &&
-        encoding_value_ <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_TTMP_MAX)
-      return reg_name("ttmp", encoding_value_ - OpSelSsrcLanesel::OPR_SSRC_LANESEL_TTMP_MIN,
-                      size_bits_);
-    if (encoding_value_ == OpSelSsrcLanesel::OPR_SSRC_LANESEL_VCC_LO)
+    if (state_.encoding_value >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN &&
+        state_.encoding_value <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MAX)
+      return reg_name("s", state_.encoding_value - OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN,
+                      state_.size_bits);
+    if (state_.encoding_value >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_TTMP_MIN &&
+        state_.encoding_value <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_TTMP_MAX)
+      return reg_name("ttmp", state_.encoding_value - OpSelSsrcLanesel::OPR_SSRC_LANESEL_TTMP_MIN,
+                      state_.size_bits);
+    if (state_.encoding_value == OpSelSsrcLanesel::OPR_SSRC_LANESEL_VCC_LO)
       return "vcc_lo";
-    if (encoding_value_ == OpSelSsrcLanesel::OPR_SSRC_LANESEL_VCC_HI)
+    if (state_.encoding_value == OpSelSsrcLanesel::OPR_SSRC_LANESEL_VCC_HI)
       return "vcc_hi";
-    if (encoding_value_ == OpSelSsrcLanesel::OPR_SSRC_LANESEL_NULL)
+    if (state_.encoding_value == OpSelSsrcLanesel::OPR_SSRC_LANESEL_NULL)
       return "null";
-    if (encoding_value_ == OpSelSsrcLanesel::OPR_SSRC_LANESEL_M0)
+    if (state_.encoding_value == OpSelSsrcLanesel::OPR_SSRC_LANESEL_M0)
       return "m0";
     break;
   }
   case OperandType::OPR_SSRC_SPECIAL_SCC: {
-    if (encoding_value_ == OpSelSsrcSpecialScc::OPR_SSRC_SPECIAL_SCC_SRC_SCC)
+    if (state_.encoding_value == OpSelSsrcSpecialScc::OPR_SSRC_SPECIAL_SCC_SRC_SCC)
       return "src_scc";
     break;
   }
   case OperandType::OPR_TGT: {
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT0)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT0)
       return "mrt0";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT1)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT1)
       return "mrt1";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT2)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT2)
       return "mrt2";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT3)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT3)
       return "mrt3";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT4)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT4)
       return "mrt4";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT5)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT5)
       return "mrt5";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT6)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT6)
       return "mrt6";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRT7)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRT7)
       return "mrt7";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_MRTZ)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_MRTZ)
       return "mrtz";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_POS0)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_POS0)
       return "pos0";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_POS1)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_POS1)
       return "pos1";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_POS2)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_POS2)
       return "pos2";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_POS3)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_POS3)
       return "pos3";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_POS4)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_POS4)
       return "pos4";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_PRIM)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_PRIM)
       return "prim";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_DUAL_SRC_BLEND0)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_DUAL_SRC_BLEND0)
       return "dual_src_blend0";
-    if (encoding_value_ == OpSelTgt::OPR_TGT_DUAL_SRC_BLEND1)
+    if (state_.encoding_value == OpSelTgt::OPR_TGT_DUAL_SRC_BLEND1)
       return "dual_src_blend1";
     break;
   }
   case OperandType::OPR_VCC: {
-    if (encoding_value_ == OpSelVcc::OPR_VCC_VCC)
+    if (state_.encoding_value == OpSelVcc::OPR_VCC_VCC)
       return "vcc";
     break;
   }
   case OperandType::OPR_VGPR: {
-    if (encoding_value_ >= OpSelVgpr::OPR_VGPR_VGPR_MIN &&
-        encoding_value_ <= OpSelVgpr::OPR_VGPR_VGPR_MAX)
-      return reg_name("v", encoding_value_ - OpSelVgpr::OPR_VGPR_VGPR_MIN, size_bits_);
+    if (state_.encoding_value >= OpSelVgpr::OPR_VGPR_VGPR_MIN &&
+        state_.encoding_value <= OpSelVgpr::OPR_VGPR_VGPR_MAX)
+      return reg_name("v", state_.encoding_value - OpSelVgpr::OPR_VGPR_VGPR_MIN, state_.size_bits);
     break;
   }
   case OperandType::OPR_CLAUSE:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_DELAY:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_HWREG:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_LABEL:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_SENDMSG:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_SIMM16:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_SIMM32:
-    return std::format("0x{:x}", encoding_value_);
+    return std::format("0x{:x}", state_.encoding_value);
   case OperandType::OPR_VERSION:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   case OperandType::OPR_WAITCNT: {
-    uint32_t expcnt = encoding_value_ & 0x7;
-    uint32_t lgkmcnt = (encoding_value_ >> 4) & 0x3F;
-    uint32_t vmcnt = (encoding_value_ >> 10) & 0x3F;
+    uint32_t expcnt = state_.encoding_value & 0x7;
+    uint32_t lgkmcnt = (state_.encoding_value >> 4) & 0x3F;
+    uint32_t vmcnt = (state_.encoding_value >> 10) & 0x3F;
     return std::format("vmcnt({}) expcnt({}) lgkmcnt({})", vmcnt, expcnt, lgkmcnt);
   }
   case OperandType::OPR_WAITCNT_DEPCTR:
-    return std::to_string(encoding_value_);
+    return std::to_string(state_.encoding_value);
   }
-  return std::to_string(encoding_value_);
+  return std::to_string(state_.encoding_value);
 }
 
 std::optional<RegisterRef> Operand::to_register_ref() const {
   // Liveness tracks operands as contiguous 32-bit register lanes.
-  const auto reg_width = static_cast<uint8_t>(size_bits_ > 32 ? size_bits_ / 32 : 1);
+  const auto reg_width = static_cast<uint8_t>(state_.size_bits > 32 ? state_.size_bits / 32 : 1);
   switch (opr_type_) {
   case OperandType::OPR_ATTR: {
     break;
@@ -509,10 +509,10 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
     break;
   }
   case OperandType::OPR_SDST: {
-    if (encoding_value_ >= OpSelSdst::OPR_SDST_SGPR_MIN &&
-        encoding_value_ <= OpSelSdst::OPR_SDST_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSdst::OPR_SDST_SGPR_MIN &&
+        state_.encoding_value <= OpSelSdst::OPR_SDST_SGPR_MAX)
       return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(encoding_value_ - OpSelSdst::OPR_SDST_SGPR_MIN),
+                         static_cast<uint16_t>(state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN),
                          reg_width};
     break;
   }
@@ -526,76 +526,76 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
     break;
   }
   case OperandType::OPR_SMEM_OFFSET: {
-    if (encoding_value_ >= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN &&
-        encoding_value_ <= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN &&
+        state_.encoding_value <= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MAX)
       return RegisterRef{
           RegClass::SGPR,
-          static_cast<uint16_t>(encoding_value_ - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN),
+          static_cast<uint16_t>(state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN),
           reg_width};
     break;
   }
   case OperandType::OPR_SRC: {
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_SGPR_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_SGPR_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_SGPR_MAX)
       return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(encoding_value_ - OpSelSrc::OPR_SRC_SGPR_MIN),
+                         static_cast<uint16_t>(state_.encoding_value - OpSelSrc::OPR_SRC_SGPR_MIN),
                          reg_width};
-    if (encoding_value_ >= OpSelSrc::OPR_SRC_VGPR_MIN &&
-        encoding_value_ <= OpSelSrc::OPR_SRC_VGPR_MAX)
+    if (state_.encoding_value >= OpSelSrc::OPR_SRC_VGPR_MIN &&
+        state_.encoding_value <= OpSelSrc::OPR_SRC_VGPR_MAX)
       return RegisterRef{RegClass::VGPR,
-                         static_cast<uint16_t>(encoding_value_ - OpSelSrc::OPR_SRC_VGPR_MIN),
+                         static_cast<uint16_t>(state_.encoding_value - OpSelSrc::OPR_SRC_VGPR_MIN),
                          reg_width};
     break;
   }
   case OperandType::OPR_SRC_VGPR: {
-    if (encoding_value_ >= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN &&
-        encoding_value_ <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
+    if (state_.encoding_value >= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN &&
+        state_.encoding_value <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
       return RegisterRef{
           RegClass::VGPR,
-          static_cast<uint16_t>(encoding_value_ - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN), reg_width};
+          static_cast<uint16_t>(state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SRC_VGPR_OR_INLINE: {
-    if (encoding_value_ >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN &&
-        encoding_value_ <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MAX)
+    if (state_.encoding_value >= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN &&
+        state_.encoding_value <= OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MAX)
       return RegisterRef{
           RegClass::VGPR,
-          static_cast<uint16_t>(encoding_value_ -
+          static_cast<uint16_t>(state_.encoding_value -
                                 OpSelSrcVgprOrInline::OPR_SRC_VGPR_OR_INLINE_VGPR_MIN),
           reg_width};
     break;
   }
   case OperandType::OPR_SREG: {
-    if (encoding_value_ >= OpSelSreg::OPR_SREG_SGPR_MIN &&
-        encoding_value_ <= OpSelSreg::OPR_SREG_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSreg::OPR_SREG_SGPR_MIN &&
+        state_.encoding_value <= OpSelSreg::OPR_SREG_SGPR_MAX)
       return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(encoding_value_ - OpSelSreg::OPR_SREG_SGPR_MIN),
+                         static_cast<uint16_t>(state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN),
                          reg_width};
     break;
   }
   case OperandType::OPR_SREG_M0_INL: {
-    if (encoding_value_ >= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN &&
-        encoding_value_ <= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN &&
+        state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MAX)
       return RegisterRef{
           RegClass::SGPR,
-          static_cast<uint16_t>(encoding_value_ - OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN),
+          static_cast<uint16_t>(state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN),
           reg_width};
     break;
   }
   case OperandType::OPR_SSRC: {
-    if (encoding_value_ >= OpSelSsrc::OPR_SSRC_SGPR_MIN &&
-        encoding_value_ <= OpSelSsrc::OPR_SSRC_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_SGPR_MIN &&
+        state_.encoding_value <= OpSelSsrc::OPR_SSRC_SGPR_MAX)
       return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(encoding_value_ - OpSelSsrc::OPR_SSRC_SGPR_MIN),
+                         static_cast<uint16_t>(state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN),
                          reg_width};
     break;
   }
   case OperandType::OPR_SSRC_LANESEL: {
-    if (encoding_value_ >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN &&
-        encoding_value_ <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MAX)
+    if (state_.encoding_value >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN &&
+        state_.encoding_value <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MAX)
       return RegisterRef{
           RegClass::SGPR,
-          static_cast<uint16_t>(encoding_value_ - OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN),
+          static_cast<uint16_t>(state_.encoding_value - OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN),
           reg_width};
     break;
   }
@@ -609,10 +609,10 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
     break;
   }
   case OperandType::OPR_VGPR: {
-    if (encoding_value_ >= OpSelVgpr::OPR_VGPR_VGPR_MIN &&
-        encoding_value_ <= OpSelVgpr::OPR_VGPR_VGPR_MAX)
+    if (state_.encoding_value >= OpSelVgpr::OPR_VGPR_VGPR_MIN &&
+        state_.encoding_value <= OpSelVgpr::OPR_VGPR_VGPR_MAX)
       return RegisterRef{RegClass::VGPR,
-                         static_cast<uint16_t>(encoding_value_ - OpSelVgpr::OPR_VGPR_VGPR_MIN),
+                         static_cast<uint16_t>(state_.encoding_value - OpSelVgpr::OPR_VGPR_VGPR_MIN),
                          reg_width};
     break;
   }
@@ -775,14 +775,14 @@ uint32_t Operand::read_scalar(const amdgpu::Wavefront &wf) const {
   if (delegate())
     return delegate()->read_scalar(wf);
   if (is_immediate_type(opr_type_))
-    return static_cast<uint32_t>(encoding_value_);
-  return resolve_src_scalar(wf, encoding_value_);
+    return static_cast<uint32_t>(state_.encoding_value);
+  return resolve_src_scalar(wf, state_.encoding_value);
 }
 
 uint32_t Operand::read_lane(const amdgpu::Wavefront &wf, uint32_t lane) const {
   if (delegate())
     return delegate()->read_lane(wf, lane);
-  int ev = encoding_value_;
+  int ev = state_.encoding_value;
   if (is_vgpr_only_type(opr_type_))
     return wf.cu().read_vgpr(wf.vgpr_alloc().base + vgpr_index(opr_type_, ev), lane);
   if (is_immediate_type(opr_type_))
@@ -793,11 +793,11 @@ uint32_t Operand::read_lane(const amdgpu::Wavefront &wf, uint32_t lane) const {
 }
 
 void Operand::write_scalar(amdgpu::Wavefront &wf, uint32_t val) const {
-  resolve_dst_write(wf, encoding_value_, val);
+  resolve_dst_write(wf, state_.encoding_value, val);
 }
 
 void Operand::write_lane(amdgpu::Wavefront &wf, uint32_t lane, uint32_t val) const {
-  int ev = encoding_value_;
+  int ev = state_.encoding_value;
   if (is_vgpr_only_type(opr_type_)) {
     wf.cu().write_vgpr(wf.vgpr_alloc().base + vgpr_index(opr_type_, ev), lane, val);
     return;
@@ -808,7 +808,7 @@ void Operand::write_lane(amdgpu::Wavefront &wf, uint32_t lane, uint32_t val) con
 uint64_t Operand::read_lane64(const amdgpu::Wavefront &wf, uint32_t lane) const {
   if (delegate())
     return delegate()->read_lane64(wf, lane);
-  int ev = encoding_value_;
+  int ev = state_.encoding_value;
   if (is_vgpr_only_type(opr_type_)) {
     uint32_t idx = wf.vgpr_alloc().base + vgpr_index(opr_type_, ev);
     uint32_t lo = wf.cu().read_vgpr(idx, lane);
@@ -827,7 +827,7 @@ uint64_t Operand::read_lane64(const amdgpu::Wavefront &wf, uint32_t lane) const 
 }
 
 void Operand::write_lane64(amdgpu::Wavefront &wf, uint32_t lane, uint64_t val) const {
-  int ev = encoding_value_;
+  int ev = state_.encoding_value;
   if (is_vgpr_only_type(opr_type_)) {
     uint32_t idx = wf.vgpr_alloc().base + vgpr_index(opr_type_, ev);
     wf.cu().write_vgpr(idx, lane, static_cast<uint32_t>(val));
@@ -839,12 +839,12 @@ void Operand::write_lane64(amdgpu::Wavefront &wf, uint32_t lane, uint64_t val) c
 
 uint64_t Operand::read_scalar64(const amdgpu::Wavefront &wf) const {
   if (is_immediate_type(opr_type_))
-    return static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(encoding_value_)));
-  return resolve_src_scalar64(wf, encoding_value_);
+    return static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(state_.encoding_value)));
+  return resolve_src_scalar64(wf, state_.encoding_value);
 }
 
 void Operand::write_scalar64(amdgpu::Wavefront &wf, uint64_t val) const {
-  resolve_dst_write64(wf, encoding_value_, val);
+  resolve_dst_write64(wf, state_.encoding_value, val);
 }
 
 } // namespace rdna3

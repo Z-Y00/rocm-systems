@@ -246,7 +246,7 @@ inline void execute_s_addc_u32_sop2([[maybe_unused]] Inst &inst, [[maybe_unused]
 template <typename Inst>
 inline void execute_s_addk_i32_sopk([[maybe_unused]] Inst &inst, [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   int64_t wide = static_cast<int64_t>(s0) + static_cast<int64_t>(imm);
   int32_t result = static_cast<int32_t>(wide);
   inst.sdst.write_scalar(wf, static_cast<uint32_t>(result));
@@ -826,7 +826,7 @@ template <typename Inst>
 inline void execute_s_cmovk_i32_sopk([[maybe_unused]] Inst &inst, [[maybe_unused]] Wavefront &wf) {
   if (wf.read_scc())
     inst.sdst.write_scalar(wf, static_cast<uint32_t>(static_cast<int32_t>(
-                                   static_cast<int16_t>(inst.simm16.encoding_value_))));
+                                   static_cast<int16_t>(inst.simm16.state_.encoding_value))));
 }
 
 template <typename Inst>
@@ -931,7 +931,7 @@ template <typename Inst>
 inline void execute_s_cmpk_eq_i32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   wf.write_scc(s0 == imm);
 }
 
@@ -939,7 +939,7 @@ template <typename Inst>
 inline void execute_s_cmpk_eq_u32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   uint32_t s0 = inst.sdst.read_scalar(wf);
-  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.encoding_value_));
+  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.state_.encoding_value));
   wf.write_scc(s0 == imm);
 }
 
@@ -947,7 +947,7 @@ template <typename Inst>
 inline void execute_s_cmpk_ge_i32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   wf.write_scc(s0 >= imm);
 }
 
@@ -955,7 +955,7 @@ template <typename Inst>
 inline void execute_s_cmpk_ge_u32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   uint32_t s0 = inst.sdst.read_scalar(wf);
-  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.encoding_value_));
+  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.state_.encoding_value));
   wf.write_scc(s0 >= imm);
 }
 
@@ -963,7 +963,7 @@ template <typename Inst>
 inline void execute_s_cmpk_gt_i32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   wf.write_scc(s0 > imm);
 }
 
@@ -971,7 +971,7 @@ template <typename Inst>
 inline void execute_s_cmpk_gt_u32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   uint32_t s0 = inst.sdst.read_scalar(wf);
-  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.encoding_value_));
+  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.state_.encoding_value));
   wf.write_scc(s0 > imm);
 }
 
@@ -979,7 +979,7 @@ template <typename Inst>
 inline void execute_s_cmpk_le_i32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   wf.write_scc(s0 <= imm);
 }
 
@@ -987,7 +987,7 @@ template <typename Inst>
 inline void execute_s_cmpk_le_u32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   uint32_t s0 = inst.sdst.read_scalar(wf);
-  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.encoding_value_));
+  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.state_.encoding_value));
   wf.write_scc(s0 <= imm);
 }
 
@@ -995,7 +995,7 @@ template <typename Inst>
 inline void execute_s_cmpk_lg_i32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   wf.write_scc(s0 != imm);
 }
 
@@ -1003,7 +1003,7 @@ template <typename Inst>
 inline void execute_s_cmpk_lg_u32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   uint32_t s0 = inst.sdst.read_scalar(wf);
-  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.encoding_value_));
+  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.state_.encoding_value));
   wf.write_scc(s0 != imm);
 }
 
@@ -1011,7 +1011,7 @@ template <typename Inst>
 inline void execute_s_cmpk_lt_i32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   wf.write_scc(s0 < imm);
 }
 
@@ -1019,7 +1019,7 @@ template <typename Inst>
 inline void execute_s_cmpk_lt_u32_sopk([[maybe_unused]] Inst &inst,
                                        [[maybe_unused]] Wavefront &wf) {
   uint32_t s0 = inst.sdst.read_scalar(wf);
-  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.encoding_value_));
+  uint32_t imm = static_cast<uint32_t>(static_cast<uint16_t>(inst.simm16.state_.encoding_value));
   wf.write_scc(s0 < imm);
 }
 
@@ -1240,7 +1240,7 @@ inline void execute_s_floor_f32_sop1([[maybe_unused]] Inst &inst, [[maybe_unused
 
 template <typename Inst>
 inline void execute_s_getreg_b32_sopk([[maybe_unused]] Inst &inst, [[maybe_unused]] Wavefront &wf) {
-  uint16_t hwreg = inst.simm16.encoding_value_;
+  uint16_t hwreg = inst.simm16.state_.encoding_value;
   uint32_t reg_id = hwreg & 0x3Fu;
   uint32_t offset = (hwreg >> 6) & 0x1Fu;
   uint32_t size = ((hwreg >> 11) & 0x1Fu) + 1;
@@ -1414,7 +1414,7 @@ inline void execute_s_mov_b64_sop1([[maybe_unused]] Inst &inst, [[maybe_unused]]
 template <typename Inst>
 inline void execute_s_movk_i32_sopk([[maybe_unused]] Inst &inst, [[maybe_unused]] Wavefront &wf) {
   inst.sdst.write_scalar(wf, static_cast<uint32_t>(static_cast<int32_t>(
-                                 static_cast<int16_t>(inst.simm16.encoding_value_))));
+                                 static_cast<int16_t>(inst.simm16.state_.encoding_value))));
 }
 
 template <typename Inst>
@@ -1464,7 +1464,7 @@ inline void execute_s_mul_i32_sop2([[maybe_unused]] Inst &inst, [[maybe_unused]]
 template <typename Inst>
 inline void execute_s_mulk_i32_sopk([[maybe_unused]] Inst &inst, [[maybe_unused]] Wavefront &wf) {
   int32_t s0 = static_cast<int32_t>(inst.sdst.read_scalar(wf));
-  int32_t imm = static_cast<int16_t>(inst.simm16.encoding_value_);
+  int32_t imm = static_cast<int16_t>(inst.simm16.state_.encoding_value);
   inst.sdst.write_scalar(wf, static_cast<uint32_t>(s0 * imm));
 }
 
@@ -1876,7 +1876,7 @@ inline void execute_s_setprio_sopp([[maybe_unused]] Inst &inst, [[maybe_unused]]
 
 template <typename Inst>
 inline void execute_s_setreg_b32_sopk([[maybe_unused]] Inst &inst, [[maybe_unused]] Wavefront &wf) {
-  uint16_t hwreg = inst.simm16.encoding_value_;
+  uint16_t hwreg = inst.simm16.state_.encoding_value;
   uint32_t reg_id = hwreg & 0x3Fu;
   uint32_t offset = (hwreg >> 6) & 0x1Fu;
   uint32_t size = ((hwreg >> 11) & 0x1Fu) + 1;
@@ -1900,7 +1900,7 @@ inline void execute_s_setreg_b32_sopk([[maybe_unused]] Inst &inst, [[maybe_unuse
 template <typename Inst>
 inline void execute_s_setreg_imm32_b32_sopk([[maybe_unused]] Inst &inst,
                                             [[maybe_unused]] Wavefront &wf) {
-  uint16_t hwreg = inst.simm16.encoding_value_;
+  uint16_t hwreg = inst.simm16.state_.encoding_value;
   uint32_t reg_id = hwreg & 0x3Fu;
   uint32_t offset = (hwreg >> 6) & 0x1Fu;
   uint32_t size = ((hwreg >> 11) & 0x1Fu) + 1;
@@ -11001,7 +11001,7 @@ inline void execute_v_madak_f16_vop2([[maybe_unused]] Inst &inst, [[maybe_unused
       continue;
     float s0 = util::f16_to_f32(static_cast<uint16_t>(inst.src0.read_lane(wf, lane)));
     float s1 = util::f16_to_f32(static_cast<uint16_t>(inst.vsrc1.read_lane(wf, lane)));
-    float k = util::f16_to_f32(static_cast<uint16_t>(inst.simm32.encoding_value_));
+    float k = util::f16_to_f32(static_cast<uint16_t>(inst.simm32.state_.encoding_value));
     inst.vdst.write_lane(wf, lane, util::f32_to_f16(std::fma(s0, s1, k)));
   }
 }
@@ -11014,7 +11014,7 @@ inline void execute_v_madak_f32_vop2([[maybe_unused]] Inst &inst, [[maybe_unused
       continue;
     float s0 = std::bit_cast<float>(inst.src0.read_lane(wf, lane));
     float s1 = std::bit_cast<float>(inst.vsrc1.read_lane(wf, lane));
-    float k = std::bit_cast<float>(inst.simm32.encoding_value_);
+    float k = std::bit_cast<float>(inst.simm32.state_.encoding_value);
     inst.vdst.write_lane(wf, lane, std::bit_cast<uint32_t>(std::fma(s0, s1, k)));
   }
 }
@@ -11026,7 +11026,7 @@ inline void execute_v_madmk_f16_vop2([[maybe_unused]] Inst &inst, [[maybe_unused
     if (!(exec & (1ULL << lane)))
       continue;
     float s0 = util::f16_to_f32(static_cast<uint16_t>(inst.src0.read_lane(wf, lane)));
-    float k = util::f16_to_f32(static_cast<uint16_t>(inst.simm32.encoding_value_));
+    float k = util::f16_to_f32(static_cast<uint16_t>(inst.simm32.state_.encoding_value));
     float s2 = util::f16_to_f32(static_cast<uint16_t>(inst.vsrc1.read_lane(wf, lane)));
     inst.vdst.write_lane(wf, lane, util::f32_to_f16(std::fma(s0, k, s2)));
   }
@@ -11039,7 +11039,7 @@ inline void execute_v_madmk_f32_vop2([[maybe_unused]] Inst &inst, [[maybe_unused
     if (!(exec & (1ULL << lane)))
       continue;
     float s0 = std::bit_cast<float>(inst.src0.read_lane(wf, lane));
-    float k = std::bit_cast<float>(inst.simm32.encoding_value_);
+    float k = std::bit_cast<float>(inst.simm32.state_.encoding_value);
     float s2 = std::bit_cast<float>(inst.vsrc1.read_lane(wf, lane));
     inst.vdst.write_lane(wf, lane, std::bit_cast<uint32_t>(std::fma(s0, k, s2)));
   }
@@ -12793,16 +12793,16 @@ inline void execute_v_pk_add_f32_vop3p([[maybe_unused]] Inst &inst,
       continue;
     uint32_t s0_lo_w = inst.src0.read_lane(wf, lane);
     uint32_t s0_hi_w =
-        (inst.src0.encoding_value_ >= 256 && inst.src0.encoding_value_ <= 511)
+        (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
-        (inst.src1.encoding_value_ >= 256 && inst.src1.encoding_value_ <= 511)
+        (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
                                 lane)
             : s1_lo_w;
     bool sel0_lo = (inst.inst_.op_sel >> 0) & 1;
@@ -12953,23 +12953,23 @@ inline void execute_v_pk_fma_f32_vop3p([[maybe_unused]] Inst &inst,
       continue;
     uint32_t s0_lo_w = inst.src0.read_lane(wf, lane);
     uint32_t s0_hi_w =
-        (inst.src0.encoding_value_ >= 256 && inst.src0.encoding_value_ <= 511)
+        (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
-        (inst.src1.encoding_value_ >= 256 && inst.src1.encoding_value_ <= 511)
+        (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
                                 lane)
             : s1_lo_w;
     uint32_t s2_lo_w = inst.src2.read_lane(wf, lane);
     uint32_t s2_hi_w =
-        (inst.src2.encoding_value_ >= 256 && inst.src2.encoding_value_ <= 511)
+        (inst.src2.state_.encoding_value >= 256 && inst.src2.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src2.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src2.state_.encoding_value - 256) + 1,
                                 lane)
             : s2_lo_w;
     bool sel0_lo = (inst.inst_.op_sel >> 0) & 1;
@@ -13278,16 +13278,16 @@ inline void execute_v_pk_mov_b32_vop3p([[maybe_unused]] Inst &inst,
       continue;
     uint32_t s0_lo_w = inst.src0.read_lane(wf, lane);
     uint32_t s0_hi_w =
-        (inst.src0.encoding_value_ >= 256 && inst.src0.encoding_value_ <= 511)
+        (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
-        (inst.src1.encoding_value_ >= 256 && inst.src1.encoding_value_ <= 511)
+        (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
                                 lane)
             : s1_lo_w;
     uint32_t lo = (inst.inst_.op_sel & 1) ? s0_hi_w : s0_lo_w;
@@ -13341,16 +13341,16 @@ inline void execute_v_pk_mul_f32_vop3p([[maybe_unused]] Inst &inst,
       continue;
     uint32_t s0_lo_w = inst.src0.read_lane(wf, lane);
     uint32_t s0_hi_w =
-        (inst.src0.encoding_value_ >= 256 && inst.src0.encoding_value_ <= 511)
+        (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
-        (inst.src1.encoding_value_ >= 256 && inst.src1.encoding_value_ <= 511)
+        (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.encoding_value_ - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
                                 lane)
             : s1_lo_w;
     bool sel0_lo = (inst.inst_.op_sel >> 0) & 1;

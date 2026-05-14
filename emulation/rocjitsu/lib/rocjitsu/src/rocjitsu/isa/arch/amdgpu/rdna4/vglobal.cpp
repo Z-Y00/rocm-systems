@@ -31,9 +31,9 @@ GlobalLoadU8Vglobal::GlobalLoadU8Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadU8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -57,9 +57,9 @@ GlobalLoadI8Vglobal::GlobalLoadI8Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadI8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -84,9 +84,9 @@ GlobalLoadU16Vglobal::GlobalLoadU16Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadU16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -110,9 +110,9 @@ GlobalLoadI16Vglobal::GlobalLoadI16Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadI16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -137,9 +137,9 @@ GlobalLoadB32Vglobal::GlobalLoadB32Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -163,9 +163,9 @@ GlobalLoadB64Vglobal::GlobalLoadB64Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -189,9 +189,9 @@ GlobalLoadB96Vglobal::GlobalLoadB96Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadB96Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -215,9 +215,9 @@ GlobalLoadB128Vglobal::GlobalLoadB128Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadB128Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -241,9 +241,9 @@ GlobalStoreB8Vglobal::GlobalStoreB8Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreB8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -275,9 +275,9 @@ GlobalStoreB16Vglobal::GlobalStoreB16Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreB16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -309,9 +309,9 @@ GlobalStoreB32Vglobal::GlobalStoreB32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -343,9 +343,9 @@ GlobalStoreB64Vglobal::GlobalStoreB64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -379,9 +379,9 @@ GlobalStoreB96Vglobal::GlobalStoreB96Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreB96Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -417,9 +417,9 @@ GlobalStoreB128Vglobal::GlobalStoreB128Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreB128Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -457,9 +457,9 @@ GlobalLoadD16U8Vglobal::GlobalLoadD16U8Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadD16U8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -484,9 +484,9 @@ GlobalLoadD16I8Vglobal::GlobalLoadD16I8Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadD16I8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -512,9 +512,9 @@ GlobalLoadD16B16Vglobal::GlobalLoadD16B16Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadD16B16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -539,9 +539,9 @@ GlobalLoadD16HiU8Vglobal::GlobalLoadD16HiU8Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadD16HiU8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -566,9 +566,9 @@ GlobalLoadD16HiI8Vglobal::GlobalLoadD16HiI8Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadD16HiI8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -594,9 +594,9 @@ GlobalLoadD16HiB16Vglobal::GlobalLoadD16HiB16Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalLoadD16HiB16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -621,9 +621,9 @@ GlobalStoreD16HiB8Vglobal::GlobalStoreD16HiB8Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreD16HiB8Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -656,9 +656,9 @@ GlobalStoreD16HiB16Vglobal::GlobalStoreD16HiB16Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalStoreD16HiB16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -689,8 +689,8 @@ GlobalLoadAddtidB32Vglobal::GlobalLoadAddtidB32Vglobal(const MachineInst *inst)
       saddr(64, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->saddr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &saddr;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void GlobalLoadAddtidB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -705,8 +705,8 @@ GlobalStoreAddtidB32Vglobal::GlobalStoreAddtidB32Vglobal(const MachineInst *inst
       saddr(64, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->saddr) {
   src_operands_[0] = &vsrc;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 0;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
 }
 
 void GlobalStoreAddtidB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -717,8 +717,8 @@ void GlobalStoreAddtidB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
 GlobalInvVglobal::GlobalInvVglobal(const MachineInst *inst)
     : Vglobal("global_inv", reinterpret_cast<const OpEncoding *>(inst),
               make_exec_fn<GlobalInvVglobal>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void GlobalInvVglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -729,8 +729,8 @@ void GlobalInvVglobal::execute_impl(amdgpu::Wavefront &wf) {
 GlobalWbVglobal::GlobalWbVglobal(const MachineInst *inst)
     : Vglobal("global_wb", reinterpret_cast<const OpEncoding *>(inst),
               make_exec_fn<GlobalWbVglobal>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void GlobalWbVglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -749,9 +749,9 @@ GlobalAtomicSwapB32Vglobal::GlobalAtomicSwapB32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicSwapB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -787,9 +787,9 @@ GlobalAtomicCmpswapB32Vglobal::GlobalAtomicCmpswapB32Vglobal(const MachineInst *
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicCmpswapB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -827,9 +827,9 @@ GlobalAtomicAddU32Vglobal::GlobalAtomicAddU32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicAddU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -865,9 +865,9 @@ GlobalAtomicSubU32Vglobal::GlobalAtomicSubU32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicSubU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -903,9 +903,9 @@ GlobalAtomicSubClampU32Vglobal::GlobalAtomicSubClampU32Vglobal(const MachineInst
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicSubClampU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -941,9 +941,9 @@ GlobalAtomicMinI32Vglobal::GlobalAtomicMinI32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMinI32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -979,9 +979,9 @@ GlobalAtomicMinU32Vglobal::GlobalAtomicMinU32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMinU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1017,9 +1017,9 @@ GlobalAtomicMaxI32Vglobal::GlobalAtomicMaxI32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMaxI32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1055,9 +1055,9 @@ GlobalAtomicMaxU32Vglobal::GlobalAtomicMaxU32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMaxU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1093,9 +1093,9 @@ GlobalAtomicAndB32Vglobal::GlobalAtomicAndB32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicAndB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1131,9 +1131,9 @@ GlobalAtomicOrB32Vglobal::GlobalAtomicOrB32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicOrB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1169,9 +1169,9 @@ GlobalAtomicXorB32Vglobal::GlobalAtomicXorB32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicXorB32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1207,9 +1207,9 @@ GlobalAtomicIncU32Vglobal::GlobalAtomicIncU32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicIncU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1245,9 +1245,9 @@ GlobalAtomicDecU32Vglobal::GlobalAtomicDecU32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicDecU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1283,9 +1283,9 @@ GlobalAtomicSwapB64Vglobal::GlobalAtomicSwapB64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicSwapB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1321,9 +1321,9 @@ GlobalAtomicCmpswapB64Vglobal::GlobalAtomicCmpswapB64Vglobal(const MachineInst *
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicCmpswapB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1361,9 +1361,9 @@ GlobalAtomicAddU64Vglobal::GlobalAtomicAddU64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicAddU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1399,9 +1399,9 @@ GlobalAtomicSubU64Vglobal::GlobalAtomicSubU64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicSubU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1437,9 +1437,9 @@ GlobalAtomicMinI64Vglobal::GlobalAtomicMinI64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMinI64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1477,9 +1477,9 @@ GlobalAtomicMinU64Vglobal::GlobalAtomicMinU64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMinU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1517,9 +1517,9 @@ GlobalAtomicMaxI64Vglobal::GlobalAtomicMaxI64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMaxI64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1557,9 +1557,9 @@ GlobalAtomicMaxU64Vglobal::GlobalAtomicMaxU64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMaxU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1597,9 +1597,9 @@ GlobalAtomicAndB64Vglobal::GlobalAtomicAndB64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicAndB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1635,9 +1635,9 @@ GlobalAtomicOrB64Vglobal::GlobalAtomicOrB64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicOrB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1673,9 +1673,9 @@ GlobalAtomicXorB64Vglobal::GlobalAtomicXorB64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicXorB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1711,9 +1711,9 @@ GlobalAtomicIncU64Vglobal::GlobalAtomicIncU64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicIncU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1749,9 +1749,9 @@ GlobalAtomicDecU64Vglobal::GlobalAtomicDecU64Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicDecU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1779,8 +1779,8 @@ void GlobalAtomicDecU64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
 GlobalWbinvVglobal::GlobalWbinvVglobal(const MachineInst *inst)
     : Vglobal("global_wbinv", reinterpret_cast<const OpEncoding *>(inst),
               make_exec_fn<GlobalWbinvVglobal>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void GlobalWbinvVglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1799,9 +1799,9 @@ GlobalAtomicCondSubU32Vglobal::GlobalAtomicCondSubU32Vglobal(const MachineInst *
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicCondSubU32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1837,9 +1837,9 @@ GlobalAtomicMinNumF32Vglobal::GlobalAtomicMinNumF32Vglobal(const MachineInst *in
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMinNumF32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1875,9 +1875,9 @@ GlobalAtomicMaxNumF32Vglobal::GlobalAtomicMaxNumF32Vglobal(const MachineInst *in
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicMaxNumF32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1911,8 +1911,8 @@ GlobalLoadBlockVglobal::GlobalLoadBlockVglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void GlobalLoadBlockVglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1929,8 +1929,8 @@ GlobalStoreBlockVglobal::GlobalStoreBlockVglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void GlobalStoreBlockVglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1949,9 +1949,9 @@ GlobalAtomicAddF32Vglobal::GlobalAtomicAddF32Vglobal(const MachineInst *inst)
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicAddF32Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -1985,8 +1985,8 @@ GlobalLoadTrB128Vglobal::GlobalLoadTrB128Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void GlobalLoadTrB128Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -2003,8 +2003,8 @@ GlobalLoadTrB64Vglobal::GlobalLoadTrB64Vglobal(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &vaddr;
   src_operands_[1] = &saddr;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void GlobalLoadTrB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -2023,9 +2023,9 @@ GlobalAtomicPkAddF16Vglobal::GlobalAtomicPkAddF16Vglobal(const MachineInst *inst
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicPkAddF16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -2061,9 +2061,9 @@ GlobalAtomicPkAddBf16Vglobal::GlobalAtomicPkAddBf16Vglobal(const MachineInst *in
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicPkAddBf16Vglobal::execute_impl(amdgpu::Wavefront &wf) {
@@ -2099,9 +2099,9 @@ GlobalAtomicOrderedAddB64Vglobal::GlobalAtomicOrderedAddB64Vglobal(const Machine
   src_operands_[0] = &vaddr;
   src_operands_[1] = &vsrc;
   src_operands_[2] = &saddr;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void GlobalAtomicOrderedAddB64Vglobal::execute_impl(amdgpu::Wavefront &wf) {

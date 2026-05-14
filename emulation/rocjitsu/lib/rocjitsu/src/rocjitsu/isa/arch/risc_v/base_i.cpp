@@ -41,13 +41,13 @@ LuiInst::LuiInst(uint32_t raw)
       imm_op(32, OperandType::OPR_IMM, imm()) {
   dst_operands_[0] = &rd;
   src_operands_[0] = &imm_op;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void LuiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(imm()));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(imm()));
 }
 
 AuipcInst::AuipcInst(uint32_t raw)
@@ -55,13 +55,13 @@ AuipcInst::AuipcInst(uint32_t raw)
       imm_op(32, OperandType::OPR_IMM, imm()) {
   dst_operands_[0] = &rd;
   src_operands_[0] = &imm_op;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void AuipcInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(h->pc + static_cast<uint64_t>(imm())));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(h->pc + static_cast<uint64_t>(imm())));
 }
 
 // J-type instructions
@@ -71,13 +71,13 @@ JalInst::JalInst(uint32_t raw)
       offset(21, OperandType::OPR_IMM, imm()) {
   dst_operands_[0] = &rd;
   src_operands_[0] = &offset;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void JalInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(h->pc + 4));
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(h->pc + 4));
   h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -89,14 +89,14 @@ JalrInst::JalrInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void JalrInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int64_t base = h->read_xreg(rs1.encoding_value_);
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(h->pc + 4));
+  int64_t base = h->read_xreg(rs1.state_.encoding_value);
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(h->pc + 4));
   h->next_pc = static_cast<uint64_t>((base + imm()) & ~int64_t{1});
 }
 
@@ -108,13 +108,13 @@ BeqInst::BeqInst(uint32_t raw)
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &rs2_op;
   src_operands_[2] = &offset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void BeqInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  if (h->read_xreg(rs1_op.encoding_value_) == h->read_xreg(rs2_op.encoding_value_))
+  if (h->read_xreg(rs1_op.state_.encoding_value) == h->read_xreg(rs2_op.state_.encoding_value))
     h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -124,13 +124,13 @@ BneInst::BneInst(uint32_t raw)
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &rs2_op;
   src_operands_[2] = &offset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void BneInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  if (h->read_xreg(rs1_op.encoding_value_) != h->read_xreg(rs2_op.encoding_value_))
+  if (h->read_xreg(rs1_op.state_.encoding_value) != h->read_xreg(rs2_op.state_.encoding_value))
     h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -140,13 +140,13 @@ BltInst::BltInst(uint32_t raw)
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &rs2_op;
   src_operands_[2] = &offset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void BltInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  if (h->read_xreg(rs1_op.encoding_value_) < h->read_xreg(rs2_op.encoding_value_))
+  if (h->read_xreg(rs1_op.state_.encoding_value) < h->read_xreg(rs2_op.state_.encoding_value))
     h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -156,13 +156,13 @@ BgeInst::BgeInst(uint32_t raw)
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &rs2_op;
   src_operands_[2] = &offset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void BgeInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  if (h->read_xreg(rs1_op.encoding_value_) >= h->read_xreg(rs2_op.encoding_value_))
+  if (h->read_xreg(rs1_op.state_.encoding_value) >= h->read_xreg(rs2_op.state_.encoding_value))
     h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -172,14 +172,14 @@ BltuInst::BltuInst(uint32_t raw)
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &rs2_op;
   src_operands_[2] = &offset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void BltuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  if (static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_)) <
-      static_cast<uint64_t>(h->read_xreg(rs2_op.encoding_value_)))
+  if (static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value)) <
+      static_cast<uint64_t>(h->read_xreg(rs2_op.state_.encoding_value)))
     h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -189,14 +189,14 @@ BgeuInst::BgeuInst(uint32_t raw)
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &rs2_op;
   src_operands_[2] = &offset;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void BgeuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  if (static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_)) >=
-      static_cast<uint64_t>(h->read_xreg(rs2_op.encoding_value_)))
+  if (static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value)) >=
+      static_cast<uint64_t>(h->read_xreg(rs2_op.state_.encoding_value)))
     h->next_pc = h->pc + static_cast<uint64_t>(imm());
 }
 
@@ -208,15 +208,15 @@ LbInst::LbInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LbInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(static_cast<int8_t>(m->read8(addr))));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(static_cast<int8_t>(m->read8(addr))));
 }
 
 LhInst::LhInst(uint32_t raw)
@@ -225,15 +225,15 @@ LhInst::LhInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LhInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(static_cast<int16_t>(m->read16(addr))));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(static_cast<int16_t>(m->read16(addr))));
 }
 
 LwInst::LwInst(uint32_t raw)
@@ -242,15 +242,15 @@ LwInst::LwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, sext32(static_cast<int32_t>(m->read32(addr))));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, sext32(static_cast<int32_t>(m->read32(addr))));
 }
 
 LdInst::LdInst(uint32_t raw)
@@ -259,15 +259,15 @@ LdInst::LdInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LdInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(m->read64(addr)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(m->read64(addr)));
 }
 
 LbuInst::LbuInst(uint32_t raw)
@@ -276,15 +276,15 @@ LbuInst::LbuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LbuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(m->read8(addr)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(m->read8(addr)));
 }
 
 LhuInst::LhuInst(uint32_t raw)
@@ -293,15 +293,15 @@ LhuInst::LhuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LhuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(m->read16(addr)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(m->read16(addr)));
 }
 
 LwuInst::LwuInst(uint32_t raw)
@@ -310,15 +310,15 @@ LwuInst::LwuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1_op;
   src_operands_[1] = &offset;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void LwuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  h->write_xreg(rd.encoding_value_, static_cast<int64_t>(m->read32(addr)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  h->write_xreg(rd.state_.encoding_value, static_cast<int64_t>(m->read32(addr)));
 }
 
 // S-type store instructions
@@ -329,15 +329,15 @@ SbInst::SbInst(uint32_t raw)
   src_operands_[0] = &rs2_op;
   src_operands_[1] = &offset;
   src_operands_[2] = &rs1_op;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void SbInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  m->write8(addr, static_cast<uint8_t>(h->read_xreg(rs2_op.encoding_value_)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  m->write8(addr, static_cast<uint8_t>(h->read_xreg(rs2_op.state_.encoding_value)));
 }
 
 ShInst::ShInst(uint32_t raw)
@@ -346,15 +346,15 @@ ShInst::ShInst(uint32_t raw)
   src_operands_[0] = &rs2_op;
   src_operands_[1] = &offset;
   src_operands_[2] = &rs1_op;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void ShInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  m->write16(addr, static_cast<uint16_t>(h->read_xreg(rs2_op.encoding_value_)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  m->write16(addr, static_cast<uint16_t>(h->read_xreg(rs2_op.state_.encoding_value)));
 }
 
 SwInst::SwInst(uint32_t raw)
@@ -363,15 +363,15 @@ SwInst::SwInst(uint32_t raw)
   src_operands_[0] = &rs2_op;
   src_operands_[1] = &offset;
   src_operands_[2] = &rs1_op;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void SwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  m->write32(addr, static_cast<uint32_t>(h->read_xreg(rs2_op.encoding_value_)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  m->write32(addr, static_cast<uint32_t>(h->read_xreg(rs2_op.state_.encoding_value)));
 }
 
 SdInst::SdInst(uint32_t raw)
@@ -380,15 +380,15 @@ SdInst::SdInst(uint32_t raw)
   src_operands_[0] = &rs2_op;
   src_operands_[1] = &offset;
   src_operands_[2] = &rs1_op;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void SdInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   auto *m = current_memory();
-  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.encoding_value_) + imm());
-  m->write64(addr, static_cast<uint64_t>(h->read_xreg(rs2_op.encoding_value_)));
+  uint64_t addr = static_cast<uint64_t>(h->read_xreg(rs1_op.state_.encoding_value) + imm());
+  m->write64(addr, static_cast<uint64_t>(h->read_xreg(rs2_op.state_.encoding_value)));
 }
 
 // I-type ALU instructions
@@ -399,13 +399,13 @@ AddiInst::AddiInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void AddiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, h->read_xreg(rs1.encoding_value_) + imm());
+  h->write_xreg(rd.state_.encoding_value, h->read_xreg(rs1.state_.encoding_value) + imm());
 }
 
 SltiInst::SltiInst(uint32_t raw)
@@ -414,13 +414,13 @@ SltiInst::SltiInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SltiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, (h->read_xreg(rs1.encoding_value_) < imm()) ? 1 : 0);
+  h->write_xreg(rd.state_.encoding_value, (h->read_xreg(rs1.state_.encoding_value) < imm()) ? 1 : 0);
 }
 
 SltiuInst::SltiuInst(uint32_t raw)
@@ -429,13 +429,13 @@ SltiuInst::SltiuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SltiuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, (static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)) <
+  h->write_xreg(rd.state_.encoding_value, (static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)) <
                                      static_cast<uint64_t>(static_cast<int64_t>(imm())))
                                         ? 1
                                         : 0);
@@ -447,13 +447,13 @@ XoriInst::XoriInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void XoriInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, h->read_xreg(rs1.encoding_value_) ^ imm());
+  h->write_xreg(rd.state_.encoding_value, h->read_xreg(rs1.state_.encoding_value) ^ imm());
 }
 
 OriInst::OriInst(uint32_t raw)
@@ -462,13 +462,13 @@ OriInst::OriInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void OriInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, h->read_xreg(rs1.encoding_value_) | imm());
+  h->write_xreg(rd.state_.encoding_value, h->read_xreg(rs1.state_.encoding_value) | imm());
 }
 
 AndiInst::AndiInst(uint32_t raw)
@@ -477,13 +477,13 @@ AndiInst::AndiInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void AndiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, h->read_xreg(rs1.encoding_value_) & imm());
+  h->write_xreg(rd.state_.encoding_value, h->read_xreg(rs1.state_.encoding_value) & imm());
 }
 
 // I-type shift instructions
@@ -494,14 +494,14 @@ SlliInst::SlliInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SlliInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   int shamt = imm() & 0x3f;
-  h->write_xreg(rd.encoding_value_, h->read_xreg(rs1.encoding_value_) << shamt);
+  h->write_xreg(rd.state_.encoding_value, h->read_xreg(rs1.state_.encoding_value) << shamt);
 }
 
 SrliInst::SrliInst(uint32_t raw)
@@ -510,16 +510,16 @@ SrliInst::SrliInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SrliInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   int shamt = imm() & 0x3f;
   h->write_xreg(
-      rd.encoding_value_,
-      static_cast<int64_t>(static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)) >> shamt));
+      rd.state_.encoding_value,
+      static_cast<int64_t>(static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)) >> shamt));
 }
 
 SraiInst::SraiInst(uint32_t raw)
@@ -528,15 +528,15 @@ SraiInst::SraiInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SraiInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   int shamt = imm() & 0x3f;
-  h->write_xreg(rd.encoding_value_,
-                arithmetic_right_shift(h->read_xreg(rs1.encoding_value_), shamt));
+  h->write_xreg(rd.state_.encoding_value,
+                arithmetic_right_shift(h->read_xreg(rs1.state_.encoding_value), shamt));
 }
 
 // R-type ALU instructions
@@ -547,14 +547,14 @@ AddInst::AddInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void AddInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_,
-                h->read_xreg(rs1.encoding_value_) + h->read_xreg(rs2.encoding_value_));
+  h->write_xreg(rd.state_.encoding_value,
+                h->read_xreg(rs1.state_.encoding_value) + h->read_xreg(rs2.state_.encoding_value));
 }
 
 SubInst::SubInst(uint32_t raw)
@@ -563,14 +563,14 @@ SubInst::SubInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SubInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_,
-                h->read_xreg(rs1.encoding_value_) - h->read_xreg(rs2.encoding_value_));
+  h->write_xreg(rd.state_.encoding_value,
+                h->read_xreg(rs1.state_.encoding_value) - h->read_xreg(rs2.state_.encoding_value));
 }
 
 SllInst::SllInst(uint32_t raw)
@@ -579,14 +579,14 @@ SllInst::SllInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SllInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int shamt = h->read_xreg(rs2.encoding_value_) & 0x3f;
-  h->write_xreg(rd.encoding_value_, h->read_xreg(rs1.encoding_value_) << shamt);
+  int shamt = h->read_xreg(rs2.state_.encoding_value) & 0x3f;
+  h->write_xreg(rd.state_.encoding_value, h->read_xreg(rs1.state_.encoding_value) << shamt);
 }
 
 SltInst::SltInst(uint32_t raw)
@@ -595,14 +595,14 @@ SltInst::SltInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SltInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_,
-                (h->read_xreg(rs1.encoding_value_) < h->read_xreg(rs2.encoding_value_)) ? 1 : 0);
+  h->write_xreg(rd.state_.encoding_value,
+                (h->read_xreg(rs1.state_.encoding_value) < h->read_xreg(rs2.state_.encoding_value)) ? 1 : 0);
 }
 
 SltuInst::SltuInst(uint32_t raw)
@@ -611,14 +611,14 @@ SltuInst::SltuInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SltuInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_, (static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)) <
-                                     static_cast<uint64_t>(h->read_xreg(rs2.encoding_value_)))
+  h->write_xreg(rd.state_.encoding_value, (static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)) <
+                                     static_cast<uint64_t>(h->read_xreg(rs2.state_.encoding_value)))
                                         ? 1
                                         : 0);
 }
@@ -629,14 +629,14 @@ XorInst::XorInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void XorInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_,
-                h->read_xreg(rs1.encoding_value_) ^ h->read_xreg(rs2.encoding_value_));
+  h->write_xreg(rd.state_.encoding_value,
+                h->read_xreg(rs1.state_.encoding_value) ^ h->read_xreg(rs2.state_.encoding_value));
 }
 
 SrlInst::SrlInst(uint32_t raw)
@@ -645,16 +645,16 @@ SrlInst::SrlInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SrlInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int shamt = h->read_xreg(rs2.encoding_value_) & 0x3f;
+  int shamt = h->read_xreg(rs2.state_.encoding_value) & 0x3f;
   h->write_xreg(
-      rd.encoding_value_,
-      static_cast<int64_t>(static_cast<uint64_t>(h->read_xreg(rs1.encoding_value_)) >> shamt));
+      rd.state_.encoding_value,
+      static_cast<int64_t>(static_cast<uint64_t>(h->read_xreg(rs1.state_.encoding_value)) >> shamt));
 }
 
 SraInst::SraInst(uint32_t raw)
@@ -663,15 +663,15 @@ SraInst::SraInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SraInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int shamt = h->read_xreg(rs2.encoding_value_) & 0x3f;
-  h->write_xreg(rd.encoding_value_,
-                arithmetic_right_shift(h->read_xreg(rs1.encoding_value_), shamt));
+  int shamt = h->read_xreg(rs2.state_.encoding_value) & 0x3f;
+  h->write_xreg(rd.state_.encoding_value,
+                arithmetic_right_shift(h->read_xreg(rs1.state_.encoding_value), shamt));
 }
 
 OrInst::OrInst(uint32_t raw)
@@ -680,14 +680,14 @@ OrInst::OrInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void OrInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_,
-                h->read_xreg(rs1.encoding_value_) | h->read_xreg(rs2.encoding_value_));
+  h->write_xreg(rd.state_.encoding_value,
+                h->read_xreg(rs1.state_.encoding_value) | h->read_xreg(rs2.state_.encoding_value));
 }
 
 AndInst::AndInst(uint32_t raw)
@@ -696,14 +696,14 @@ AndInst::AndInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void AndInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  h->write_xreg(rd.encoding_value_,
-                h->read_xreg(rs1.encoding_value_) & h->read_xreg(rs2.encoding_value_));
+  h->write_xreg(rd.state_.encoding_value,
+                h->read_xreg(rs1.state_.encoding_value) & h->read_xreg(rs2.state_.encoding_value));
 }
 
 // I-type W-ALU instructions (RV64I)
@@ -714,14 +714,14 @@ AddiwInst::AddiwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void AddiwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_)) + imm();
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value)) + imm();
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 SlliwInst::SlliwInst(uint32_t raw)
@@ -730,15 +730,15 @@ SlliwInst::SlliwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SlliwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   int shamt = imm() & 0x1f;
-  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_)) << shamt;
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value)) << shamt;
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 SrliwInst::SrliwInst(uint32_t raw)
@@ -747,15 +747,15 @@ SrliwInst::SrliwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SrliwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   int shamt = imm() & 0x1f;
-  uint32_t val = static_cast<uint32_t>(h->read_xreg(rs1.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(static_cast<int32_t>(val >> shamt)));
+  uint32_t val = static_cast<uint32_t>(h->read_xreg(rs1.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(static_cast<int32_t>(val >> shamt)));
 }
 
 SraiwInst::SraiwInst(uint32_t raw)
@@ -764,15 +764,15 @@ SraiwInst::SraiwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &imm_op;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SraiwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
   int shamt = imm() & 0x1f;
-  int32_t val = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(arithmetic_right_shift_32(val, shamt)));
+  int32_t val = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(arithmetic_right_shift_32(val, shamt)));
 }
 
 // R-type W-ALU instructions (RV64I)
@@ -783,15 +783,15 @@ AddwInst::AddwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void AddwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_)) +
-                   static_cast<int32_t>(h->read_xreg(rs2.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value)) +
+                   static_cast<int32_t>(h->read_xreg(rs2.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 SubwInst::SubwInst(uint32_t raw)
@@ -800,15 +800,15 @@ SubwInst::SubwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SubwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_)) -
-                   static_cast<int32_t>(h->read_xreg(rs2.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value)) -
+                   static_cast<int32_t>(h->read_xreg(rs2.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 SllwInst::SllwInst(uint32_t raw)
@@ -817,15 +817,15 @@ SllwInst::SllwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SllwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int shamt = h->read_xreg(rs2.encoding_value_) & 0x1f;
-  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_)) << shamt;
-  h->write_xreg(rd.encoding_value_, sext32(result));
+  int shamt = h->read_xreg(rs2.state_.encoding_value) & 0x1f;
+  int32_t result = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value)) << shamt;
+  h->write_xreg(rd.state_.encoding_value, sext32(result));
 }
 
 SrlwInst::SrlwInst(uint32_t raw)
@@ -834,15 +834,15 @@ SrlwInst::SrlwInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SrlwInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int shamt = h->read_xreg(rs2.encoding_value_) & 0x1f;
-  uint32_t val = static_cast<uint32_t>(h->read_xreg(rs1.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(static_cast<int32_t>(val >> shamt)));
+  int shamt = h->read_xreg(rs2.state_.encoding_value) & 0x1f;
+  uint32_t val = static_cast<uint32_t>(h->read_xreg(rs1.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(static_cast<int32_t>(val >> shamt)));
 }
 
 SrawInst::SrawInst(uint32_t raw)
@@ -851,15 +851,15 @@ SrawInst::SrawInst(uint32_t raw)
   dst_operands_[0] = &rd;
   src_operands_[0] = &rs1;
   src_operands_[1] = &rs2;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SrawInst::execute_impl(HartState &ctx) {
   auto *h = as_hart(ctx);
-  int shamt = h->read_xreg(rs2.encoding_value_) & 0x1f;
-  int32_t val = static_cast<int32_t>(h->read_xreg(rs1.encoding_value_));
-  h->write_xreg(rd.encoding_value_, sext32(arithmetic_right_shift_32(val, shamt)));
+  int shamt = h->read_xreg(rs2.state_.encoding_value) & 0x1f;
+  int32_t val = static_cast<int32_t>(h->read_xreg(rs1.state_.encoding_value));
+  h->write_xreg(rd.state_.encoding_value, sext32(arithmetic_right_shift_32(val, shamt)));
 }
 
 // I-type system instructions
@@ -867,8 +867,8 @@ void SrawInst::execute_impl(HartState &ctx) {
 FenceInst::FenceInst(uint32_t raw)
     : IType("fence", raw, make_exec_fn<FenceInst>()), imm_op(12, OperandType::OPR_IMM, imm()) {
   src_operands_[0] = &imm_op;
-  num_src_ = 1;
-  num_dst_ = 0;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 0;
 }
 
 void FenceInst::execute_impl(HartState &ctx) {

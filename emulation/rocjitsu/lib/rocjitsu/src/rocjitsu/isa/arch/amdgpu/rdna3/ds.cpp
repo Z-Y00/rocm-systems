@@ -29,9 +29,9 @@ DsAddU32Ds::DsAddU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAddU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -62,9 +62,9 @@ DsSubU32Ds::DsSubU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsSubU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -95,9 +95,9 @@ DsRsubU32Ds::DsRsubU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsRsubU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -128,9 +128,9 @@ DsIncU32Ds::DsIncU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsIncU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -161,9 +161,9 @@ DsDecU32Ds::DsDecU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsDecU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -194,9 +194,9 @@ DsMinI32Ds::DsMinI32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinI32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -227,9 +227,9 @@ DsMaxI32Ds::DsMaxI32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxI32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -260,9 +260,9 @@ DsMinU32Ds::DsMinU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -293,9 +293,9 @@ DsMaxU32Ds::DsMaxU32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -326,9 +326,9 @@ DsAndB32Ds::DsAndB32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAndB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -359,9 +359,9 @@ DsOrB32Ds::DsOrB32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsOrB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -392,9 +392,9 @@ DsXorB32Ds::DsXorB32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsXorB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -427,8 +427,8 @@ DsMskorB32Ds::DsMskorB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void DsMskorB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -442,9 +442,9 @@ DsStoreB32Ds::DsStoreB32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -476,9 +476,9 @@ DsStore2addrB32Ds::DsStore2addrB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStore2addrB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -518,9 +518,9 @@ DsStore2addrStride64B32Ds::DsStore2addrStride64B32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStore2addrStride64B32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -560,9 +560,9 @@ DsCmpstoreB32Ds::DsCmpstoreB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -598,9 +598,9 @@ DsCmpstoreF32Ds::DsCmpstoreF32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -633,9 +633,9 @@ DsMinF32Ds::DsMinF32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -666,9 +666,9 @@ DsMaxF32Ds::DsMaxF32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -695,8 +695,8 @@ void DsMaxF32Ds::execute_impl(amdgpu::Wavefront &wf) {
 
 DsNopDs::DsNopDs(const MachineInst *inst)
     : Ds("ds_nop", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<DsNopDs>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void DsNopDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -710,9 +710,9 @@ DsAddF32Ds::DsAddF32Ds(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAddF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -740,8 +740,8 @@ void DsAddF32Ds::execute_impl(amdgpu::Wavefront &wf) {
 DsGwsSemaReleaseAllDs::DsGwsSemaReleaseAllDs(const MachineInst *inst)
     : Ds("ds_gws_sema_release_all", reinterpret_cast<const OpEncoding *>(inst),
          make_exec_fn<DsGwsSemaReleaseAllDs>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void DsGwsSemaReleaseAllDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -753,8 +753,8 @@ DsGwsInitDs::DsGwsInitDs(const MachineInst *inst)
     : Ds("ds_gws_init", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<DsGwsInitDs>()),
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 0;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 0;
 }
 
 void DsGwsInitDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -765,8 +765,8 @@ void DsGwsInitDs::execute_impl(amdgpu::Wavefront &wf) {
 DsGwsSemaVDs::DsGwsSemaVDs(const MachineInst *inst)
     : Ds("ds_gws_sema_v", reinterpret_cast<const OpEncoding *>(inst),
          make_exec_fn<DsGwsSemaVDs>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void DsGwsSemaVDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -779,8 +779,8 @@ DsGwsSemaBrDs::DsGwsSemaBrDs(const MachineInst *inst)
          make_exec_fn<DsGwsSemaBrDs>()),
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 0;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 0;
 }
 
 void DsGwsSemaBrDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -791,8 +791,8 @@ void DsGwsSemaBrDs::execute_impl(amdgpu::Wavefront &wf) {
 DsGwsSemaPDs::DsGwsSemaPDs(const MachineInst *inst)
     : Ds("ds_gws_sema_p", reinterpret_cast<const OpEncoding *>(inst),
          make_exec_fn<DsGwsSemaPDs>()) {
-  num_src_ = 0;
-  num_dst_ = 0;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 0;
 }
 
 void DsGwsSemaPDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -805,8 +805,8 @@ DsGwsBarrierDs::DsGwsBarrierDs(const MachineInst *inst)
          make_exec_fn<DsGwsBarrierDs>()),
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 0;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 0;
 }
 
 void DsGwsBarrierDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -820,9 +820,9 @@ DsStoreB8Ds::DsStoreB8Ds(const MachineInst *inst)
       data0(8, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB8Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -851,9 +851,9 @@ DsStoreB16Ds::DsStoreB16Ds(const MachineInst *inst)
       data0(16, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB16Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -885,9 +885,9 @@ DsAddRtnU32Ds::DsAddRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAddRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -921,9 +921,9 @@ DsSubRtnU32Ds::DsSubRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsSubRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -957,9 +957,9 @@ DsRsubRtnU32Ds::DsRsubRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsRsubRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -993,9 +993,9 @@ DsIncRtnU32Ds::DsIncRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsIncRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1029,9 +1029,9 @@ DsDecRtnU32Ds::DsDecRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsDecRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1065,9 +1065,9 @@ DsMinRtnI32Ds::DsMinRtnI32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinRtnI32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1101,9 +1101,9 @@ DsMaxRtnI32Ds::DsMaxRtnI32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxRtnI32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1137,9 +1137,9 @@ DsMinRtnU32Ds::DsMinRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1173,9 +1173,9 @@ DsMaxRtnU32Ds::DsMaxRtnU32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxRtnU32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1209,9 +1209,9 @@ DsAndRtnB32Ds::DsAndRtnB32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAndRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1244,9 +1244,9 @@ DsOrRtnB32Ds::DsOrRtnB32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsOrRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1280,9 +1280,9 @@ DsXorRtnB32Ds::DsXorRtnB32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsXorRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1318,8 +1318,8 @@ DsMskorRtnB32Ds::DsMskorRtnB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void DsMskorRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1336,9 +1336,9 @@ DsStorexchgRtnB32Ds::DsStorexchgRtnB32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStorexchgRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1374,9 +1374,9 @@ DsStorexchg2addrRtnB32Ds::DsStorexchg2addrRtnB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStorexchg2addrRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1412,9 +1412,9 @@ DsStorexchg2addrStride64RtnB32Ds::DsStorexchg2addrStride64RtnB32Ds(const Machine
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStorexchg2addrStride64RtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1450,9 +1450,9 @@ DsCmpstoreRtnB32Ds::DsCmpstoreRtnB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1490,9 +1490,9 @@ DsCmpstoreRtnF32Ds::DsCmpstoreRtnF32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreRtnF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1528,9 +1528,9 @@ DsMinRtnF32Ds::DsMinRtnF32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinRtnF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1564,9 +1564,9 @@ DsMaxRtnF32Ds::DsMaxRtnF32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxRtnF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1602,8 +1602,8 @@ DsWrapRtnB32Ds::DsWrapRtnB32Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void DsWrapRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1618,8 +1618,8 @@ DsSwizzleB32Ds::DsSwizzleB32Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void DsSwizzleB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1632,9 +1632,9 @@ DsLoadB32Ds::DsLoadB32Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1656,9 +1656,9 @@ DsLoad2addrB32Ds::DsLoad2addrB32Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoad2addrB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1692,9 +1692,9 @@ DsLoad2addrStride64B32Ds::DsLoad2addrStride64B32Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoad2addrStride64B32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1727,9 +1727,9 @@ DsLoadI8Ds::DsLoadI8Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadI8Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1751,9 +1751,9 @@ DsLoadU8Ds::DsLoadU8Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadU8Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1774,9 +1774,9 @@ DsLoadI16Ds::DsLoadI16Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadI16Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1798,9 +1798,9 @@ DsLoadU16Ds::DsLoadU16Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadU16Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1819,8 +1819,8 @@ DsConsumeDs::DsConsumeDs(const MachineInst *inst)
     : Ds("ds_consume", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<DsConsumeDs>()),
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst) {
   dst_operands_[0] = &vdst;
-  num_src_ = 0;
-  num_dst_ = 1;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 1;
 }
 
 void DsConsumeDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -1832,8 +1832,8 @@ DsAppendDs::DsAppendDs(const MachineInst *inst)
     : Ds("ds_append", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<DsAppendDs>()),
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst) {
   dst_operands_[0] = &vdst;
-  num_src_ = 0;
-  num_dst_ = 1;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 1;
 }
 
 void DsAppendDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -1848,8 +1848,8 @@ DsOrderedCountDs::DsOrderedCountDs(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void DsOrderedCountDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -1863,9 +1863,9 @@ DsAddU64Ds::DsAddU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAddU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1898,9 +1898,9 @@ DsSubU64Ds::DsSubU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsSubU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1933,9 +1933,9 @@ DsRsubU64Ds::DsRsubU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsRsubU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -1968,9 +1968,9 @@ DsIncU64Ds::DsIncU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsIncU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2003,9 +2003,9 @@ DsDecU64Ds::DsDecU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsDecU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2038,9 +2038,9 @@ DsMinI64Ds::DsMinI64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinI64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2073,9 +2073,9 @@ DsMaxI64Ds::DsMaxI64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxI64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2108,9 +2108,9 @@ DsMinU64Ds::DsMinU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2143,9 +2143,9 @@ DsMaxU64Ds::DsMaxU64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2178,9 +2178,9 @@ DsAndB64Ds::DsAndB64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAndB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2213,9 +2213,9 @@ DsOrB64Ds::DsOrB64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsOrB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2248,9 +2248,9 @@ DsXorB64Ds::DsXorB64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsXorB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2285,8 +2285,8 @@ DsMskorB64Ds::DsMskorB64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
 }
 
 void DsMskorB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2300,9 +2300,9 @@ DsStoreB64Ds::DsStoreB64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2336,9 +2336,9 @@ DsStore2addrB64Ds::DsStore2addrB64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStore2addrB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2382,9 +2382,9 @@ DsStore2addrStride64B64Ds::DsStore2addrStride64B64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStore2addrStride64B64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2428,9 +2428,9 @@ DsCmpstoreB64Ds::DsCmpstoreB64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2470,9 +2470,9 @@ DsCmpstoreF64Ds::DsCmpstoreF64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreF64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2509,9 +2509,9 @@ DsMinF64Ds::DsMinF64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinF64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2544,9 +2544,9 @@ DsMaxF64Ds::DsMaxF64Ds(const MachineInst *inst)
       data0(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxF64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2582,9 +2582,9 @@ DsAddRtnU64Ds::DsAddRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAddRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2620,9 +2620,9 @@ DsSubRtnU64Ds::DsSubRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsSubRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2658,9 +2658,9 @@ DsRsubRtnU64Ds::DsRsubRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsRsubRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2696,9 +2696,9 @@ DsIncRtnU64Ds::DsIncRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsIncRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2734,9 +2734,9 @@ DsDecRtnU64Ds::DsDecRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsDecRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2772,9 +2772,9 @@ DsMinRtnI64Ds::DsMinRtnI64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinRtnI64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2810,9 +2810,9 @@ DsMaxRtnI64Ds::DsMaxRtnI64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxRtnI64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2848,9 +2848,9 @@ DsMinRtnU64Ds::DsMinRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2886,9 +2886,9 @@ DsMaxRtnU64Ds::DsMaxRtnU64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxRtnU64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2924,9 +2924,9 @@ DsAndRtnB64Ds::DsAndRtnB64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAndRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2961,9 +2961,9 @@ DsOrRtnB64Ds::DsOrRtnB64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsOrRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -2999,9 +2999,9 @@ DsXorRtnB64Ds::DsXorRtnB64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsXorRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3039,8 +3039,8 @@ DsMskorRtnB64Ds::DsMskorRtnB64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
 }
 
 void DsMskorRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3057,9 +3057,9 @@ DsStorexchgRtnB64Ds::DsStorexchgRtnB64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStorexchgRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3097,9 +3097,9 @@ DsStorexchg2addrRtnB64Ds::DsStorexchg2addrRtnB64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStorexchg2addrRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3137,9 +3137,9 @@ DsStorexchg2addrStride64RtnB64Ds::DsStorexchg2addrStride64RtnB64Ds(const Machine
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStorexchg2addrStride64RtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3177,9 +3177,9 @@ DsCmpstoreRtnB64Ds::DsCmpstoreRtnB64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreRtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3221,9 +3221,9 @@ DsCmpstoreRtnF64Ds::DsCmpstoreRtnF64Ds(const MachineInst *inst)
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCmpstoreRtnF64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3263,9 +3263,9 @@ DsMinRtnF64Ds::DsMinRtnF64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMinRtnF64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3301,9 +3301,9 @@ DsMaxRtnF64Ds::DsMaxRtnF64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsMaxRtnF64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3336,9 +3336,9 @@ DsLoadB64Ds::DsLoadB64Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3360,9 +3360,9 @@ DsLoad2addrB64Ds::DsLoad2addrB64Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoad2addrB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3396,9 +3396,9 @@ DsLoad2addrStride64B64Ds::DsLoad2addrStride64B64Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoad2addrStride64B64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3434,9 +3434,9 @@ DsAddRtnF32Ds::DsAddRtnF32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsAddRtnF32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3468,8 +3468,8 @@ DsAddGsRegRtnDs::DsAddGsRegRtnDs(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &data0;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void DsAddGsRegRtnDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3484,8 +3484,8 @@ DsSubGsRegRtnDs::DsSubGsRegRtnDs(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &data0;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void DsSubGsRegRtnDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3502,9 +3502,9 @@ DsCondxchg32RtnB64Ds::DsCondxchg32RtnB64Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsCondxchg32RtnB64Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3542,9 +3542,9 @@ DsStoreB8D16HiDs::DsStoreB8D16HiDs(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB8D16HiDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3575,9 +3575,9 @@ DsStoreB16D16HiDs::DsStoreB16D16HiDs(const MachineInst *inst)
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB16D16HiDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3608,9 +3608,9 @@ DsLoadU8D16Ds::DsLoadU8D16Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadU8D16Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3633,9 +3633,9 @@ DsLoadU8D16HiDs::DsLoadU8D16HiDs(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadU8D16HiDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3658,9 +3658,9 @@ DsLoadI8D16Ds::DsLoadI8D16Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadI8D16Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3684,9 +3684,9 @@ DsLoadI8D16HiDs::DsLoadI8D16HiDs(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadI8D16HiDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3710,9 +3710,9 @@ DsLoadU16D16Ds::DsLoadU16D16Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadU16D16Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3735,9 +3735,9 @@ DsLoadU16D16HiDs::DsLoadU16D16HiDs(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadU16D16HiDs::execute_impl(amdgpu::Wavefront &wf) {
@@ -3765,8 +3765,8 @@ DsBvhStackRtnB32Ds::DsBvhStackRtnB32Ds(const MachineInst *inst)
   dst_operands_[1] = &addr;
   src_operands_[1] = &data0;
   src_operands_[2] = &data1;
-  num_src_ = 3;
-  num_dst_ = 2;
+  state_.num_src_operands = 3;
+  state_.num_dst_operands = 2;
 }
 
 void DsBvhStackRtnB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3779,9 +3779,9 @@ DsStoreAddtidB32Ds::DsStoreAddtidB32Ds(const MachineInst *inst)
          make_exec_fn<DsStoreAddtidB32Ds>()),
       data0(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &data0;
-  num_src_ = 1;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreAddtidB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3809,9 +3809,9 @@ DsLoadAddtidB32Ds::DsLoadAddtidB32Ds(const MachineInst *inst)
          make_exec_fn<DsLoadAddtidB32Ds>()),
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst) {
   dst_operands_[0] = &vdst;
-  num_src_ = 0;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadAddtidB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3827,8 +3827,8 @@ DsPermuteB32Ds::DsPermuteB32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void DsPermuteB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3844,8 +3844,8 @@ DsBpermuteB32Ds::DsBpermuteB32Ds(const MachineInst *inst)
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void DsBpermuteB32Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3858,9 +3858,9 @@ DsStoreB96Ds::DsStoreB96Ds(const MachineInst *inst)
       data0(96, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB96Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3894,9 +3894,9 @@ DsStoreB128Ds::DsStoreB128Ds(const MachineInst *inst)
       data0(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->data0) {
   src_operands_[0] = &addr;
   src_operands_[1] = &data0;
-  num_src_ = 2;
-  num_dst_ = 0;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 0;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsStoreB128Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3931,9 +3931,9 @@ DsLoadB96Ds::DsLoadB96Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadB96Ds::execute_impl(amdgpu::Wavefront &wf) {
@@ -3954,9 +3954,9 @@ DsLoadB128Ds::DsLoadB128Ds(const MachineInst *inst)
       addr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
   dst_operands_[0] = &vdst;
   src_operands_[0] = &addr;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= MEMORY_OP;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= MEMORY_OP;
 }
 
 void DsLoadB128Ds::execute_impl(amdgpu::Wavefront &wf) {

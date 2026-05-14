@@ -25,8 +25,8 @@ SMovkI32Sopk::SMovkI32Sopk(const MachineInst *inst)
       simm16(16, OperandType::OPR_SIMM16, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
   dst_operands_[0] = &sdst;
   src_operands_[0] = &simm16;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void SMovkI32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -37,8 +37,8 @@ SVersionSopk::SVersionSopk(const MachineInst *inst)
     : Sopk("s_version", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SVersionSopk>()),
       simm16(16, OperandType::OPR_VERSION, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
   src_operands_[0] = &simm16;
-  num_src_ = 1;
-  num_dst_ = 0;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 0;
 }
 
 void SVersionSopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -54,9 +54,9 @@ SCmovkI32Sopk::SCmovkI32Sopk(const MachineInst *inst)
   src_operands_[0] = &sdst;
   dst_operands_[0] = &sdst;
   src_operands_[1] = &simm16;
-  num_src_ = 2;
-  num_dst_ = 1;
-  flags_ |= PREDICATED_DEF;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
+  state_.flags |= PREDICATED_DEF;
 }
 
 void SCmovkI32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -71,8 +71,8 @@ SAddkCoI32Sopk::SAddkCoI32Sopk(const MachineInst *inst)
   src_operands_[0] = &sdst;
   dst_operands_[0] = &sdst;
   src_operands_[1] = &simm16;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SAddkCoI32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -87,8 +87,8 @@ SMulkI32Sopk::SMulkI32Sopk(const MachineInst *inst)
   src_operands_[0] = &sdst;
   dst_operands_[0] = &sdst;
   src_operands_[1] = &simm16;
-  num_src_ = 2;
-  num_dst_ = 1;
+  state_.num_src_operands = 2;
+  state_.num_dst_operands = 1;
 }
 
 void SMulkI32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -102,8 +102,8 @@ SGetregB32Sopk::SGetregB32Sopk(const MachineInst *inst)
       simm16(16, OperandType::OPR_HWREG, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
   dst_operands_[0] = &sdst;
   src_operands_[0] = &simm16;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void SGetregB32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -117,8 +117,8 @@ SSetregB32Sopk::SSetregB32Sopk(const MachineInst *inst)
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst) {
   dst_operands_[0] = &simm16;
   src_operands_[0] = &sdst;
-  num_src_ = 1;
-  num_dst_ = 1;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
 }
 
 void SSetregB32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -130,8 +130,8 @@ SSetregImm32B32Sopk::SSetregImm32B32Sopk(const MachineInst *inst)
            make_exec_fn<SSetregImm32B32Sopk>()),
       simm16(16, OperandType::OPR_HWREG, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
   dst_operands_[0] = &simm16;
-  num_src_ = 0;
-  num_dst_ = 1;
+  state_.num_src_operands = 0;
+  state_.num_dst_operands = 1;
 }
 
 void SSetregImm32B32Sopk::execute_impl(amdgpu::Wavefront &wf) {
@@ -144,15 +144,15 @@ SCallB64Sopk::SCallB64Sopk(const MachineInst *inst)
       simm16(16, OperandType::OPR_LABEL, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
   dst_operands_[0] = &sdst;
   src_operands_[0] = &simm16;
-  num_src_ = 1;
-  num_dst_ = 1;
-  flags_ |= INDIRECT_CALL;
+  state_.num_src_operands = 1;
+  state_.num_dst_operands = 1;
+  state_.flags |= INDIRECT_CALL;
 }
 
 void SCallB64Sopk::execute_impl(amdgpu::Wavefront &wf) {
-  sdst.write_scalar64(wf, wf.pc + size_);
-  int16_t offset = static_cast<int16_t>(simm16.encoding_value_);
-  wf.pc = wf.pc + static_cast<int64_t>(offset) * 4 - size_;
+  sdst.write_scalar64(wf, wf.pc + state_.size_bytes);
+  int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
+  wf.pc = wf.pc + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
 }
 
 } // namespace rdna4
