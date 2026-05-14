@@ -42,7 +42,6 @@ function(ais_add_libraries)
 
     # Add dependencies on external libraries
     foreach(lib IN LISTS arg_LIBS)
-        message(STATUS, "ADDING ${lib} to library")
         if(TARGET ${lib})
             target_link_libraries(${arg_NAME} PRIVATE ${lib})
         else()
