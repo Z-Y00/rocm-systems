@@ -133,7 +133,7 @@ Optional third-party packages
 Installing Dyninst
 ------------------
 
-The easiest way to install Dyninst is alongside ROCm Systems Profiler, but it can also be installed using Spack.
+The easiest way to install Dyninst is alongside ROCm Systems Profiler.
 
 Building Dyninst alongside ROCm Systems Profiler
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -156,21 +156,6 @@ via ``ROCPROFSYS_BUILD_<DEP>=ON``, as follows:
 
 where ``-DROCPROFSYS_BUILD_{TBB,BOOST,ELFUTILS,LIBIBERTY}=ON`` is expanded by
 the shell to ``-DROCPROFSYS_BUILD_TBB=ON -DROCPROFSYS_BUILD_BOOST=ON ...``
-
-Installing Dyninst via Spack
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-`Spack <https://github.com/spack/spack>`_ is another option to install Dyninst and its dependencies:
-
-.. code-block:: shell
-
-   git clone https://github.com/spack/spack.git
-   source ./spack/share/spack/setup-env.sh
-   spack compiler find
-   spack external find --all --not-buildable
-   spack spec -I --reuse dyninst
-   spack install --reuse dyninst
-   spack load -r dyninst
 
 .. _cmake-options:
 
