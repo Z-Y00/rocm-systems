@@ -2161,7 +2161,7 @@ bool KernelBlitManager::fillBuffer(device::Memory& memory, const void* pattern, 
   const uintptr_t fill_buf_addr = memory.virtualAddress() + origin[0];
   constexpr uint32_t kFillType = FillBufferUnAligned;
 
-  cl_mem mem = as_cl<amd::Memory>(memory.owner());
+  Memory* mem = &gpuMem(memory);
 
   assert((patternSize == 1 || patternSize == 2 || patternSize == 4 || patternSize == 8 ||
           patternSize == 16) &&
