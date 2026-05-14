@@ -1,0 +1,14 @@
+{
+    "abi_version": 1,
+    "name": "instruction_counter",
+    "description": "Counts the number of instructions executed.",
+    "version": "0.1.0",
+    "contact": "Ada Rosa <Ada.Rosa@amd.com>",
+    "arguments": {
+        "instructions": {
+            "description": "A regex used to determine which instructions to count.",
+            "type": "string",
+            "default": "^.*$"
+        }
+    }
+}
