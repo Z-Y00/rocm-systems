@@ -19,7 +19,7 @@ import pytest
 import yaml
 from scipy.stats import zscore
 
-from utils.rocpd_data import read_counter_collection_rows
+from utils.rocpd_data import get_rocpd_pass_db_paths, read_counter_collection_rows
 
 # Runtime config options
 config = {}
@@ -600,7 +600,9 @@ def test_path(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
 
     assert sorted(list(file_dict.keys())) == CSVS
 
@@ -622,7 +624,7 @@ def test_path_rocflop(binary_handler_profile_rocprof_compute):
         roof=False,
         app_name="rocflop",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     common.clean_output_dir(config["cleanup"], workload_dir)
 
 
@@ -632,7 +634,9 @@ def test_path_no_native(binary_handler_profile_rocprof_compute):
     options = ["--no-native-tool"]
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
 
     assert sorted(list(file_dict.keys())) == CSVS
 
@@ -649,8 +653,8 @@ def test_path_rocpd(
     options = ["--format-rocprof-output", "rocpd"]
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
-    assert list(Path(workload_dir).glob("*.db"))
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
+    assert get_rocpd_pass_db_paths(Path(workload_dir))
     assert common.check_file_pattern(
         "format_rocprof_output: rocpd", f"{workload_dir}/profiling_config.yaml"
     )
@@ -658,6 +662,7 @@ def test_path_rocpd(
     code = binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     assert code == 0
     assert (Path(workload_dir) / "pmc_perf.csv").exists()
+    assert common.check_file_pattern("Counter_Name", f"{workload_dir}/pmc_perf.csv")
 
     common.clean_output_dir(config["cleanup"], workload_dir)
 
@@ -673,13 +678,13 @@ def test_path_rocpd_db_contains_profiled_counter(
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    db_paths = [str(path) for path in Path(workload_dir).glob("*.db")]
+    db_paths = [str(path) for path in get_rocpd_pass_db_paths(Path(workload_dir))]
     assert db_paths
     assert not list(Path(workload_dir).glob("results_*.csv"))
 
     counter_rows = read_counter_collection_rows(db_paths)
     counter_names = {row["Counter_Name"] for row in counter_rows}
-    assert "SQ_INSTS_LDS" in counter_names
+    assert any("SQ_INSTS_LDS" in counter_name for counter_name in counter_names)
 
     common.clean_output_dir(config["cleanup"], workload_dir)
 
@@ -692,7 +697,9 @@ def test_path_csv(
     options = ["--format-rocprof-output", "csv"]
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
     assert sorted(list(file_dict.keys())) == sorted(["sysinfo.csv"])
 
     validate(inspect.stack()[0][3], workload_dir, file_dict)
@@ -1025,7 +1032,7 @@ def test_roof_basic_validation(binary_handler_profile_rocprof_compute):
     )
 
     assert returncode == 0
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
 
     assert sorted(list(file_dict.keys())) == ROOF_ONLY_FILES
 
@@ -1075,8 +1082,8 @@ def test_roof_rocpd(
     binary_handler_profile_rocprof_compute(config, workload_dir, options, roof=True)
 
     # Validate profile outputs
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
-    assert list(Path(workload_dir).glob("*.db"))
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
+    assert get_rocpd_pass_db_paths(Path(workload_dir))
     assert (Path(workload_dir) / "roofline.csv").exists()
     assert common.check_file_pattern(
         "format_rocprof_output: rocpd", f"{workload_dir}/profiling_config.yaml"
@@ -1085,6 +1092,7 @@ def test_roof_rocpd(
     code = binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     assert code == 0
     assert (Path(workload_dir) / "pmc_perf.csv").exists()
+    assert common.check_file_pattern("Counter_Name", f"{workload_dir}/pmc_perf.csv")
 
     common.clean_output_dir(config["cleanup"], workload_dir)
 
@@ -1619,7 +1627,7 @@ def test_roofline_many_kernels_dynamic_height(binary_handler_profile_rocprof_com
 
     assert (Path(workload_dir) / "roofline.csv").exists()
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     assert sorted(list(file_dict.keys())) == ROOF_ONLY_FILES
 
     common.clean_output_dir(config["cleanup"], workload_dir)
@@ -1631,7 +1639,7 @@ def test_device_filter(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     assert sorted(list(file_dict.keys())) == CSVS
 
     # TODO - verify expected device id in results
@@ -1651,7 +1659,9 @@ def test_kernel(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -1669,7 +1679,7 @@ def test_dispatch_0(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, 1)
+    file_dict = common.check_profile_output_files(workload_dir, num_devices, 1)
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -1691,7 +1701,7 @@ def test_dispatch_0_1(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, 2)
+    file_dict = common.check_profile_output_files(workload_dir, num_devices, 2)
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -1710,7 +1720,7 @@ def test_dispatch_2(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, 1)
+    file_dict = common.check_profile_output_files(workload_dir, num_devices, 1)
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -1732,7 +1742,9 @@ def test_join_type_grid(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -1750,7 +1762,9 @@ def test_join_type_kernel(binary_handler_profile_rocprof_compute):
     workload_dir = common.get_output_dir()
     binary_handler_profile_rocprof_compute(config, workload_dir, options)
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
 
     assert sorted(list(file_dict.keys())) == CSVS
 
@@ -1778,7 +1792,7 @@ def test_roof_sort_dispatches(
     )
     assert returncode == 0
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     assert sorted(list(file_dict.keys())) == ROOF_ONLY_FILES
 
     code = binary_handler_analyze_rocprof_compute([
@@ -1812,7 +1826,7 @@ def test_roof_sort_kernels(
     )
     assert returncode == 0
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     assert sorted(list(file_dict.keys())) == ROOF_ONLY_FILES
 
     code = binary_handler_analyze_rocprof_compute([
@@ -1840,7 +1854,7 @@ def test_lds_section(binary_handler_profile_rocprof_compute):
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(
         inspect.stack()[0][3],
         workload_dir,
@@ -1864,7 +1878,7 @@ def test_instmix_memchart_section(binary_handler_profile_rocprof_compute):
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(
         inspect.stack()[0][3],
         workload_dir,
@@ -1896,7 +1910,7 @@ def test_lds_sol_section(binary_handler_profile_rocprof_compute):
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(
         inspect.stack()[0][3],
         workload_dir,
@@ -1937,7 +1951,7 @@ def test_instmix_section_global_write_kernel(binary_handler_profile_rocprof_comp
         custom_config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(
         inspect.stack()[0][3],
         workload_dir,
@@ -2105,7 +2119,7 @@ def test_live_attach_detach_block(
         )
 
     # Validate results
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(inspect.stack()[0][3], workload_dir, file_dict)
     common.clean_output_dir(config["cleanup"], workload_dir)
 
@@ -2162,7 +2176,7 @@ def test_live_attach_detach_block_thread_sleep(binary_handler_profile_rocprof_co
         )
 
     # Validate output
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(
         inspect.stack()[0][3],
         workload_dir,
@@ -2224,8 +2238,8 @@ def test_live_attach_detach_singlepass_launch_stats(
             capture_output=True,
         )
 
-    # Validate CSVs & output correctness
-    file_dict = common.check_csv_files(workload_dir, 1, num_kernels)
+    # Validate profile artifacts and output correctness
+    file_dict = common.check_profile_output_files(workload_dir, 1, num_kernels)
     validate(
         inspect.stack()[0][3],
         workload_dir,
@@ -2391,7 +2405,9 @@ def test_iteration_multiplexing(binary_handler_profile_rocprof_compute):
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -2411,7 +2427,9 @@ def test_iteration_multiplexing_kernel(binary_handler_profile_rocprof_compute):
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -2433,7 +2451,9 @@ def test_iteration_multiplexing_kernel_launch_params(
         config, workload_dir, options, check_success=True, roof=False
     )
 
-    file_dict = common.check_csv_files(workload_dir, num_devices, num_kernels)
+    file_dict = common.check_profile_output_files(
+        workload_dir, num_devices, num_kernels
+    )
     assert sorted(list(file_dict.keys())) == CSVS
 
     validate(
@@ -2458,8 +2478,6 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
     # These metrics should cover the deterministic counters being checked
     # Block 4 (roofline) included to verify roofline counters under multiplexing
     options = [
-        "--format-rocprof-output",
-        "csv",
         "--block",
         "4",
         "6.1.5",
@@ -2476,7 +2494,7 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         roof=False,
         app_name="app_laplace_eqn",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_no_multiplexing = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
@@ -2488,8 +2506,6 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         "6.1.6",
         "7.2.2",
         "10.1",
-        "--format-rocprof-output",
-        "csv",
         "--iteration-multiplexing",
         "kernel",
     ]
@@ -2502,7 +2518,7 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         roof=False,
         app_name="app_laplace_eqn_iter",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_kernel = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
@@ -2514,8 +2530,6 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         "6.1.6",
         "7.2.2",
         "10.1",
-        "--format-rocprof-output",
-        "csv",
         "--iteration-multiplexing",
         "kernel_launch_params",
     ]
@@ -2528,7 +2542,7 @@ def test_iteration_multiplexing_deterministic_counter_accuracy(
         roof=True,
         app_name="app_laplace_eqn_iter",
     )
-    common.check_csv_files(workload_dir_klp, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir_klp, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir_klp])
     counters_kernel_launch_params = pd.read_csv(Path(workload_dir_klp) / "pmc_perf.csv")
 
@@ -2553,7 +2567,7 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
     workload_dir = common.get_output_dir(param_id="no_iter_mplx")
     # These metrics should cover the L1 cache stochastic counters
     # Block 4 (roofline) included to verify roofline counters under multiplexing
-    options = ["--format-rocprof-output", "csv", "--block", "4", "16.1", "16.3"]
+    options = ["--block", "4", "16.1", "16.3"]
     _ = binary_handler_profile_rocprof_compute(
         config,
         workload_dir,
@@ -2562,7 +2576,7 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         roof=False,
         app_name="app_laplace_eqn",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_no_multiplexing = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
@@ -2572,8 +2586,6 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         "4",
         "16.1",
         "16.3",
-        "--format-rocprof-output",
-        "csv",
         "--iteration-multiplexing",
         "kernel",
     ]
@@ -2586,7 +2598,7 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         roof=False,
         app_name="app_laplace_eqn_iter",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_kernel = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
@@ -2596,8 +2608,6 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         "4",
         "16.1",
         "16.3",
-        "--format-rocprof-output",
-        "csv",
         "--iteration-multiplexing",
         "kernel_launch_params",
     ]
@@ -2610,7 +2620,7 @@ def test_iteration_multiplexing_stochastic_counter_accuracy(
         roof=True,
         app_name="app_laplace_eqn_iter",
     )
-    common.check_csv_files(workload_dir_klp, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir_klp, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir_klp])
     counters_kernel_launch_params = pd.read_csv(Path(workload_dir_klp) / "pmc_perf.csv")
 
@@ -2634,17 +2644,17 @@ def test_iteration_multiplexing_all_counter_accuracy(
     _ = binary_handler_profile_rocprof_compute(
         config,
         workload_dir,
-        ["--format-rocprof-output", "csv"],
+        [],
         check_success=True,
         roof=False,
         app_name="app_laplace_eqn",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_no_multiplexing = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
 
-    options = ["--format-rocprof-output", "csv", "--iteration-multiplexing", "kernel"]
+    options = ["--iteration-multiplexing", "kernel"]
     workload_dir = common.get_output_dir(param_id="iter_mplx_kernel")
     _ = binary_handler_profile_rocprof_compute(
         config,
@@ -2654,14 +2664,12 @@ def test_iteration_multiplexing_all_counter_accuracy(
         roof=False,
         app_name="app_laplace_eqn_iter",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_kernel = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
 
     options = [
-        "--format-rocprof-output",
-        "csv",
         "--iteration-multiplexing",
         "kernel_launch_params",
     ]
@@ -2674,7 +2682,7 @@ def test_iteration_multiplexing_all_counter_accuracy(
         roof=False,
         app_name="app_laplace_eqn_iter",
     )
-    common.check_csv_files(workload_dir, num_devices, num_kernels)
+    common.check_profile_output_files(workload_dir, num_devices, num_kernels)
     binary_handler_analyze_rocprof_compute(["analyze", "--path", workload_dir])
     counters_kernel_launch_params = pd.read_csv(Path(workload_dir) / "pmc_perf.csv")
     common.clean_output_dir(config["cleanup"], workload_dir)
@@ -2814,9 +2822,9 @@ def test_torch_trace_profile(
     # 1. Profiling completed successfully
     assert returncode == 0, "Profiling the torch application failed"
 
-    # 2. Validate profile outputs (PMC data validated by check_csv_files)
+    # 2. Validate profile outputs (PMC data validated by check_profile_output_files)
     num_devices = config.get("num_devices", 1)
-    common.check_csv_files(workload_dir, num_devices, 1)
+    common.check_profile_output_files(workload_dir, num_devices, 1)
 
     # 3. Marker/counter CSV pairs exist and counts match
     marker_api_trace_files = list(Path(workload_dir).glob("**/*marker_api_trace.csv"))
@@ -3233,7 +3241,9 @@ def test_multi_rank_profiling_no_mpi_comm(binary_handler_profile_rocprof_compute
         rank_dir = Path(workload_dir) / str(rank)
         assert rank_dir.exists(), f"Rank directory {rank_dir} does not exist"
 
-        file_dict = common.check_csv_files(str(rank_dir), num_devices, num_kernels)
+        file_dict = common.check_profile_output_files(
+            str(rank_dir), num_devices, num_kernels
+        )
         if soc == "MI100":
             assert sorted(list(file_dict.keys())) == CSVS
         elif soc == "MI200":
@@ -3286,7 +3296,9 @@ def test_multi_rank_profiling_mpi_comm(
         rank_dir = Path(workload_dir) / str(rank)
         assert rank_dir.exists(), f"Rank directory {rank_dir} does not exist"
 
-        file_dict = common.check_csv_files(str(rank_dir), num_devices, num_kernels)
+        file_dict = common.check_profile_output_files(
+            str(rank_dir), num_devices, num_kernels
+        )
 
         if soc == "MI100":
             assert sorted(list(file_dict.keys())) == CSVS

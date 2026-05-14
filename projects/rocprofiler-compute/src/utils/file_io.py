@@ -285,23 +285,18 @@ def process_pc_sampling_kernel_trace(
 @demarcate
 def write_pmc_perf_from_rocpd(raw_data_dir: str, output_file: str) -> bool:
     """Write pmc_perf.csv by joining rocpd database counter rows."""
-    db_paths = [str(path) for path in sorted(Path(raw_data_dir).glob("*.db"))]
-    if not db_paths:
+    workload_dir = Path(raw_data_dir)
+    pass_db_paths = rocpd_data.get_rocpd_pass_db_paths(workload_dir)
+    if not rocpd_data.has_rocpd_pass_counter_data(workload_dir):
         return False
 
-    counter_dfs: list[pd.DataFrame] = []
-    for db_path in db_paths:
-        counter_rows = rocpd_data.read_counter_collection_rows([db_path])
-        if not counter_rows:
-            continue
-
-        counter_df = pd.DataFrame(counter_rows)
-        counter_dfs.append(utils_analysis.normalize_rocpd_counter_dataframe(counter_df))
-
-    if not counter_dfs:
+    db_paths = [str(path) for path in pass_db_paths]
+    counter_rows = rocpd_data.read_counter_collection_rows(db_paths)
+    if not counter_rows:
         return False
 
-    counter_df = pd.concat(counter_dfs, ignore_index=True)
+    counter_df = pd.DataFrame(counter_rows)
+    counter_df = utils_analysis.normalize_rocpd_counter_dataframe(counter_df)
     counter_df.to_csv(output_file, index=False)
     return True
 

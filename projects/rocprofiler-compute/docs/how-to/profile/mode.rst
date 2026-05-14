@@ -211,9 +211,8 @@ Notice the two main stages in ROCm Compute Profiler's **default** profiling rout
 2. The second stage collects data for the roofline analysis (this stage can be
    disabled using ``--no-roof``).
 
-At the end of profiling, you can find all resulting ``csv`` files in a
-:ref:`SoC <def-soc>`-specific target directory; for
-example:
+At the end of profiling, you can find all resulting profile artifacts in a
+:ref:`SoC <def-soc>`-specific target directory; for example:
 
 * "MI300A" or "MI300X" for the AMD Instinct MI300 Series GPUs
 * "MI200" for the AMD Instinct MI200 Series GPUs
@@ -238,7 +237,10 @@ an Instinct MI210 vs an Instinct MI250.
    total 408
    -rw-r--r-- 1 auser agroup   55771 Mar 21 23:49 log.txt
    drwxr-xr-x 1 auser agroup    4096 Mar 21 23:47 perfmon
-   -rw-r--r-- 1 auser agroup  348790 Mar 21 23:48 pmc_perf.csv
+   -rw-r--r-- 1 auser agroup  348790 Mar 21 23:48 pmc_perf_0.db
+   -rw-r--r-- 1 auser agroup  348790 Mar 21 23:48 pmc_perf_1.db
+   -rw-r--r-- 1 auser agroup  348790 Mar 21 23:48 pmc_perf_2.db
+   -rw-r--r-- 1 auser agroup  348790 Mar 21 23:48 pmc_perf_SQ_LEVEL_WAVES.db
    -rw-r--r-- 1 auser agroup    1119 Mar 21 23:47 profiling_config.yaml
    -rw-r--r-- 1 auser agroup    1684 Mar 21 23:49 roofline.csv
    -rw-r--r-- 1 auser agroup     899 Mar 21 23:47 sysinfo.csv

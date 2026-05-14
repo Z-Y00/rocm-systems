@@ -204,6 +204,14 @@ def run_prof(
 
     if format_rocprof_output == "rocpd":
         db_paths = sorted(glob.glob(workload_dir + "/out/pmc_1/*/*.db"))
+        if not db_paths:
+            console_warning(
+                "No GPU kernel data collected. "
+                "The workload may not have dispatched any GPU kernels."
+            )
+            shutil.rmtree(f"{workload_dir}/out", ignore_errors=True)
+            return
+
         # If using native tool for counter collection
         if (
             get_rocprof_cmd() == "rocprofiler-sdk"

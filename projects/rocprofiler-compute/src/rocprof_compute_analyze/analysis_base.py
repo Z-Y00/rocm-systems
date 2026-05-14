@@ -3,6 +3,7 @@
 
 import argparse
 import copy
+import csv
 import re
 import sys
 from abc import abstractmethod
@@ -14,7 +15,7 @@ import pandas as pd
 
 import config
 from rocprof_compute_soc.soc_base import OmniSoC_Base
-from utils import file_io, parser, schema
+from utils import file_io, parser, rocpd_data, schema
 from utils.logger import (
     console_debug,
     console_error,
@@ -408,9 +409,30 @@ class OmniAnalyze_Base:
 
         if format_rocprof == "rocpd":
             if not file_io.write_pmc_perf_from_rocpd(str(workload_dir), output_file):
+                result_files = sorted(workload_dir.glob("results_*.csv"))
+                if result_files:
+                    console_warning(
+                        "Reading existing rocpd results_*.csv files. "
+                        "Re-profile with a ROCm version that supports rocpd "
+                        "database output to use the default workflow."
+                    )
+                    with open(output_file, "w", newline="") as outfile:
+                        writer = None
+                        for result_file in result_files:
+                            with open(result_file, newline="") as infile:
+                                reader = csv.reader(infile)
+                                header = next(reader)
+                                if writer is None:
+                                    writer = csv.writer(outfile)
+                                    writer.writerow(header)
+                                for row in reader:
+                                    writer.writerow(row)
+                    console_debug(f"Created file: {output_file}")
+                    return None
+
                 console_error(
                     f"No rocpd profiling data found in {workload_dir}.\n"
-                    "Expected: one or more .db files\n"
+                    "Expected: one or more pass .db files or results_*.csv\n"
                     "Please run 'rocprof-compute profile' first."
                 )
                 return None
@@ -643,15 +665,20 @@ class OmniAnalyze_Base:
                 console_debug(f"Using existing {pmc_perf}")
                 return
 
-            db_paths = list(directory.glob("*.db"))
-            if db_paths:
+            if rocpd_data.has_rocpd_pass_counter_data(directory):
                 console_log(f"Joining rocpd database files for {directory}...")
                 self.join_prof(directory, out=str(pmc_perf))
-                console_log(f"Created {pmc_perf}")
-                return
+                if pmc_perf.exists():
+                    console_log(f"Created {pmc_perf}")
+                    return
+            if list(directory.glob("results_*.csv")):
+                console_log(f"Joining rocpd results_*.csv for {directory}...")
+                self.join_prof(directory, out=str(pmc_perf))
+                if pmc_perf.exists():
+                    console_log(f"Created {pmc_perf}")
+                    return
             console_error(
                 f"No rocpd profiling data found in {directory}.\n"
-                "Expected: pmc_perf.csv or one or more .db files\n"
                 "Please run 'rocprof-compute profile' first."
             )
             return

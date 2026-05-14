@@ -7,7 +7,7 @@ from contextlib import closing
 from pathlib import Path
 from typing import Any
 
-from utils.logger import console_error
+from utils.logger import console_error, console_warning
 
 # From schema definition in source/share/rocprofiler-sdk-rocpd/data_views.sql
 # in rocprofiler-sdk repository
@@ -99,6 +99,38 @@ def count_counter_collection_rows(db_path: str) -> int:
         ) as cursor:
             row = cursor.fetchone()
             return int(row[0]) if row is not None else 0
+
+
+def get_rocpd_pass_db_paths(workload_dir: Path) -> list[Path]:
+    """Return root pass DBs matching this workload's perfmon pass configs."""
+    pass_db_paths: list[Path] = []
+    perfmon_dir = workload_dir / "perfmon"
+
+    for pass_config_path in sorted(perfmon_dir.glob("pmc_perf*.yaml")):
+        pass_db_path = workload_dir / f"{pass_config_path.stem}.db"
+        if pass_db_path.is_file():
+            pass_db_paths.append(pass_db_path)
+
+    return pass_db_paths
+
+
+def has_counter_collection_rows(db_path: Path) -> bool:
+    """Return whether a rocpd pass DB exposes counter collection rows."""
+    if not db_path.is_file():
+        return False
+
+    try:
+        return count_counter_collection_rows(str(db_path)) > 0
+    except sqlite3.Error:
+        return False
+
+
+def has_rocpd_pass_counter_data(workload_dir: Path) -> bool:
+    """Return whether all discovered rocpd pass DBs expose counter rows."""
+    pass_db_paths = get_rocpd_pass_db_paths(workload_dir)
+    return bool(pass_db_paths) and all(
+        has_counter_collection_rows(path) for path in pass_db_paths
+    )
 
 
 def update_rocpd_pmc_events(counter_info: list[dict], rocpd_db_path: str) -> None:
@@ -202,8 +234,15 @@ def _materialize_query_surface(
                 f"INSERT INTO {surface_name} "
                 f"SELECT * FROM {attached_name}.{surface_name}"
             )
-        except sqlite3.Error:
+        except sqlite3.Error as e:
             if surface_name == "counters_collection":
+                raise
+            if "no such table" in str(e).lower():
+                console_warning(
+                    "rocpd",
+                    f"Skipping optional {surface_name} surface in {db_path}: {e}",
+                )
+            else:
                 raise
         finally:
             conn.commit()

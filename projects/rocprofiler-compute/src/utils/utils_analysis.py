@@ -10,6 +10,7 @@ from typing import Any, Optional, Union
 import numpy as np
 import pandas as pd
 
+from utils import rocpd_data
 from utils.logger import (
     console_debug,
     console_error,
@@ -568,12 +569,11 @@ def is_workload_empty(path: str) -> None:
     """Peek workload directory to verify valid profiling output"""
     workload_dir = Path(path)
     pmc_perf_path = workload_dir / "pmc_perf.csv"
-    rocpd_db_paths = list(workload_dir.glob("*.db"))
 
     # Find PMC data files (merged or separate)
     if pmc_perf_path.is_file():
         files_to_check = [pmc_perf_path]
-    elif rocpd_db_paths:
+    elif rocpd_data.has_rocpd_pass_counter_data(workload_dir):
         return
     else:
         files_to_check = list(workload_dir.glob("results_*.csv"))

@@ -7,12 +7,14 @@ from pathlib import Path
 
 import common
 import pandas as pd
+import pytest
 
 from utils.file_io import write_pmc_perf_from_rocpd
 from utils.rocpd_data import (
     COUNTERS_COLLECTION_QUERY,
     MARKER_API_TRACE_QUERY,
     build_pass_db,
+    get_rocpd_pass_db_paths,
     read_counter_collection_rows,
     read_marker_api_trace_rows,
 )
@@ -136,12 +138,18 @@ def test_marker_query_uses_stack_id():
 # ---- Test 2: rocpd reads populate Correlation_Id from stack_id ----
 
 
-def create_rocpd_test_db(workload_dir):
+def create_rocpd_test_db(
+    workload_dir,
+    db_name="test.db",
+    counter_rows=None,
+    include_regions=True,
+):
     """
     Build a minimal rocpd-style SQLite database with counters_collection
     and regions tables whose schemas match the production queries.
     """
-    db_path = str(Path(workload_dir) / "test.db")
+    rows = COUNTER_ROWS if counter_rows is None else counter_rows
+    db_path = str(Path(workload_dir) / db_name)
     conn = sqlite3.connect(db_path)
     conn.execute(
         """CREATE TABLE counters_collection (
@@ -155,25 +163,35 @@ def create_rocpd_test_db(workload_dir):
     )
     conn.executemany(
         "INSERT INTO counters_collection VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        COUNTER_ROWS,
+        rows,
     )
-    conn.execute(
-        """CREATE TABLE regions (
-            category TEXT, extdata TEXT, pid INTEGER, tid INTEGER,
-            stack_id INTEGER, guid TEXT, start INTEGER, end INTEGER
-        )"""
-    )
-    region_rows = [
-        (cat, json.dumps({"message": func}), pid, tid, sid, guid, s, e)
-        for cat, func, pid, tid, sid, guid, s, e in MARKER_ROWS
-    ]
-    conn.executemany(
-        "INSERT INTO regions VALUES (?,?,?,?,?,?,?,?)",
-        region_rows,
-    )
+    if include_regions:
+        conn.execute(
+            """CREATE TABLE regions (
+                category TEXT, extdata TEXT, pid INTEGER, tid INTEGER,
+                stack_id INTEGER, guid TEXT, start INTEGER, end INTEGER
+            )"""
+        )
+        region_rows = [
+            (cat, json.dumps({"message": func}), pid, tid, sid, guid, s, e)
+            for cat, func, pid, tid, sid, guid, s, e in MARKER_ROWS
+        ]
+        conn.executemany(
+            "INSERT INTO regions VALUES (?,?,?,?,?,?,?,?)",
+            region_rows,
+        )
     conn.commit()
     conn.close()
     return db_path
+
+
+def create_perfmon_pass_config(workload_dir, pass_name="pmc_perf_0"):
+    """Create a minimal perfmon pass config matching a root pass DB name."""
+    perfmon_dir = Path(workload_dir) / "perfmon"
+    perfmon_dir.mkdir(parents=True, exist_ok=True)
+    pass_config_path = perfmon_dir / f"{pass_name}.yaml"
+    pass_config_path.write_text("pmc: []\n")
+    return pass_config_path
 
 
 def test_counter_rows_have_correlation_id_from_stack_id():
@@ -250,12 +268,35 @@ def test_build_pass_db_merges_multiple_rocpd_databases():
     common.clean_output_dir(True, workload_dir)
 
 
+def test_build_pass_db_tolerates_missing_regions_surface():
+    """Test pass DB creation keeps counters when optional regions are absent."""
+    workload_dir = common.get_output_dir()
+    first_dir = Path(workload_dir) / "first"
+    second_dir = Path(workload_dir) / "second"
+    first_dir.mkdir(parents=True, exist_ok=True)
+    second_dir.mkdir(parents=True, exist_ok=True)
+
+    first_db_path = create_rocpd_test_db(first_dir, include_regions=False)
+    second_db_path = create_rocpd_test_db(second_dir)
+    pass_db_path = str(Path(workload_dir) / "pmc_perf_0.db")
+    build_pass_db([first_db_path, second_db_path], pass_db_path)
+
+    counter_rows = read_counter_collection_rows([pass_db_path])
+    marker_rows = read_marker_api_trace_rows([pass_db_path])
+
+    assert len(counter_rows) == len(COUNTER_ROWS) * 2
+    assert len(marker_rows) == len(MARKER_ROWS)
+
+    common.clean_output_dir(True, workload_dir)
+
+
 def test_write_pmc_perf_from_rocpd_loads_database_without_results_csv():
     """Test that analyze can build pmc_perf.csv directly from a rocpd database."""
     workload_dir = common.get_output_dir()
     Path(workload_dir).mkdir(parents=True, exist_ok=True)
 
-    create_rocpd_test_db(workload_dir)
+    create_perfmon_pass_config(workload_dir)
+    create_rocpd_test_db(workload_dir, db_name="pmc_perf_0.db")
     pmc_perf_path = Path(workload_dir) / "pmc_perf.csv"
 
     assert write_pmc_perf_from_rocpd(workload_dir, str(pmc_perf_path))
@@ -264,6 +305,110 @@ def test_write_pmc_perf_from_rocpd_loads_database_without_results_csv():
     assert "SQ_WAVES" not in pmc_df.columns
     assert "Counter_Name" in pmc_df.columns
     assert list(pmc_df["Dispatch_ID"]) == [0, 1, 2]
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_get_rocpd_pass_db_paths_uses_perfmon_pass_names():
+    """Test rocpd discovery ignores unrelated root DB files."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_perfmon_pass_config(workload_dir)
+    expected_db_path = Path(
+        create_rocpd_test_db(workload_dir, db_name="pmc_perf_0.db")
+    )
+    create_rocpd_test_db(workload_dir, db_name="unrelated.db")
+
+    assert get_rocpd_pass_db_paths(Path(workload_dir)) == [expected_db_path]
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_write_pmc_perf_from_rocpd_ignores_unmatched_database():
+    """Test analyze does not consume arbitrary root SQLite databases."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_rocpd_test_db(workload_dir, db_name="unrelated.db")
+    pmc_perf_path = Path(workload_dir) / "pmc_perf.csv"
+
+    assert not write_pmc_perf_from_rocpd(workload_dir, str(pmc_perf_path))
+    assert not pmc_perf_path.exists()
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_write_pmc_perf_from_rocpd_rejects_empty_counter_database():
+    """Test empty pass DBs do not become successful pmc_perf.csv artifacts."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_perfmon_pass_config(workload_dir)
+    create_rocpd_test_db(
+        workload_dir,
+        db_name="pmc_perf_0.db",
+        counter_rows=[],
+    )
+    pmc_perf_path = Path(workload_dir) / "pmc_perf.csv"
+
+    assert not write_pmc_perf_from_rocpd(workload_dir, str(pmc_perf_path))
+    assert not pmc_perf_path.exists()
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_write_pmc_perf_from_rocpd_normalizes_dispatch_ids_globally():
+    """Test dispatch IDs are assigned after all pass DB rows are combined."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_perfmon_pass_config(workload_dir, "pmc_perf_0")
+    create_perfmon_pass_config(workload_dir, "pmc_perf_1")
+    second_process_rows = [
+        (*row[:4], 200, *row[5:])
+        for row in COUNTER_ROWS
+    ]
+    create_rocpd_test_db(workload_dir, db_name="pmc_perf_0.db")
+    create_rocpd_test_db(
+        workload_dir,
+        db_name="pmc_perf_1.db",
+        counter_rows=second_process_rows,
+    )
+    pmc_perf_path = Path(workload_dir) / "pmc_perf.csv"
+
+    assert write_pmc_perf_from_rocpd(workload_dir, str(pmc_perf_path))
+
+    pmc_df = pd.read_csv(pmc_perf_path)
+    assert list(pmc_df["Dispatch_ID"]) == [0, 1, 2, 3, 4, 5]
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_check_profile_output_files_rejects_unmatched_rocpd_database():
+    """Test profile validation does not accept arbitrary root DB files."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_rocpd_test_db(workload_dir, db_name="unrelated.db")
+
+    with pytest.raises(AssertionError):
+        common.check_profile_output_files(workload_dir, 1, 1)
+
+    common.clean_output_dir(True, workload_dir)
+
+
+def test_check_profile_output_files_validates_rocpd_counter_rows():
+    """Test rocpd DB validation mirrors the CSV minimum-row check."""
+    workload_dir = common.get_output_dir()
+    Path(workload_dir).mkdir(parents=True, exist_ok=True)
+
+    create_perfmon_pass_config(workload_dir)
+    create_rocpd_test_db(workload_dir, db_name="pmc_perf_0.db")
+
+    common.check_profile_output_files(workload_dir, 1, len(COUNTER_ROWS))
+    with pytest.raises(AssertionError):
+        common.check_profile_output_files(workload_dir, 1, len(COUNTER_ROWS) + 1)
 
     common.clean_output_dir(True, workload_dir)
 
