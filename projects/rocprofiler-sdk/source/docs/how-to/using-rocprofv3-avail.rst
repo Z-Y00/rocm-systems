@@ -37,12 +37,12 @@ The following table lists ``rocprofv3-avail`` command-line options categorized a
      - Option
      - Description
    
-   * -  avail-aptions commands
-     -  | ``info`` 
-        | ``list`` 
-        | ``pmc-check``  
-     -  | Info options for detailed information of counters, agents, and pc-sampling configurations. 
-        | List options for hardware counters, agents and pc-sampling support.
+   * -  avail-options commands
+     -  | ``info``
+        | ``list``
+        | ``pmc-check``
+     -  | Info options for detailed information of counters, agents, pc-sampling, and SPM configurations.
+        | List options for hardware counters, agents, pc-sampling, and SPM configuration support.
         | Checking if a set of counters can be collected together on agent.
      
 .. code-block:: bash
@@ -73,8 +73,14 @@ The preceding command generates an output listing agents that supports any kind 
 
 .. code-block:: bash
 
-   rocprofv3-avail info 
-       
+   rocprofv3-avail list --spm-config
+
+The preceding command lists agents that support SPM configurations along with available configuration parameters. ``-d`` option can be used to filter by device.
+
+.. code-block:: bash
+
+   rocprofv3-avail info
+
 The preceding command generates an output with agent information and listing all counters supported on each agent.
 
 .. code-block:: bash
@@ -90,7 +96,14 @@ Output includes the following information: logical node id, name, counter_name, 
        
 The preceding command generates list of supported PC sampling configurations for each agent that supports PC sampling. ``-d`` option is not applicable here.
 Output has following information: logical node id, method supported, unit, minimum sampling interval, maximum sampling interval
-flags. 
+flags.
+
+.. code-block:: bash
+
+   rocprofv3-avail info --spm-config
+
+The preceding command generates list of supported SPM configurations for each agent that supports SPM.
+Output has following information: logical node id, agent name, configuration type, minimum sampling interval, maximum sampling interval.
 
 .. code-block:: bash
 
