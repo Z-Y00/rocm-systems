@@ -670,6 +670,18 @@ std::vector<Tester*> Tester::create(TesterArguments args) {
       test_name = "Tile Get Wave-Collective Contiguous";
       testers.push_back(new TileRMATester(args));
       break;
+    case TileGetRowMajorTestType:
+      test_name = "Tile Get Row-Major";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TileGetColumnMajorTestType:
+      test_name = "Tile Get Column-Major";
+      testers.push_back(new TileRMATester(args));
+      break;
+    case TileGetArbitraryTestType:
+      test_name = "Tile Get Arbitrary Strides";
+      testers.push_back(new TileRMATester(args));
+      break;
     case TilePut1DTestType:
       test_name = "Tile Put 1D Tensor";
       testers.push_back(new TileRMATester(args));
