@@ -1135,7 +1135,10 @@ SGetpcB64Sop1::SGetpcB64Sop1(const MachineInst *inst)
   state_.num_dst_operands = 1;
 }
 
-void SGetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) { sdst.write_scalar64(wf, wf.pc + state_.size_bytes); }
+void SGetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
+  sdst.write_scalar64(wf, wf.pc + state_.size_bytes);
+}
 
 SSetpcB64Sop1::SSetpcB64Sop1(const MachineInst *inst)
     : Sop1("s_setpc_b64", reinterpret_cast<const OpEncoding *>(inst),
@@ -1151,7 +1154,10 @@ SSetpcB64Sop1::SSetpcB64Sop1(const MachineInst *inst)
   state_.flags |= INDIRECT_BRANCH;
 }
 
-void SSetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) { wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes; }
+void SSetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
+  wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes;
+}
 
 SSwappcB64Sop1::SSwappcB64Sop1(const MachineInst *inst)
     : Sop1("s_swappc_b64", reinterpret_cast<const OpEncoding *>(inst),
@@ -1170,6 +1176,7 @@ SSwappcB64Sop1::SSwappcB64Sop1(const MachineInst *inst)
 }
 
 void SSwappcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t next_pc = wf.pc + state_.size_bytes;
   wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes;
   sdst.write_scalar64(wf, next_pc);

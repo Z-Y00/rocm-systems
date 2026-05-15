@@ -6,7 +6,6 @@
 
 #include "rocjitsu/isa/arch/amdgpu/rdna3_5/smem.h"
 #include "rocjitsu/isa/arch/amdgpu/rdna3_5/addr_calc.h"
-#include "rocjitsu/isa/arch/amdgpu/shared/execute_shared.h"
 #include "rocjitsu/isa/arch/amdgpu/shared/gfx11_cache_flags.h"
 #include "rocjitsu/vm/amdgpu/compute_unit.h"
 #include "rocjitsu/vm/amdgpu/mem_state.h"
@@ -43,6 +42,7 @@ SLoadB32Smem::SLoadB32Smem(const MachineInst *inst)
 }
 
 void SLoadB32Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 1;
@@ -66,6 +66,7 @@ SLoadB64Smem::SLoadB64Smem(const MachineInst *inst)
 }
 
 void SLoadB64Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 2;
@@ -90,6 +91,7 @@ SLoadB128Smem::SLoadB128Smem(const MachineInst *inst)
 }
 
 void SLoadB128Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 4;
@@ -114,6 +116,7 @@ SLoadB256Smem::SLoadB256Smem(const MachineInst *inst)
 }
 
 void SLoadB256Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 8;
@@ -138,6 +141,7 @@ SLoadB512Smem::SLoadB512Smem(const MachineInst *inst)
 }
 
 void SLoadB512Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 16;
@@ -162,6 +166,7 @@ SBufferLoadB32Smem::SBufferLoadB32Smem(const MachineInst *inst)
 }
 
 void SBufferLoadB32Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 1;
@@ -186,6 +191,7 @@ SBufferLoadB64Smem::SBufferLoadB64Smem(const MachineInst *inst)
 }
 
 void SBufferLoadB64Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 2;
@@ -210,6 +216,7 @@ SBufferLoadB128Smem::SBufferLoadB128Smem(const MachineInst *inst)
 }
 
 void SBufferLoadB128Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 4;
@@ -234,6 +241,7 @@ SBufferLoadB256Smem::SBufferLoadB256Smem(const MachineInst *inst)
 }
 
 void SBufferLoadB256Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 8;
@@ -258,6 +266,7 @@ SBufferLoadB512Smem::SBufferLoadB512Smem(const MachineInst *inst)
 }
 
 void SBufferLoadB512Smem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::ScalarMemState>();
   d->dst_reg_base = wf.sgpr_alloc().base + inst_.sdata;
   d->num_dwords = 16;
@@ -273,7 +282,10 @@ SGl1InvSmem::SGl1InvSmem(const MachineInst *inst)
   state_.num_dst_operands = 0;
 }
 
-void SGl1InvSmem::execute_impl(amdgpu::Wavefront &wf) { amdgpu::execute_s_gl1_inv_smem(*this, wf); }
+void SGl1InvSmem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
+  wf.cu().l1_vector().invalidate_all();
+}
 
 SDcacheInvSmem::SDcacheInvSmem(const MachineInst *inst)
     : Smem("s_dcache_inv", reinterpret_cast<const OpEncoding *>(inst),
@@ -282,7 +294,10 @@ SDcacheInvSmem::SDcacheInvSmem(const MachineInst *inst)
   state_.num_dst_operands = 0;
 }
 
-void SDcacheInvSmem::execute_impl(amdgpu::Wavefront &wf) { wf.cu().l1_scalar().invalidate_all(); }
+void SDcacheInvSmem::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
+  wf.cu().l1_scalar().invalidate_all();
+}
 
 SAtcProbeSmem::SAtcProbeSmem(const MachineInst *inst)
     : Smem("s_atc_probe", reinterpret_cast<const OpEncoding *>(inst),

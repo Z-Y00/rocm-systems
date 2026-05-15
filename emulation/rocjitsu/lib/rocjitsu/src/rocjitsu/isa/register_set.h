@@ -14,7 +14,8 @@
 #include "rocjitsu/isa/arch/amdgpu/shared/cdna_isa_base.h"
 #include "rocjitsu/isa/arch/amdgpu/shared/rdna_isa_base.h"
 
-#include "emulator_state.h"
+#include "rocjitsu/code/rj_code.h"
+#include "rocjitsu/vm/rj_vm.h"
 
 #include <algorithm>
 #include <bitset>
@@ -50,20 +51,20 @@ inline constexpr size_t REGISTER_SET_ALLOCATABLE_SGPRS =
 /// labels, waitcnt immediates, message IDs, and other non-register values should
 /// not produce a RegisterRef.
 ///
-/// Enumerator values are pinned to the corresponding @ref emulator_register_class
-/// constants so a @c RegClass cast to @c emulator_register_class_t matches the
+/// Enumerator values are pinned to the corresponding @ref rj_code_register_class
+/// constants so a @c RegClass cast to @c rj_code_register_class_t matches the
 /// emulator plugin ABI.
 enum class RegClass : uint8_t {
-  SGPR = EMULATOR_REGISTER_CLASS_SGPR,                 ///< Scalar general-purpose register, indexed as sN.
-  VGPR = EMULATOR_REGISTER_CLASS_VGPR,                 ///< Vector general-purpose register, indexed as vN.
-  ACC_VGPR = EMULATOR_REGISTER_CLASS_ACC_VGPR,         ///< CDNA accumulator VGPR, indexed as accN.
-  EXEC = EMULATOR_REGISTER_CLASS_EXEC,                 ///< EXEC mask. Not currently tracked by RegisterSet.
-  VCC = EMULATOR_REGISTER_CLASS_VCC,                   ///< VCC condition mask. Not currently tracked by RegisterSet.
-  SCC = EMULATOR_REGISTER_CLASS_SCC,                   ///< Scalar condition code bit. Not currently tracked by RegisterSet.
-  M0 = EMULATOR_REGISTER_CLASS_M0,                     ///< M0 special scalar register. Not currently tracked by RegisterSet.
-  FLAT_SCRATCH = EMULATOR_REGISTER_CLASS_FLAT_SCRATCH, ///< Flat-scratch base pair. Not currently tracked by RegisterSet.
-  TTMP = EMULATOR_REGISTER_CLASS_TTMP,                 ///< Trap-temporary registers. Not currently tracked by RegisterSet.
-  PC = EMULATOR_REGISTER_CLASS_PC,                     ///< Program counter/control-flow dependency. Not currently tracked by RegisterSet.
+  SGPR = ROCJITSU_CODE_REGISTER_CLASS_SGPR,                 ///< Scalar general-purpose register, indexed as sN.
+  VGPR = ROCJITSU_CODE_REGISTER_CLASS_VGPR,                 ///< Vector general-purpose register, indexed as vN.
+  ACC_VGPR = ROCJITSU_CODE_REGISTER_CLASS_ACC_VGPR,         ///< CDNA accumulator VGPR, indexed as accN.
+  EXEC = ROCJITSU_CODE_REGISTER_CLASS_EXEC,                 ///< EXEC mask. Not currently tracked by RegisterSet.
+  VCC = ROCJITSU_CODE_REGISTER_CLASS_VCC,                   ///< VCC condition mask. Not currently tracked by RegisterSet.
+  SCC = ROCJITSU_CODE_REGISTER_CLASS_SCC,                   ///< Scalar condition code bit. Not currently tracked by RegisterSet.
+  M0 = ROCJITSU_CODE_REGISTER_CLASS_M0,                     ///< M0 special scalar register. Not currently tracked by RegisterSet.
+  FLAT_SCRATCH = ROCJITSU_CODE_REGISTER_CLASS_FLAT_SCRATCH, ///< Flat-scratch base pair. Not currently tracked by RegisterSet.
+  TTMP = ROCJITSU_CODE_REGISTER_CLASS_TTMP,                 ///< Trap-temporary registers. Not currently tracked by RegisterSet.
+  PC = ROCJITSU_CODE_REGISTER_CLASS_PC,                     ///< Program counter/control-flow dependency. Not currently tracked by RegisterSet.
 };
 
 /// @brief A contiguous register reference within one register file.

@@ -10,6 +10,7 @@
 #include "rocjitsu/base/rj_compiler.h"
 #include "rocjitsu/base/rj_status.h"
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -104,23 +105,156 @@ typedef enum rj_code_target_id_t {
   ROCJITSU_CODE_TARGET_INVALID
 } rj_code_target_id_t;
 
+/// @brief Static limits on the number of operands an instruction may have.
+typedef enum rj_code_inst_limits_e {
+  /// @brief Maximum source operands per instruction.
+  ROCJITSU_CODE_INST_MAX_SRC_OPERANDS = 4,
+  /// @brief Maximum destination operands per instruction.
+  ROCJITSU_CODE_INST_MAX_DST_OPERANDS = 2,
+} rj_code_inst_limits_t;
+
 /// @brief Instruction property flags.
 /// @details Each flag is a single bit in a bitmask. Multiple flags can be
 /// combined with bitwise OR to describe an instruction's properties.
-typedef enum rj_code_inst_flags_e {
-  /// @brief Instruction is an unconditional branch.
-  RJ_CODE_INST_BRANCH = 1,
-  /// @brief Instruction is a conditional branch.
-  RJ_CODE_INST_COND_BRANCH = (1 << 1),
-  /// @brief Instruction is an indirect branch (target from register).
-  RJ_CODE_INST_INDIRECT_BRANCH = (1 << 2),
-  /// @brief Instruction terminates the program (e.g. s_endpgm).
-  RJ_CODE_INST_PROGRAM_TERMINATOR = (1 << 3),
-  /// @brief Instruction executes immediately without scheduling latency.
-  RJ_CODE_INST_IMMEDIATELY_EXECUTED = (1 << 4),
-  /// @brief Instruction performs a memory operation (load or store).
-  RJ_CODE_INST_MEMORY_OP = (1 << 5)
-} rj_code_inst_flags_t;
+/// Stored as a bitmask in @ref rj_code_inst_state_t::flags.
+typedef enum rj_code_inst_flag_e {
+  /// @brief Unconditional branch.
+  ROCJITSU_CODE_INST_FLAG_BRANCH = 1,
+  /// @brief Conditional branch.
+  ROCJITSU_CODE_INST_FLAG_COND_BRANCH = 1 << 1,
+  /// @brief Indirect branch (target from register).
+  ROCJITSU_CODE_INST_FLAG_INDIRECT_BRANCH = 1 << 2,
+  /// @brief Indirect call (target from register, returns to fallthrough).
+  ROCJITSU_CODE_INST_FLAG_INDIRECT_CALL = 1 << 3,
+  /// @brief Terminates the program (e.g. s_endpgm).
+  ROCJITSU_CODE_INST_FLAG_PROGRAM_TERMINATOR = 1 << 4,
+  /// @brief Executes immediately without scheduling latency.
+  ROCJITSU_CODE_INST_FLAG_IMMEDIATELY_EXECUTED = 1 << 5,
+  /// @brief Memory operation (load or store).
+  ROCJITSU_CODE_INST_FLAG_MEMORY_OP = 1 << 6,
+  /// @brief Wait-counter instruction (s_waitcnt, s_wait_loadcnt, s_wait_storecnt, etc.).
+  ROCJITSU_CODE_INST_FLAG_WAITCNT = 1 << 7,
+  /// @brief Barrier instruction (s_barrier, s_barrier_signal, s_barrier_wait).
+  ROCJITSU_CODE_INST_FLAG_BARRIER = 1 << 8,
+  /// @brief Matrix FMA instruction (v_mfma_*, v_smfmac_*).
+  ROCJITSU_CODE_INST_FLAG_MFMA = 1 << 9,
+  /// @brief AccVGPR move instruction (v_accvgpr_write, v_accvgpr_read, v_accvgpr_mov).
+  ROCJITSU_CODE_INST_FLAG_ACCVGPR = 1 << 10,
+  /// @brief Destination update is conditional and must not kill the old value.
+  ROCJITSU_CODE_INST_FLAG_PREDICATED_DEF = 1 << 11,
+} rj_code_inst_flag_t;
+
+/// @brief High-level operand category.
+///
+/// @details Operands that are literals, labels, waitcnt immediates, message
+/// IDs, and other non-register values should not produce a register reference;
+/// use the dedicated enumerator instead of @c REGISTER for those cases.
+typedef enum rj_code_operand_type_e {
+  ROCJITSU_CODE_OPERAND_TYPE_UNKNOWN = 0,   ///< Unclassified or not applicable.
+  ROCJITSU_CODE_OPERAND_TYPE_REGISTER = 1,  ///< Operand references a register file entry.
+  ROCJITSU_CODE_OPERAND_TYPE_IMMEDIATE = 2, ///< Inline immediate encoded in the instruction word.
+  ROCJITSU_CODE_OPERAND_TYPE_LITERAL = 3,   ///< 32-bit literal stored in a following word.
+  ROCJITSU_CODE_OPERAND_TYPE_LABEL = 4,     ///< Branch label / PC-relative offset.
+  ROCJITSU_CODE_OPERAND_TYPE_WAITCNT = 5,   ///< Encoded wait-counter immediate.
+  ROCJITSU_CODE_OPERAND_TYPE_MESSAGE = 6,   ///< Encoded sendmsg/barrier message ID.
+  ROCJITSU_CODE_OPERAND_TYPE_SPECIAL = 7,   ///< Architectural special value (e.g., constants 0/1/-1).
+} rj_code_operand_type_t;
+
+/// @brief ISA-independent register-file class.
+///
+/// @details Each class has its own namespace. For example SGPR 4 and VGPR 4
+/// are different registers, so they must not collide. The enum is
+/// deliberately small and hardware-oriented; operands that are literals,
+/// labels, waitcnt immediates, message IDs, and other non-register values
+/// should not produce a register reference (use @c NONE).
+typedef enum rj_code_register_class_e {
+  ROCJITSU_CODE_REGISTER_CLASS_NONE = 0,         ///< Operand does not name a register.
+  ROCJITSU_CODE_REGISTER_CLASS_SGPR = 1,         ///< Scalar general-purpose register, indexed as sN.
+  ROCJITSU_CODE_REGISTER_CLASS_VGPR = 2,         ///< Vector general-purpose register, indexed as vN.
+  ROCJITSU_CODE_REGISTER_CLASS_ACC_VGPR = 3,     ///< CDNA accumulator VGPR, indexed as accN.
+  ROCJITSU_CODE_REGISTER_CLASS_EXEC = 4,         ///< EXEC mask.
+  ROCJITSU_CODE_REGISTER_CLASS_VCC = 5,          ///< VCC condition mask.
+  ROCJITSU_CODE_REGISTER_CLASS_SCC = 6,          ///< Scalar condition code bit.
+  ROCJITSU_CODE_REGISTER_CLASS_M0 = 7,           ///< M0 special scalar register.
+  ROCJITSU_CODE_REGISTER_CLASS_FLAT_SCRATCH = 8, ///< Flat-scratch base pair.
+  ROCJITSU_CODE_REGISTER_CLASS_TTMP = 9,         ///< Trap-temporary registers.
+  ROCJITSU_CODE_REGISTER_CLASS_PC = 10,          ///< Program counter/control-flow dependency.
+} rj_code_register_class_t;
+
+/// @brief Public POD state of an instruction operand.
+///
+/// @details Backs the C++ @c rocjitsu::Operand. Register-typed operands fill
+/// @ref register_class, @ref register_index, @ref register_width, and
+/// @ref is_vgpr; non-register operands leave the register fields zero/NONE and
+/// rely on @ref type for classification.
+typedef struct rj_code_operand_t {
+  /// @brief Human-readable name for this operand (e.g. "v0", "s4", or a literal).
+  ///
+  /// @details Must point to storage that outlives the operand (typically a
+  /// string literal or a static buffer). May be NULL for synthetic operands.
+  const char *name;
+  /// @brief Raw encoding value from the instruction binary.
+  int32_t encoding_value;
+  /// @brief Operand width in bits.
+  uint32_t size_bits;
+  /// @brief High-level operand category.
+  rj_code_operand_type_t type;
+  /// @brief Register-file class, or @c ROCJITSU_CODE_REGISTER_CLASS_NONE for
+  ///        non-register operands.
+  rj_code_register_class_t register_class;
+  /// @brief First register index within @ref register_class.
+  uint32_t register_index;
+  /// @brief Number of consecutive 32-bit register lanes covered.
+  uint32_t register_width;
+  /// @brief Whether this operand references a VGPR or AccVGPR.
+  ///
+  /// @details Classified at construction time using the ISA-specific
+  /// operand-type tables. Convenience flag — equivalent to
+  /// `register_class == VGPR || register_class == ACC_VGPR`.
+  bool is_vgpr;
+} rj_code_operand_t;
+
+/// @brief Public POD state of a decoded instruction.
+///
+/// @details Backs the C++ @c rocjitsu::Instruction's public state. Operand
+/// pointers are non-owning and reference operand storage owned by the
+/// instruction or its encoding base class.
+typedef struct rj_code_inst_state_t {
+  /// @brief Human-readable mnemonic (e.g. "v_add_u32").
+  ///
+  /// @details Points to static storage or storage that outlives the
+  /// instruction — typically a string literal or a member of the encoding
+  /// base class.
+  const char *mnemonic;
+  /// @brief Cached disassembly string, or NULL if not yet built.
+  ///
+  /// @details Lazily produced on first request. Includes mnemonic, operands,
+  /// and any modifier flags.
+  const char *disassembly;
+  /// @brief Pointer to the raw encoding words.
+  ///
+  /// @details Length is @ref raw_encoding_word_count. May be NULL if the
+  /// instruction has no backing binary encoding.
+  const uint32_t *raw_encoding;
+  /// @brief Source operands, populated up to @ref num_src_operands.
+  const rj_code_operand_t *src_operands[ROCJITSU_CODE_INST_MAX_SRC_OPERANDS];
+  /// @brief Destination operands, populated up to @ref num_dst_operands.
+  const rj_code_operand_t *dst_operands[ROCJITSU_CODE_INST_MAX_DST_OPERANDS];
+  /// @brief Property bitmask of @ref rj_code_inst_flag_t values.
+  uint64_t flags;
+  /// @brief Number of valid words pointed to by @ref raw_encoding.
+  uint32_t raw_encoding_word_count;
+  /// @brief Size of the instruction's encoding in bytes.
+  uint32_t size_bytes;
+  /// @brief Encoding format ID (the encoding prefix from the machine instruction).
+  uint32_t encoding_id;
+  /// @brief Opcode within the encoding format.
+  uint32_t opcode;
+  /// @brief Number of valid entries in @ref src_operands.
+  uint32_t num_src_operands;
+  /// @brief Number of valid entries in @ref dst_operands.
+  uint32_t num_dst_operands;
+} rj_code_inst_state_t;
 
 /// @brief Opaque handle to an executable (x86 HIP fat binary or standalone device ELF).
 typedef struct rj_code_executable_t rj_code_executable_t;
@@ -318,7 +452,7 @@ RJ_API_EXPORT uint32_t rj_code_inst_size(const rj_code_inst_t *inst);
 
 /// @brief Get the flags for an instruction.
 /// @param[in] inst Instruction to query.
-/// @returns Bitmask of @ref rj_code_inst_flags_t values.
+/// @returns Bitmask of @ref rj_code_inst_flag_t values.
 RJ_API_EXPORT uint32_t rj_code_inst_flags(const rj_code_inst_t *inst);
 
 /// @brief Disassemble an instruction into a string buffer.

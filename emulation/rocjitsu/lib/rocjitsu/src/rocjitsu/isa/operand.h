@@ -9,7 +9,8 @@
 
 #include "rocjitsu/isa/register_set.h"
 
-#include "emulator_state.h"
+#include "rocjitsu/code/rj_code.h"
+#include "rocjitsu/vm/rj_vm.h"
 
 #include <cstdint>
 #include <optional>
@@ -137,7 +138,7 @@ public:
   /// @details Public POD storage in the C ABI layout so plugins and the C++
   /// runtime share the same representation. Mutated by ISA-specific
   /// subclasses during construction.
-  emulator_operand_t state_{};
+  rj_code_operand_t state_{};
 
 private:
   Operand *delegate_ = nullptr;

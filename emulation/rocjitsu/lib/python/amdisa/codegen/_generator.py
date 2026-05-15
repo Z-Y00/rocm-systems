@@ -310,7 +310,7 @@ class CodeGenerator:
                     f'(std::string_view mnemonic, const {inst_enc.fmt_enc_name}MachineInst *inst, ExecuteFn exec_fn) '
                     f': IsaInstruction<Isa>("", exec_fn), inst_(*inst), '
                     f'owned_mnemonic_({mnemonic_expr}) '
-                    f'{{ state_.mnemonic = owned_mnemonic_;{size_line}}}'
+                    f'{{ state_.mnemonic = owned_mnemonic_.c_str();{size_line}}}'
                 )
             else:
                 class_ctor_impl = (
@@ -3968,6 +3968,7 @@ class CodeGenerator:
                             exec_impl = cgen.Line(
                                 f'void {inst.fmt_name}::execute_impl'
                                 f'(amdgpu::Wavefront &wf) {{\n'
+                                f'  [[maybe_unused]] auto &inst = *this;\n'
                                 f'{_dpp_preamble}'
                                 f'{body}\n'
                                 f'{_dpp_cleanup}'

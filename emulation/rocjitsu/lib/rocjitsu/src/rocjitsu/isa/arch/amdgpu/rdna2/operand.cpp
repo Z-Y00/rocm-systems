@@ -135,7 +135,8 @@ std::string Operand::name() const {
       return reg_name("s", state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN, state_.size_bits);
     if (state_.encoding_value >= OpSelSdst::OPR_SDST_TTMP_MIN &&
         state_.encoding_value <= OpSelSdst::OPR_SDST_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSdst::OPR_SDST_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSdst::OPR_SDST_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSdst::OPR_SDST_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSdst::OPR_SDST_VCC_HI)
@@ -165,7 +166,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SMEM_OFFSET: {
     if (state_.encoding_value >= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN &&
         state_.encoding_value <= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value >= OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MIN &&
         state_.encoding_value <= OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MAX)
       return reg_name("ttmp", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_TTMP_MIN,
@@ -253,10 +255,12 @@ std::string Operand::name() const {
   case OperandType::OPR_SRC_NOLDS: {
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_VCC_HI)
@@ -274,7 +278,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_FLOAT_NEG_HALF)
@@ -311,7 +316,8 @@ std::string Operand::name() const {
       return "src_pops_exiting_wave_id";
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_SRC_LITERAL)
       return "literal";
     break;
@@ -319,7 +325,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SRC_SIMPLE: {
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_TTMP_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_TTMP_MAX)
       return reg_name("ttmp", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_TTMP_MIN,
@@ -341,7 +348,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSrcSimple::OPR_SRC_SIMPLE_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSrcSimple::OPR_SRC_SIMPLE_FLOAT_NEG_HALF)
@@ -378,13 +386,15 @@ std::string Operand::name() const {
       return "src_pops_exiting_wave_id";
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_SRC_VGPR: {
     if (state_.encoding_value >= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_SREG: {
@@ -393,7 +403,8 @@ std::string Operand::name() const {
       return reg_name("s", state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN, state_.size_bits);
     if (state_.encoding_value >= OpSelSreg::OPR_SREG_TTMP_MIN &&
         state_.encoding_value <= OpSelSreg::OPR_SREG_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSreg::OPR_SREG_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSreg::OPR_SREG_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSreg::OPR_SREG_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSreg::OPR_SREG_VCC_HI)
@@ -405,7 +416,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SREG_M0_INL: {
     if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN &&
         state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MIN &&
         state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MAX)
       return reg_name("ttmp", state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_TTMP_MIN,
@@ -423,7 +435,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSregM0Inl::OPR_SREG_M0_INL_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSregM0Inl::OPR_SREG_M0_INL_FLOAT_NEG_HALF)
@@ -447,7 +460,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SREG_NONULL: {
     if (state_.encoding_value >= OpSelSregNonull::OPR_SREG_NONULL_SGPR_MIN &&
         state_.encoding_value <= OpSelSregNonull::OPR_SREG_NONULL_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSregNonull::OPR_SREG_NONULL_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSregNonull::OPR_SREG_NONULL_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value >= OpSelSregNonull::OPR_SREG_NONULL_TTMP_MIN &&
         state_.encoding_value <= OpSelSregNonull::OPR_SREG_NONULL_TTMP_MAX)
       return reg_name("ttmp", state_.encoding_value - OpSelSregNonull::OPR_SREG_NONULL_TTMP_MIN,
@@ -464,7 +478,8 @@ std::string Operand::name() const {
       return reg_name("s", state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN, state_.size_bits);
     if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_TTMP_MIN &&
         state_.encoding_value <= OpSelSsrc::OPR_SSRC_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSsrc::OPR_SSRC_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSsrc::OPR_SSRC_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSsrc::OPR_SSRC_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSsrc::OPR_SSRC_VCC_HI)
@@ -545,7 +560,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SSRC_NOLDS: {
     if (state_.encoding_value >= OpSelSsrcNolds::OPR_SSRC_NOLDS_SGPR_MIN &&
         state_.encoding_value <= OpSelSsrcNolds::OPR_SSRC_NOLDS_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSsrcNolds::OPR_SSRC_NOLDS_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSsrcNolds::OPR_SSRC_NOLDS_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value >= OpSelSsrcNolds::OPR_SSRC_NOLDS_TTMP_MIN &&
         state_.encoding_value <= OpSelSsrcNolds::OPR_SSRC_NOLDS_TTMP_MAX)
       return reg_name("ttmp", state_.encoding_value - OpSelSsrcNolds::OPR_SSRC_NOLDS_TTMP_MIN,
@@ -567,7 +583,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSsrcNolds::OPR_SSRC_NOLDS_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSsrcNolds::OPR_SSRC_NOLDS_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSsrcNolds::OPR_SSRC_NOLDS_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSsrcNolds::OPR_SSRC_NOLDS_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSsrcNolds::OPR_SSRC_NOLDS_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSsrcNolds::OPR_SSRC_NOLDS_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSsrcNolds::OPR_SSRC_NOLDS_FLOAT_NEG_HALF)
@@ -726,7 +743,8 @@ std::string Operand::name() const {
       return "src_lds_direct";
     if (state_.encoding_value >= OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MIN &&
         state_.encoding_value <= OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_HWREG:
@@ -778,9 +796,9 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_SDST: {
     if (state_.encoding_value >= OpSelSdst::OPR_SDST_SGPR_MIN &&
         state_.encoding_value <= OpSelSdst::OPR_SDST_SGPR_MAX)
-      return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::SGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SDST_EXEC: {
@@ -846,15 +864,16 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
         state_.encoding_value <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
       return RegisterRef{
           RegClass::VGPR,
-          static_cast<uint16_t>(state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN), reg_width};
+          static_cast<uint16_t>(state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN),
+          reg_width};
     break;
   }
   case OperandType::OPR_SREG: {
     if (state_.encoding_value >= OpSelSreg::OPR_SREG_SGPR_MIN &&
         state_.encoding_value <= OpSelSreg::OPR_SREG_SGPR_MAX)
-      return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::SGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SREG_M0_INL: {
@@ -878,18 +897,18 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_SSRC: {
     if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_SGPR_MIN &&
         state_.encoding_value <= OpSelSsrc::OPR_SSRC_SGPR_MAX)
-      return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::SGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SSRC_LANESEL: {
     if (state_.encoding_value >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN &&
         state_.encoding_value <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MAX)
-      return RegisterRef{
-          RegClass::SGPR,
-          static_cast<uint16_t>(state_.encoding_value - OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN),
-          reg_width};
+      return RegisterRef{RegClass::SGPR,
+                         static_cast<uint16_t>(state_.encoding_value -
+                                               OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN),
+                         reg_width};
     break;
   }
   case OperandType::OPR_SSRC_NOLDS: {
@@ -913,9 +932,9 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_VGPR: {
     if (state_.encoding_value >= OpSelVgpr::OPR_VGPR_VGPR_MIN &&
         state_.encoding_value <= OpSelVgpr::OPR_VGPR_VGPR_MAX)
-      return RegisterRef{RegClass::VGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelVgpr::OPR_VGPR_VGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::VGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelVgpr::OPR_VGPR_VGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_VGPR_OR_LDS: {

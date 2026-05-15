@@ -538,6 +538,7 @@ VWmmaF3216x16x16F16Vop3p::VWmmaF3216x16x16F16Vop3p(const MachineInst *inst)
 }
 
 void VWmmaF3216x16x16F16Vop3p::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto &cu = wf.cu();
   uint32_t vb = wf.vgpr_alloc().base;
   uint32_t dst = amdgpu::dst_base(vb, vdst.state_.encoding_value, 1);
@@ -566,6 +567,7 @@ VWmmaF3216x16x16Bf16Vop3p::VWmmaF3216x16x16Bf16Vop3p(const MachineInst *inst)
 }
 
 void VWmmaF3216x16x16Bf16Vop3p::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto &cu = wf.cu();
   uint32_t vb = wf.vgpr_alloc().base;
   uint32_t dst = amdgpu::dst_base(vb, vdst.state_.encoding_value, 1);
@@ -594,6 +596,7 @@ VWmmaF1616x16x16F16Vop3p::VWmmaF1616x16x16F16Vop3p(const MachineInst *inst)
 }
 
 void VWmmaF1616x16x16F16Vop3p::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto &cu = wf.cu();
   uint32_t vb = wf.vgpr_alloc().base;
   uint32_t dst = amdgpu::dst_base(vb, vdst.state_.encoding_value, 1);
@@ -622,6 +625,7 @@ VWmmaBf1616x16x16Bf16Vop3p::VWmmaBf1616x16x16Bf16Vop3p(const MachineInst *inst)
 }
 
 void VWmmaBf1616x16x16Bf16Vop3p::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto &cu = wf.cu();
   uint32_t vb = wf.vgpr_alloc().base;
   uint32_t dst = amdgpu::dst_base(vb, vdst.state_.encoding_value, 1);
@@ -650,6 +654,7 @@ VWmmaI3216x16x16Iu8Vop3p::VWmmaI3216x16x16Iu8Vop3p(const MachineInst *inst)
 }
 
 void VWmmaI3216x16x16Iu8Vop3p::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto &cu = wf.cu();
   uint32_t vb = wf.vgpr_alloc().base;
   uint32_t dst = amdgpu::dst_base(vb, vdst.state_.encoding_value, 1);
@@ -677,6 +682,7 @@ VWmmaI3216x16x16Iu4Vop3p::VWmmaI3216x16x16Iu4Vop3p(const MachineInst *inst)
 }
 
 void VWmmaI3216x16x16Iu4Vop3p::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   auto &cu = wf.cu();
   uint32_t vb = wf.vgpr_alloc().base;
   uint32_t dst = amdgpu::dst_base(vb, vdst.state_.encoding_value, 1);

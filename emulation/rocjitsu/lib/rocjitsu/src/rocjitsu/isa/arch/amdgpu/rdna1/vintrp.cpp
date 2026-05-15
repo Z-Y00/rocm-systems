@@ -30,6 +30,7 @@ VInterpP1F32Vintrp::VInterpP1F32Vintrp(const MachineInst *inst)
 }
 
 void VInterpP1F32Vintrp::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Interpolation/LDS-direct: no-op in compute simulation.
 }
 
@@ -48,6 +49,7 @@ VInterpP2F32Vintrp::VInterpP2F32Vintrp(const MachineInst *inst)
 }
 
 void VInterpP2F32Vintrp::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Interpolation/LDS-direct: no-op in compute simulation.
 }
 
@@ -65,6 +67,7 @@ VInterpMovF32Vintrp::VInterpMovF32Vintrp(const MachineInst *inst)
 }
 
 void VInterpMovF32Vintrp::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Interpolation/LDS-direct: no-op in compute simulation.
 }
 

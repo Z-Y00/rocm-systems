@@ -22,10 +22,11 @@ include(CTest)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Emulator plugin ABI headers (emulator_state.h, emulator_plugin.h). These
-# C headers define the layout that the rocjitsu C++ types alias / derive
-# from, so every target — object libs, shim, tests — needs them visible.
-include_directories(${PROJECT_SOURCE_DIR}/../plugin)
+# Emulator plugin ABI header (emulator_plugin.h). The plugin's state types
+# now live in the public rocjitsu C API (rocjitsu/code/rj_code.h,
+# rocjitsu/vm/rj_vm.h); the plugin header lives alongside the rocjitsu
+# library tree under plugin/.
+include_directories(${PROJECT_SOURCE_DIR}/plugin)
 
 find_package(Threads REQUIRED)
 

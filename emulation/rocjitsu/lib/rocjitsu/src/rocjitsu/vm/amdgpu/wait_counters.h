@@ -4,7 +4,8 @@
 #ifndef ROCJITSU_VM_AMDGPU_WAIT_COUNTERS_H_
 #define ROCJITSU_VM_AMDGPU_WAIT_COUNTERS_H_
 
-#include "emulator_state.h"
+#include "rocjitsu/code/rj_code.h"
+#include "rocjitsu/vm/rj_vm.h"
 
 #include <algorithm>
 #include <cassert>
@@ -34,12 +35,12 @@ enum class WaitCounterType : uint8_t {
 /// @brief Outstanding memory operation counters for a wavefront.
 ///
 /// @details Inherits the field layout from the C ABI
-/// @ref emulator_wait_counters_t so rocjitsu and plugins share the same
-/// representation. See @ref emulator_wait_counters_t for the per-field
+/// @ref rj_vm_wait_counters_t so rocjitsu and plugins share the same
+/// representation. See @ref rj_vm_wait_counters_t for the per-field
 /// semantics across ISA families.
-struct WaitCounters : ::emulator_wait_counters_t {
+struct WaitCounters : ::rj_vm_wait_counters_t {
   /// @brief Zero-initialize all counter fields.
-  WaitCounters() : ::emulator_wait_counters_t{} {}
+  WaitCounters() : ::rj_vm_wait_counters_t{} {}
 
   /// @brief Check whether all counters are zero (no outstanding memory ops).
   bool empty() const {

@@ -34,7 +34,8 @@ std::string Operand::name() const {
   case OperandType::OPR_ACCVGPR: {
     if (state_.encoding_value >= OpSelAccvgpr::OPR_ACCVGPR_ACC_MIN &&
         state_.encoding_value <= OpSelAccvgpr::OPR_ACCVGPR_ACC_MAX)
-      return reg_name("acc", state_.encoding_value - OpSelAccvgpr::OPR_ACCVGPR_ACC_MIN, state_.size_bits);
+      return reg_name("acc", state_.encoding_value - OpSelAccvgpr::OPR_ACCVGPR_ACC_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_ATTR: {
@@ -144,7 +145,8 @@ std::string Operand::name() const {
       return "flat_scratch_hi";
     if (state_.encoding_value >= OpSelSdst::OPR_SDST_TTMP_MIN &&
         state_.encoding_value <= OpSelSdst::OPR_SDST_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSdst::OPR_SDST_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSdst::OPR_SDST_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSdst::OPR_SDST_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSdst::OPR_SDST_VCC_HI)
@@ -172,7 +174,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SMEM_OFFSET: {
     if (state_.encoding_value >= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN &&
         state_.encoding_value <= OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSmemOffset::OPR_SMEM_OFFSET_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSmemOffset::OPR_SMEM_OFFSET_XNACK_MASK_LO)
       return "xnack_mask_lo";
     if (state_.encoding_value == OpSelSmemOffset::OPR_SMEM_OFFSET_XNACK_MASK_HI)
@@ -277,17 +280,17 @@ std::string Operand::name() const {
   case OperandType::OPR_SRC_ACCVGPR_OR_CONST: {
     if (state_.encoding_value >= OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_ACC_MIN &&
         state_.encoding_value <= OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_ACC_MAX)
-      return reg_name("acc",
-                      state_.encoding_value - OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_ACC_MIN,
-                      state_.size_bits);
+      return reg_name(
+          "acc", state_.encoding_value - OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_ACC_MIN,
+          state_.size_bits);
     if (state_.encoding_value >= OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_POS_INT_MIN &&
         state_.encoding_value <= OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_POS_INT_MAX)
       return std::to_string(state_.encoding_value -
                             OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_NEG_INT_MAX)
-      return std::to_string(
-          -(state_.encoding_value - OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_NEG_INT_MIN + 1));
+      return std::to_string(-(state_.encoding_value -
+                              OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_FLOAT_NEG_HALF)
@@ -304,14 +307,16 @@ std::string Operand::name() const {
       return "4.0";
     if (state_.encoding_value == OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_FLOAT_NEG_FOUR)
       return "-4.0";
-    if (state_.encoding_value == OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_FLOAT_ONE_OVER_TWO_PI)
+    if (state_.encoding_value ==
+        OpSelSrcAccvgprOrConst::OPR_SRC_ACCVGPR_OR_CONST_FLOAT_ONE_OVER_TWO_PI)
       return "0.15915494";
     break;
   }
   case OperandType::OPR_SRC_NOLDS: {
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_XNACK_MASK_LO)
       return "xnack_mask_lo";
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_XNACK_MASK_HI)
@@ -322,7 +327,8 @@ std::string Operand::name() const {
       return "flat_scratch_hi";
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_VCC_HI)
@@ -338,7 +344,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_FLOAT_NEG_HALF)
@@ -375,7 +382,8 @@ std::string Operand::name() const {
       return "src_pops_exiting_wave_id";
     if (state_.encoding_value >= OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcNolds::OPR_SRC_NOLDS_VGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolds::OPR_SRC_NOLDS_SRC_LITERAL)
       return "literal";
     break;
@@ -383,7 +391,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SRC_NOLIT: {
     if (state_.encoding_value >= OpSelSrcNolit::OPR_SRC_NOLIT_SGPR_MIN &&
         state_.encoding_value <= OpSelSrcNolit::OPR_SRC_NOLIT_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_XNACK_MASK_LO)
       return "xnack_mask_lo";
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_XNACK_MASK_HI)
@@ -394,7 +403,8 @@ std::string Operand::name() const {
       return "flat_scratch_hi";
     if (state_.encoding_value >= OpSelSrcNolit::OPR_SRC_NOLIT_TTMP_MIN &&
         state_.encoding_value <= OpSelSrcNolit::OPR_SRC_NOLIT_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_VCC_HI)
@@ -410,7 +420,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSrcNolit::OPR_SRC_NOLIT_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSrcNolit::OPR_SRC_NOLIT_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_FLOAT_NEG_HALF)
@@ -447,7 +458,8 @@ std::string Operand::name() const {
       return "src_pops_exiting_wave_id";
     if (state_.encoding_value >= OpSelSrcNolit::OPR_SRC_NOLIT_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcNolit::OPR_SRC_NOLIT_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcNolit::OPR_SRC_NOLIT_VGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcNolit::OPR_SRC_NOLIT_SRC_LDS_DIRECT)
       return "src_lds_direct";
     break;
@@ -455,7 +467,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SRC_SIMPLE: {
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSrcSimple::OPR_SRC_SIMPLE_XNACK_MASK_LO)
       return "xnack_mask_lo";
     if (state_.encoding_value == OpSelSrcSimple::OPR_SRC_SIMPLE_XNACK_MASK_HI)
@@ -483,7 +496,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSrcSimple::OPR_SRC_SIMPLE_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSrcSimple::OPR_SRC_SIMPLE_FLOAT_NEG_HALF)
@@ -520,26 +534,28 @@ std::string Operand::name() const {
       return "src_pops_exiting_wave_id";
     if (state_.encoding_value >= OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcSimple::OPR_SRC_SIMPLE_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_SRC_VGPR: {
     if (state_.encoding_value >= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_SRC_VGPR_OR_ACCVGPR: {
     if (state_.encoding_value >= OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_VGPR_MIN &&
         state_.encoding_value <= OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_VGPR_MAX)
-      return reg_name("v",
-                      state_.encoding_value - OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_VGPR_MIN,
-                      state_.size_bits);
+      return reg_name(
+          "v", state_.encoding_value - OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_VGPR_MIN,
+          state_.size_bits);
     if (state_.encoding_value >= OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_ACC_MIN &&
         state_.encoding_value <= OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_ACC_MAX)
-      return reg_name("acc",
-                      state_.encoding_value - OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_ACC_MIN,
-                      state_.size_bits);
+      return reg_name(
+          "acc", state_.encoding_value - OpSelSrcVgprOrAccvgpr::OPR_SRC_VGPR_OR_ACCVGPR_ACC_MIN,
+          state_.size_bits);
     break;
   }
   case OperandType::OPR_SREG: {
@@ -556,7 +572,8 @@ std::string Operand::name() const {
       return "flat_scratch_hi";
     if (state_.encoding_value >= OpSelSreg::OPR_SREG_TTMP_MIN &&
         state_.encoding_value <= OpSelSreg::OPR_SREG_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSreg::OPR_SREG_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSreg::OPR_SREG_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSreg::OPR_SREG_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSreg::OPR_SREG_VCC_HI)
@@ -566,7 +583,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SREG_NOVCC: {
     if (state_.encoding_value >= OpSelSregNovcc::OPR_SREG_NOVCC_SGPR_MIN &&
         state_.encoding_value <= OpSelSregNovcc::OPR_SREG_NOVCC_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSregNovcc::OPR_SREG_NOVCC_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSregNovcc::OPR_SREG_NOVCC_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSregNovcc::OPR_SREG_NOVCC_XNACK_MASK_LO)
       return "xnack_mask_lo";
     if (state_.encoding_value == OpSelSregNovcc::OPR_SREG_NOVCC_XNACK_MASK_HI)
@@ -595,7 +613,8 @@ std::string Operand::name() const {
       return "flat_scratch_hi";
     if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_TTMP_MIN &&
         state_.encoding_value <= OpSelSsrc::OPR_SSRC_TTMP_MAX)
-      return reg_name("ttmp", state_.encoding_value - OpSelSsrc::OPR_SSRC_TTMP_MIN, state_.size_bits);
+      return reg_name("ttmp", state_.encoding_value - OpSelSsrc::OPR_SSRC_TTMP_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSsrc::OPR_SSRC_VCC_LO)
       return "vcc_lo";
     if (state_.encoding_value == OpSelSsrc::OPR_SSRC_VCC_HI)
@@ -678,7 +697,8 @@ std::string Operand::name() const {
   case OperandType::OPR_SSRC_NOLIT: {
     if (state_.encoding_value >= OpSelSsrcNolit::OPR_SSRC_NOLIT_SGPR_MIN &&
         state_.encoding_value <= OpSelSsrcNolit::OPR_SSRC_NOLIT_SGPR_MAX)
-      return reg_name("s", state_.encoding_value - OpSelSsrcNolit::OPR_SSRC_NOLIT_SGPR_MIN, state_.size_bits);
+      return reg_name("s", state_.encoding_value - OpSelSsrcNolit::OPR_SSRC_NOLIT_SGPR_MIN,
+                      state_.size_bits);
     if (state_.encoding_value == OpSelSsrcNolit::OPR_SSRC_NOLIT_XNACK_MASK_LO)
       return "xnack_mask_lo";
     if (state_.encoding_value == OpSelSsrcNolit::OPR_SSRC_NOLIT_XNACK_MASK_HI)
@@ -706,7 +726,8 @@ std::string Operand::name() const {
       return std::to_string(state_.encoding_value - OpSelSsrcNolit::OPR_SSRC_NOLIT_POS_INT_MIN);
     if (state_.encoding_value >= OpSelSsrcNolit::OPR_SSRC_NOLIT_NEG_INT_MIN &&
         state_.encoding_value <= OpSelSsrcNolit::OPR_SSRC_NOLIT_NEG_INT_MAX)
-      return std::to_string(-(state_.encoding_value - OpSelSsrcNolit::OPR_SSRC_NOLIT_NEG_INT_MIN + 1));
+      return std::to_string(
+          -(state_.encoding_value - OpSelSsrcNolit::OPR_SSRC_NOLIT_NEG_INT_MIN + 1));
     if (state_.encoding_value == OpSelSsrcNolit::OPR_SSRC_NOLIT_FLOAT_HALF)
       return "0.5";
     if (state_.encoding_value == OpSelSsrcNolit::OPR_SSRC_NOLIT_FLOAT_NEG_HALF)
@@ -859,7 +880,8 @@ std::string Operand::name() const {
       return "src_lds_direct";
     if (state_.encoding_value >= OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MIN &&
         state_.encoding_value <= OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MAX)
-      return reg_name("v", state_.encoding_value - OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MIN, state_.size_bits);
+      return reg_name("v", state_.encoding_value - OpSelVgprOrLds::OPR_VGPR_OR_LDS_VGPR_MIN,
+                      state_.size_bits);
     break;
   }
   case OperandType::OPR_HWREG:
@@ -893,9 +915,10 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_ACCVGPR: {
     if (state_.encoding_value >= OpSelAccvgpr::OPR_ACCVGPR_ACC_MIN &&
         state_.encoding_value <= OpSelAccvgpr::OPR_ACCVGPR_ACC_MAX)
-      return RegisterRef{RegClass::ACC_VGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelAccvgpr::OPR_ACCVGPR_ACC_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::ACC_VGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelAccvgpr::OPR_ACCVGPR_ACC_MIN),
+          reg_width};
     break;
   }
   case OperandType::OPR_ATTR: {
@@ -916,9 +939,9 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_SDST: {
     if (state_.encoding_value >= OpSelSdst::OPR_SDST_SGPR_MIN &&
         state_.encoding_value <= OpSelSdst::OPR_SDST_SGPR_MAX)
-      return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::SGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelSdst::OPR_SDST_SGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SDST_EXEC: {
@@ -1018,7 +1041,8 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
         state_.encoding_value <= OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MAX)
       return RegisterRef{
           RegClass::VGPR,
-          static_cast<uint16_t>(state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN), reg_width};
+          static_cast<uint16_t>(state_.encoding_value - OpSelSrcVgpr::OPR_SRC_VGPR_VGPR_MIN),
+          reg_width};
     break;
   }
   case OperandType::OPR_SRC_VGPR_OR_ACCVGPR: {
@@ -1041,9 +1065,9 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_SREG: {
     if (state_.encoding_value >= OpSelSreg::OPR_SREG_SGPR_MIN &&
         state_.encoding_value <= OpSelSreg::OPR_SREG_SGPR_MAX)
-      return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::SGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelSreg::OPR_SREG_SGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SREG_NOVCC: {
@@ -1058,18 +1082,18 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_SSRC: {
     if (state_.encoding_value >= OpSelSsrc::OPR_SSRC_SGPR_MIN &&
         state_.encoding_value <= OpSelSsrc::OPR_SSRC_SGPR_MAX)
-      return RegisterRef{RegClass::SGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::SGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelSsrc::OPR_SSRC_SGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_SSRC_LANESEL: {
     if (state_.encoding_value >= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN &&
         state_.encoding_value <= OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MAX)
-      return RegisterRef{
-          RegClass::SGPR,
-          static_cast<uint16_t>(state_.encoding_value - OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN),
-          reg_width};
+      return RegisterRef{RegClass::SGPR,
+                         static_cast<uint16_t>(state_.encoding_value -
+                                               OpSelSsrcLanesel::OPR_SSRC_LANESEL_SGPR_MIN),
+                         reg_width};
     break;
   }
   case OperandType::OPR_SSRC_NOLIT: {
@@ -1093,9 +1117,9 @@ std::optional<RegisterRef> Operand::to_register_ref() const {
   case OperandType::OPR_VGPR: {
     if (state_.encoding_value >= OpSelVgpr::OPR_VGPR_VGPR_MIN &&
         state_.encoding_value <= OpSelVgpr::OPR_VGPR_VGPR_MAX)
-      return RegisterRef{RegClass::VGPR,
-                         static_cast<uint16_t>(state_.encoding_value - OpSelVgpr::OPR_VGPR_VGPR_MIN),
-                         reg_width};
+      return RegisterRef{
+          RegClass::VGPR,
+          static_cast<uint16_t>(state_.encoding_value - OpSelVgpr::OPR_VGPR_VGPR_MIN), reg_width};
     break;
   }
   case OperandType::OPR_VGPR_OR_LDS: {

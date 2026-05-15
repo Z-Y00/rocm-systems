@@ -1,6 +1,7 @@
 #pragma once
 
-#include "emulator_state.h"
+#include "rocjitsu/code/rj_code.h"
+#include "rocjitsu/vm/rj_vm.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,12 +27,12 @@ typedef struct {
 /// Called before every AMDGPU instruction is executed.
 typedef struct {
     uint64_t pc;
-    const emulator_instruction_t *inst;
+    const rj_code_inst_state_t *inst;
 } emulator_plugin_amdgpu_execute_instruction_args_t;
 
 /// Called when an AMDGPU memory instruction is routed to a pipeline.
 typedef struct {
-    const emulator_instruction_t *inst;
+    const rj_code_inst_state_t *inst;
 } emulator_plugin_amdgpu_route_memory_instruction_args_t;
 
 /// Called when a new AMDGPU kernel dispatch begins.
@@ -45,13 +46,13 @@ typedef struct {
     uint32_t wg_id;
     uint32_t vgpr_count;
     uint32_t sgpr_count;
-    emulator_wavefront_list_t wavefronts;
+    rj_vm_wavefront_list_t wavefronts;
 } emulator_plugin_amdgpu_dispatch_workgroup_args_t;
 
 /// Called when a VGPR is read during instruction execution.
 /// Not yet wired - to be connected when race detection lands.
 typedef struct {
-    const emulator_wavefront_t *wf;
+    const rj_vm_wavefront_t *wf;
     uint32_t logical_reg;
     uint32_t lane;
 } emulator_plugin_amdgpu_read_vgpr_args_t;
@@ -59,13 +60,13 @@ typedef struct {
 /// Called when an SGPR is read during instruction execution.
 /// Not yet wired - to be connected when race detection lands.
 typedef struct {
-    const emulator_wavefront_t *wf;
+    const rj_vm_wavefront_t *wf;
     uint32_t logical_reg;
 } emulator_plugin_amdgpu_read_sgpr_args_t;
 
 /// Called when s_waitcnt sets counter thresholds.
 typedef struct {
-    const emulator_wavefront_t *wf;
+    const rj_vm_wavefront_t *wf;
     int vmcnt;
     int lgkmcnt;
 } emulator_plugin_amdgpu_set_wait_target_args_t;
@@ -80,7 +81,7 @@ typedef struct {
 /// Called before every RISC-V instruction is executed.
 typedef struct {
     uint64_t pc;
-    const emulator_instruction_t *inst;
+    const rj_code_inst_state_t *inst;
 } emulator_plugin_riscv_execute_instruction_args_t;
 
 /// Called once before the plugin is detached.

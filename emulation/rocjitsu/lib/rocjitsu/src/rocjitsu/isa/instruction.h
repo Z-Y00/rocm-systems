@@ -10,7 +10,8 @@
 #include "rocjitsu/isa/operand.h"
 #include "util/intrusive_list.h"
 
-#include "emulator_state.h"
+#include "rocjitsu/code/rj_code.h"
+#include "rocjitsu/vm/rj_vm.h"
 
 #include <array>
 #include <cassert>
@@ -26,33 +27,33 @@ namespace rocjitsu {
 /// @brief Instruction property flags.
 ///
 /// @details Enumerator values are pinned to the corresponding
-/// @ref emulator_instruction_flag constants so the flags bitmask stored in
+/// @ref rj_code_inst_flag constants so the flags bitmask stored in
 /// @ref Instruction::state_.flags matches the emulator plugin ABI.
 enum InstFlags : uint64_t {
   /// @brief Unconditional branch.
-  BRANCH = EMULATOR_INSTRUCTION_FLAG_BRANCH,
+  BRANCH = ROCJITSU_CODE_INST_FLAG_BRANCH,
   /// @brief Conditional branch.
-  COND_BRANCH = EMULATOR_INSTRUCTION_FLAG_COND_BRANCH,
+  COND_BRANCH = ROCJITSU_CODE_INST_FLAG_COND_BRANCH,
   /// @brief Indirect branch (target from register).
-  INDIRECT_BRANCH = EMULATOR_INSTRUCTION_FLAG_INDIRECT_BRANCH,
+  INDIRECT_BRANCH = ROCJITSU_CODE_INST_FLAG_INDIRECT_BRANCH,
   /// @brief Indirect call (target from register, returns to fallthrough).
-  INDIRECT_CALL = EMULATOR_INSTRUCTION_FLAG_INDIRECT_CALL,
+  INDIRECT_CALL = ROCJITSU_CODE_INST_FLAG_INDIRECT_CALL,
   /// @brief Terminates the program.
-  PROGRAM_TERMINATOR = EMULATOR_INSTRUCTION_FLAG_PROGRAM_TERMINATOR,
+  PROGRAM_TERMINATOR = ROCJITSU_CODE_INST_FLAG_PROGRAM_TERMINATOR,
   /// @brief Executes immediately without scheduling latency.
-  IMMEDIATELY_EXECUTED = EMULATOR_INSTRUCTION_FLAG_IMMEDIATELY_EXECUTED,
+  IMMEDIATELY_EXECUTED = ROCJITSU_CODE_INST_FLAG_IMMEDIATELY_EXECUTED,
   /// @brief Memory operation (load or store).
-  MEMORY_OP = EMULATOR_INSTRUCTION_FLAG_MEMORY_OP,
+  MEMORY_OP = ROCJITSU_CODE_INST_FLAG_MEMORY_OP,
   /// @brief Wait-counter instruction (s_waitcnt, s_wait_loadcnt, s_wait_storecnt, etc.).
-  WAITCNT = EMULATOR_INSTRUCTION_FLAG_WAITCNT,
+  WAITCNT = ROCJITSU_CODE_INST_FLAG_WAITCNT,
   /// @brief Barrier instruction (s_barrier, s_barrier_signal, s_barrier_wait).
-  BARRIER = EMULATOR_INSTRUCTION_FLAG_BARRIER,
+  BARRIER = ROCJITSU_CODE_INST_FLAG_BARRIER,
   /// @brief Matrix FMA instruction (v_mfma_*, v_smfmac_*).
-  MFMA = EMULATOR_INSTRUCTION_FLAG_MFMA,
+  MFMA = ROCJITSU_CODE_INST_FLAG_MFMA,
   /// @brief AccVGPR move instruction (v_accvgpr_write, v_accvgpr_read, v_accvgpr_mov).
-  ACCVGPR = EMULATOR_INSTRUCTION_FLAG_ACCVGPR,
+  ACCVGPR = ROCJITSU_CODE_INST_FLAG_ACCVGPR,
   /// @brief Destination update is conditional and must not kill the old value.
-  PREDICATED_DEF = EMULATOR_INSTRUCTION_FLAG_PREDICATED_DEF,
+  PREDICATED_DEF = ROCJITSU_CODE_INST_FLAG_PREDICATED_DEF,
 };
 
 class BasicBlock;
@@ -276,8 +277,8 @@ protected:
   /// same representation. The C struct's @c src_operands / @c dst_operands
   /// pointer arrays are left empty; the C++ runtime uses the typed
   /// @ref src_operands_ / @ref dst_operands_ arrays for virtual dispatch.
-  /// Field-level meaning: see @ref emulator_instruction_t.
-  emulator_instruction_t state_{};
+  /// Field-level meaning: see @ref rj_code_inst_state_t.
+  rj_code_inst_state_t state_{};
 };
 
 /// @brief Abstract class that holds static ISA state for a specific instruction instance.

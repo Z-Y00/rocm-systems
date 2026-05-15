@@ -1839,6 +1839,7 @@ VCmpxFF16Vopc::VCmpxFF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxFF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -1865,6 +1866,7 @@ VCmpxLtF16Vopc::VCmpxLtF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -1894,6 +1896,7 @@ VCmpxEqF16Vopc::VCmpxEqF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -1923,6 +1926,7 @@ VCmpxLeF16Vopc::VCmpxLeF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -1952,6 +1956,7 @@ VCmpxGtF16Vopc::VCmpxGtF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -1981,6 +1986,7 @@ VCmpxLgF16Vopc::VCmpxLgF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLgF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2010,6 +2016,7 @@ VCmpxGeF16Vopc::VCmpxGeF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2039,6 +2046,7 @@ VCmpxOF16Vopc::VCmpxOF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxOF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2068,6 +2076,7 @@ VCmpxUF16Vopc::VCmpxUF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxUF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2097,6 +2106,7 @@ VCmpxNgeF16Vopc::VCmpxNgeF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNgeF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2126,6 +2136,7 @@ VCmpxNlgF16Vopc::VCmpxNlgF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNlgF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2155,6 +2166,7 @@ VCmpxNgtF16Vopc::VCmpxNgtF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNgtF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2184,6 +2196,7 @@ VCmpxNleF16Vopc::VCmpxNleF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNleF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2213,6 +2226,7 @@ VCmpxNeqF16Vopc::VCmpxNeqF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeqF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2242,6 +2256,7 @@ VCmpxNltF16Vopc::VCmpxNltF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNltF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2271,6 +2286,7 @@ VCmpxTF16Vopc::VCmpxTF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxTF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2297,6 +2313,7 @@ VCmpxFF32Vopc::VCmpxFF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxFF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2323,6 +2340,7 @@ VCmpxLtF32Vopc::VCmpxLtF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2352,6 +2370,7 @@ VCmpxEqF32Vopc::VCmpxEqF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2381,6 +2400,7 @@ VCmpxLeF32Vopc::VCmpxLeF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2410,6 +2430,7 @@ VCmpxGtF32Vopc::VCmpxGtF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2439,6 +2460,7 @@ VCmpxLgF32Vopc::VCmpxLgF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLgF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2468,6 +2490,7 @@ VCmpxGeF32Vopc::VCmpxGeF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2497,6 +2520,7 @@ VCmpxOF32Vopc::VCmpxOF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxOF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2526,6 +2550,7 @@ VCmpxUF32Vopc::VCmpxUF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxUF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2555,6 +2580,7 @@ VCmpxNgeF32Vopc::VCmpxNgeF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNgeF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2584,6 +2610,7 @@ VCmpxNlgF32Vopc::VCmpxNlgF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNlgF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2613,6 +2640,7 @@ VCmpxNgtF32Vopc::VCmpxNgtF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNgtF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2642,6 +2670,7 @@ VCmpxNleF32Vopc::VCmpxNleF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNleF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2671,6 +2700,7 @@ VCmpxNeqF32Vopc::VCmpxNeqF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeqF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2700,6 +2730,7 @@ VCmpxNltF32Vopc::VCmpxNltF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNltF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2729,6 +2760,7 @@ VCmpxTF32Vopc::VCmpxTF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxTF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2755,6 +2787,7 @@ VCmpxFF64Vopc::VCmpxFF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxFF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2781,6 +2814,7 @@ VCmpxLtF64Vopc::VCmpxLtF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2810,6 +2844,7 @@ VCmpxEqF64Vopc::VCmpxEqF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2839,6 +2874,7 @@ VCmpxLeF64Vopc::VCmpxLeF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2868,6 +2904,7 @@ VCmpxGtF64Vopc::VCmpxGtF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2897,6 +2934,7 @@ VCmpxLgF64Vopc::VCmpxLgF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLgF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2926,6 +2964,7 @@ VCmpxGeF64Vopc::VCmpxGeF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2955,6 +2994,7 @@ VCmpxOF64Vopc::VCmpxOF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxOF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -2984,6 +3024,7 @@ VCmpxUF64Vopc::VCmpxUF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxUF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3013,6 +3054,7 @@ VCmpxNgeF64Vopc::VCmpxNgeF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNgeF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3042,6 +3084,7 @@ VCmpxNlgF64Vopc::VCmpxNlgF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNlgF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3071,6 +3114,7 @@ VCmpxNgtF64Vopc::VCmpxNgtF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNgtF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3100,6 +3144,7 @@ VCmpxNleF64Vopc::VCmpxNleF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNleF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3129,6 +3174,7 @@ VCmpxNeqF64Vopc::VCmpxNeqF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeqF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3158,6 +3204,7 @@ VCmpxNltF64Vopc::VCmpxNltF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNltF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3187,6 +3234,7 @@ VCmpxTF64Vopc::VCmpxTF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxTF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3213,6 +3261,7 @@ VCmpxLtI16Vopc::VCmpxLtI16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtI16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3242,6 +3291,7 @@ VCmpxEqI16Vopc::VCmpxEqI16Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqI16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3271,6 +3321,7 @@ VCmpxLeI16Vopc::VCmpxLeI16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeI16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3300,6 +3351,7 @@ VCmpxGtI16Vopc::VCmpxGtI16Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtI16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3329,6 +3381,7 @@ VCmpxNeI16Vopc::VCmpxNeI16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeI16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3358,6 +3411,7 @@ VCmpxGeI16Vopc::VCmpxGeI16Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeI16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3387,6 +3441,7 @@ VCmpxLtU16Vopc::VCmpxLtU16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtU16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3416,6 +3471,7 @@ VCmpxEqU16Vopc::VCmpxEqU16Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqU16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3445,6 +3501,7 @@ VCmpxLeU16Vopc::VCmpxLeU16Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeU16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3474,6 +3531,7 @@ VCmpxGtU16Vopc::VCmpxGtU16Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtU16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3503,6 +3561,7 @@ VCmpxNeU16Vopc::VCmpxNeU16Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeU16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3532,6 +3591,7 @@ VCmpxGeU16Vopc::VCmpxGeU16Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeU16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3561,6 +3621,7 @@ VCmpxFI32Vopc::VCmpxFI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxFI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3587,6 +3648,7 @@ VCmpxLtI32Vopc::VCmpxLtI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3616,6 +3678,7 @@ VCmpxEqI32Vopc::VCmpxEqI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3645,6 +3708,7 @@ VCmpxLeI32Vopc::VCmpxLeI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3674,6 +3738,7 @@ VCmpxGtI32Vopc::VCmpxGtI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3703,6 +3768,7 @@ VCmpxNeI32Vopc::VCmpxNeI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3732,6 +3798,7 @@ VCmpxGeI32Vopc::VCmpxGeI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3761,6 +3828,7 @@ VCmpxTI32Vopc::VCmpxTI32Vopc(const MachineInst *inst)
 }
 
 void VCmpxTI32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3787,6 +3855,7 @@ VCmpxFU32Vopc::VCmpxFU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxFU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3813,6 +3882,7 @@ VCmpxLtU32Vopc::VCmpxLtU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3842,6 +3912,7 @@ VCmpxEqU32Vopc::VCmpxEqU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3871,6 +3942,7 @@ VCmpxLeU32Vopc::VCmpxLeU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3900,6 +3972,7 @@ VCmpxGtU32Vopc::VCmpxGtU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3929,6 +4002,7 @@ VCmpxNeU32Vopc::VCmpxNeU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3958,6 +4032,7 @@ VCmpxGeU32Vopc::VCmpxGeU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -3987,6 +4062,7 @@ VCmpxTU32Vopc::VCmpxTU32Vopc(const MachineInst *inst)
 }
 
 void VCmpxTU32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4013,6 +4089,7 @@ VCmpxFI64Vopc::VCmpxFI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxFI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4039,6 +4116,7 @@ VCmpxLtI64Vopc::VCmpxLtI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4068,6 +4146,7 @@ VCmpxEqI64Vopc::VCmpxEqI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4097,6 +4176,7 @@ VCmpxLeI64Vopc::VCmpxLeI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4126,6 +4206,7 @@ VCmpxGtI64Vopc::VCmpxGtI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4155,6 +4236,7 @@ VCmpxNeI64Vopc::VCmpxNeI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4184,6 +4266,7 @@ VCmpxGeI64Vopc::VCmpxGeI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4213,6 +4296,7 @@ VCmpxTI64Vopc::VCmpxTI64Vopc(const MachineInst *inst)
 }
 
 void VCmpxTI64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4239,6 +4323,7 @@ VCmpxFU64Vopc::VCmpxFU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxFU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4265,6 +4350,7 @@ VCmpxLtU64Vopc::VCmpxLtU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLtU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4294,6 +4380,7 @@ VCmpxEqU64Vopc::VCmpxEqU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxEqU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4323,6 +4410,7 @@ VCmpxLeU64Vopc::VCmpxLeU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxLeU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4352,6 +4440,7 @@ VCmpxGtU64Vopc::VCmpxGtU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxGtU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4381,6 +4470,7 @@ VCmpxNeU64Vopc::VCmpxNeU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxNeU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4410,6 +4500,7 @@ VCmpxGeU64Vopc::VCmpxGeU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxGeU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4439,6 +4530,7 @@ VCmpxTU64Vopc::VCmpxTU64Vopc(const MachineInst *inst)
 }
 
 void VCmpxTU64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4465,6 +4557,7 @@ VCmpxClassF16Vopc::VCmpxClassF16Vopc(const MachineInst *inst)
 }
 
 void VCmpxClassF16Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4519,6 +4612,7 @@ VCmpxClassF32Vopc::VCmpxClassF32Vopc(const MachineInst *inst)
 }
 
 void VCmpxClassF32Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {
@@ -4571,6 +4665,7 @@ VCmpxClassF64Vopc::VCmpxClassF64Vopc(const MachineInst *inst)
 }
 
 void VCmpxClassF64Vopc::execute_impl(amdgpu::Wavefront &wf) {
+  [[maybe_unused]] auto &inst = *this;
   uint64_t exec = wf.exec();
   uint64_t result = 0;
   for (uint32_t lane = 0; lane < wf.wf_size(); ++lane) {

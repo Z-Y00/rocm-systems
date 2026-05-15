@@ -12795,14 +12795,16 @@ inline void execute_v_pk_add_f32_vop3p([[maybe_unused]] Inst &inst,
     uint32_t s0_hi_w =
         (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
         (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s1_lo_w;
     bool sel0_lo = (inst.inst_.op_sel >> 0) & 1;
@@ -12955,21 +12957,24 @@ inline void execute_v_pk_fma_f32_vop3p([[maybe_unused]] Inst &inst,
     uint32_t s0_hi_w =
         (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
         (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s1_lo_w;
     uint32_t s2_lo_w = inst.src2.read_lane(wf, lane);
     uint32_t s2_hi_w =
         (inst.src2.state_.encoding_value >= 256 && inst.src2.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src2.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src2.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s2_lo_w;
     bool sel0_lo = (inst.inst_.op_sel >> 0) & 1;
@@ -13280,14 +13285,16 @@ inline void execute_v_pk_mov_b32_vop3p([[maybe_unused]] Inst &inst,
     uint32_t s0_hi_w =
         (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
         (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s1_lo_w;
     uint32_t lo = (inst.inst_.op_sel & 1) ? s0_hi_w : s0_lo_w;
@@ -13343,14 +13350,16 @@ inline void execute_v_pk_mul_f32_vop3p([[maybe_unused]] Inst &inst,
     uint32_t s0_hi_w =
         (inst.src0.state_.encoding_value >= 256 && inst.src0.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src0.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s0_lo_w;
     uint32_t s1_lo_w = inst.src1.read_lane(wf, lane);
     uint32_t s1_hi_w =
         (inst.src1.state_.encoding_value >= 256 && inst.src1.state_.encoding_value <= 511)
             ? wf.cu().read_vgpr(wf.vgpr_alloc().base +
-                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) + 1,
+                                    static_cast<uint32_t>(inst.src1.state_.encoding_value - 256) +
+                                    1,
                                 lane)
             : s1_lo_w;
     bool sel0_lo = (inst.inst_.op_sel >> 0) & 1;

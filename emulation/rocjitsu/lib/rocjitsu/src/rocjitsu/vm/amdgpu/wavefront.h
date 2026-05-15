@@ -33,9 +33,9 @@ enum class WfState : uint8_t {
 
 /// @brief Allocation slice within a register file.
 ///
-/// @details Type alias for the C ABI @ref emulator_register_allocation_t so
+/// @details Type alias for the C ABI @ref rj_vm_register_allocation_t so
 /// rocjitsu and plugins share the same layout.
-using RegAllocation = ::emulator_register_allocation_t;
+using RegAllocation = ::rj_vm_register_allocation_t;
 
 /// @brief AMDGPU wavefront execution state.
 ///
@@ -287,12 +287,12 @@ public:
 
   /// @brief Set the execution state.
   /// @param s New execution state.
-  void set_state(WfState s) { state_.state = static_cast<emulator_wavefront_state_t>(s); }
+  void set_state(WfState s) { state_.state = static_cast<rj_vm_wavefront_state_t>(s); }
 
   /// @brief Check whether this wavefront slot is halted.
   /// @retval true Slot is halted and available for dispatch.
   /// @retval false Slot is active (running, waiting, or at a barrier).
-  bool is_halted() const { return state_.state == EMULATOR_WAVEFRONT_STATE_HALTED; }
+  bool is_halted() const { return state_.state == ROCJITSU_VM_WAVEFRONT_STATE_HALTED; }
 
   /// @brief Halt this wavefront and notify the CU for WG completion tracking.
   /// @details Transitions to HALTED and decrements the CU's per-WG refcount.
@@ -363,7 +363,7 @@ public:
   /// ThreadContext base; @c wait_counters mirrors the C++ @c wait_counters_
   /// wrapper). Direct access is allowed; accessors are preserved for
   /// readability.
-  emulator_wavefront_t state_{};
+  rj_vm_wavefront_t state_{};
 
 protected:
   ComputeUnitCore &cu_;        ///< Parent CU (permanent, set at construction).

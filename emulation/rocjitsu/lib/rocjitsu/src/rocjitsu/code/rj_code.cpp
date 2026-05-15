@@ -263,9 +263,9 @@ uint32_t rj_code_inst_flags(const rj_code_inst_t *inst) {
   const auto *i = reinterpret_cast<const Instruction *>(inst);
   uint32_t flags = 0;
   if (i->is_branch())
-    flags |= RJ_CODE_INST_BRANCH;
+    flags |= ROCJITSU_CODE_INST_FLAG_BRANCH;
   if (i->is_memory_op())
-    flags |= RJ_CODE_INST_MEMORY_OP;
+    flags |= ROCJITSU_CODE_INST_FLAG_MEMORY_OP;
   return flags;
 }
 
