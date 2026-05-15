@@ -98,6 +98,7 @@ hsaKmtHandleImport;
 hsaKmtMemoryVaMap;
 hsaKmtMemoryVaUnmap;
 hsaKmtMemHandleFree;
+hsaKmtMemHandleFreePreserveMetadata;
 hsaKmtMemoryGetCpuAddr;
 hsaKmtMemoryCpuMap;
 local: *;
