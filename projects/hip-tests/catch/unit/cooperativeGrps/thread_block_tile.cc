@@ -624,6 +624,7 @@ void __global__ reduceKernel(T* output,
 
   for (int i = 0; i < kNumReduces; i++) {
     int idx = warpSize * i + laneId;
+    unsigned long long mask = extraMasks[i];
     T& result = output[idx];
 
     if ((1ull << laneId) & mask) {
