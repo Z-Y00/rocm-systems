@@ -106,21 +106,20 @@ static ncclResult_t rcclDirectAllGather(const void* sendbuff, void* recvbuff, si
   return ncclSuccess;
 }
 
-RCCL_PARAM(HierarchicalAllGather, "HIERARCHICAL_ALLGATHER", 0);
+enum rcclAllGatherAlgo {
+  RCCL_AG_RING,
+  RCCL_AG_DIRECT,
+  RCCL_AG_HIERARCHICAL
+};
 
-static bool rcclUseHierarchicalAllGather(struct ncclComm* comm, size_t msgSize) {
-  if (comm->nNodes < 8) return false;
-  if (rcclParamHierarchicalAllGather() != 1) return false;
-  if (!comm->hierarchicalCommsInitialized) return false;
-
-  size_t threshold = 0;
-  if (comm->nNodes >= 16) {
-    threshold = HIERARCHICAL_AG_TEMP_BUFFER_SIZE;
-  } else if (comm->nNodes >= 8) {
-    threshold = HIERARCHICAL_AG_TEMP_BUFFER_SIZE / 2;
+static rcclAllGatherAlgo rcclSelectAllGatherAlgo(struct ncclComm* comm, size_t msgSize) {
+  if (rcclUseHierarchicalAllGather(comm, msgSize)) {
+    return RCCL_AG_HIERARCHICAL;
   }
-
-  return threshold > 0 && msgSize <= threshold;
+  if (rcclUseAllGatherDirect(comm, msgSize)) {
+    return RCCL_AG_DIRECT;
+  }
+  return RCCL_AG_RING;
 }
 
 static ncclResult_t ncclHierarchicalAllGather_Impl(const void* sendbuff, void* recvbuff, size_t sendcount,
@@ -142,8 +141,7 @@ static ncclResult_t ncclHierarchicalAllGather_Impl(const void* sendbuff, void* r
 
   // Step 1: Inter-node AllGather
   size_t interMsgSize = sendcount * nNodes * typeSize;
-  if (rcclUseAllGatherDirect(interComm, interMsgSize)) {
-    // Use direct allgather
+  if (nNodes <= 16 && rcclUseAllGatherDirect(interComm, interMsgSize)) {
     NCCLCHECK(rcclDirectAllGather(interSendBuff, recvbuff, sendcount, datatype, 0, interComm, stream));
   } else {
     struct ncclInfo infoInterAG = { ncclFuncAllGather, "HierarchicalAllGather-Inter",
@@ -156,7 +154,6 @@ static ncclResult_t ncclHierarchicalAllGather_Impl(const void* sendbuff, void* r
   size_t intraSendCount = sendcount * nNodes;
   size_t intraMsgSize = intraSendCount * typeSize * localRanks;
   if (rcclUseAllGatherDirect(intraComm, intraMsgSize)) {
-    // Use direct allgather
     NCCLCHECK(rcclDirectAllGather(recvbuff, tempBuffer, intraSendCount, datatype, 0, intraComm, stream));
   } else {
     struct ncclInfo infoIntraAG = { ncclFuncAllGather, "HierarchicalAllGather-Intra",
@@ -202,30 +199,33 @@ ncclResult_t ncclAllGather_impl(const void* sendbuff, void* recvbuff, size_t sen
 
   NCCLCHECK(Recorder::instance().record(rrAllGather, info));
 
-  if (rcclUseHierarchicalAllGather(comm, msgSize)) {
+  rcclAllGatherAlgo algo = rcclSelectAllGatherAlgo(comm, msgSize);
+  switch (algo) {
+    case RCCL_AG_HIERARCHICAL:
     return ncclHierarchicalAllGather_Impl(sendbuff, recvbuff, sendcount, datatype, comm, stream);
-  }
-
-  if (rcclUseAllGatherDirect(comm, msgSize) && ncclGroupDepth == 0) {
-     INFO(NCCL_INIT, "RCCL DIRECT ALLGATHER count = %zu, msgSize = %zu, comm = %p, stream = %p, rank = %d, sendbuff = %p, recvbuff = %p",
-		     sendcount, msgSize, comm, stream, rank, sendbuff, recvbuff);
-     // use direct allgather (only when not in a group; in-group use Ring so ncclGroupSimulateEnd gets estimatedTime)
-     if (sendcount == 0) return ncclSuccess;
-     size_t rankOffset = sendcount * ncclTypeSize(datatype);
-     if (sendbuff == (((char*)recvbuff) + rank * rankOffset)) {
+    case RCCL_AG_DIRECT:
+    if (ncclGroupDepth == 0) {
+      INFO(NCCL_INIT, "RCCL DIRECT ALLGATHER count = %zu, msgSize = %zu, comm = %p, stream = %p, rank = %d, sendbuff = %p, recvbuff = %p",
+        sendcount, msgSize, comm, stream, rank, sendbuff, recvbuff);
+      // use direct allgather (only when not in a group; in-group use Ring so ncclGroupSimulateEnd gets estimatedTime)
+      if (sendcount == 0) return ncclSuccess;
+      size_t rankOffset = sendcount * ncclTypeSize(datatype);
+      if (sendbuff == (((char*)recvbuff) + rank * rankOffset)) {
         srcBuf = ((char*)recvbuff) + rank * rankOffset;
         dstBuf = recvbuff;
         in_place = 1;
-     } else {
+      } else {
         srcBuf = sendbuff;
         dstBuf = recvbuff;
-     }
+      }
 
-    NCCLCHECK(rcclDirectAllGather(srcBuf, dstBuf, sendcount, datatype, in_place, comm, stream));
-    return ncclSuccess;
-  } else {
-     // use ring allgather
-     return ncclEnqueueCheck(&info);
+      NCCLCHECK(rcclDirectAllGather(srcBuf, dstBuf, sendcount, datatype, in_place, comm, stream));
+      return ncclSuccess;
+    }
+    [[fallthrough]];
+    case RCCL_AG_RING:
+    default:
+      return ncclEnqueueCheck(&info);
   }
 }
 
