@@ -376,6 +376,38 @@ pncclCommShrink(ncclComm_t    comm,
                 ncclConfig_t* config,
                 int           shrinkFlags);
 
+/*! @brief      Generate a per-communicator unique ID for grow.
+    @details    Called by exactly one rank on an existing comm (the "root").
+                The caller distributes the resulting unique ID to new ranks
+                out-of-band. Each unique ID can only be consumed once and the
+                corresponding ncclCommGrow must complete before generating
+                another. */
+ncclResult_t
+ncclCommGetUniqueId(ncclComm_t comm, ncclUniqueId* uniqueId);
+ncclResult_t
+pncclCommGetUniqueId(ncclComm_t comm, ncclUniqueId* uniqueId);
+
+/*! @brief      Grow an existing communicator by adding new ranks.
+    @details    Called collectively by all ranks of the grown communicator
+                (both pre-existing and newly added). Existing non-root ranks
+                pass comm=parent, uniqueId=NULL, rank=-1; the existing root
+                rank passes comm=parent, uniqueId=&id, rank=-1; new ranks
+                pass comm=NULL, uniqueId=&id, rank=assigned rank. */
+ncclResult_t
+ncclCommGrow(ncclComm_t          comm,
+             int                 nRanks,
+             const ncclUniqueId* uniqueId,
+             int                 rank,
+             ncclComm_t*         newcomm,
+             ncclConfig_t*       config);
+ncclResult_t
+pncclCommGrow(ncclComm_t          comm,
+              int                 nRanks,
+              const ncclUniqueId* uniqueId,
+              int                 rank,
+              ncclComm_t*         newcomm,
+              ncclConfig_t*       config);
+
 /*! @brief      Creates a new communicator (multi thread/process version), similar to
    ncclCommInitRankConfig.
      @details    Allows to use more than one ncclUniqueId (up to one per rank),
