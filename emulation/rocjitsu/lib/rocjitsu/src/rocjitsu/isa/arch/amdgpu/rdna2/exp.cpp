@@ -33,7 +33,6 @@ ExpExp::ExpExp(const MachineInst *inst)
 }
 
 void ExpExp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Export: no-op in compute simulation.
 }
 

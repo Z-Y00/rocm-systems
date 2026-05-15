@@ -33,7 +33,6 @@ ExportVexport::ExportVexport(const MachineInst *inst)
 }
 
 void ExportVexport::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Export: no-op in compute simulation.
 }
 

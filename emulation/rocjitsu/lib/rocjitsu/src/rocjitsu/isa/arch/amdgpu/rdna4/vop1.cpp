@@ -25,7 +25,6 @@ VNopVop1::VNopVop1(const MachineInst *inst)
 }
 
 void VNopVop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -98,7 +97,6 @@ VMovB32Vop1::VMovB32Vop1(const MachineInst *inst)
 }
 
 void VMovB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -179,7 +177,6 @@ VReadfirstlaneB32Vop1::VReadfirstlaneB32Vop1(const MachineInst *inst)
 }
 
 void VReadfirstlaneB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -263,7 +260,6 @@ VCvtI32F64Vop1::VCvtI32F64Vop1(const MachineInst *inst)
 }
 
 void VCvtI32F64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -354,7 +350,6 @@ VCvtF64I32Vop1::VCvtF64I32Vop1(const MachineInst *inst)
 }
 
 void VCvtF64I32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -436,7 +431,6 @@ VCvtF32I32Vop1::VCvtF32I32Vop1(const MachineInst *inst)
 }
 
 void VCvtF32I32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -518,7 +512,6 @@ VCvtF32U32Vop1::VCvtF32U32Vop1(const MachineInst *inst)
 }
 
 void VCvtF32U32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -600,7 +593,6 @@ VCvtU32F32Vop1::VCvtU32F32Vop1(const MachineInst *inst)
 }
 
 void VCvtU32F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -689,7 +681,6 @@ VCvtI32F32Vop1::VCvtI32F32Vop1(const MachineInst *inst)
 }
 
 void VCvtI32F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -780,7 +771,6 @@ VCvtF16F32Vop1::VCvtF16F32Vop1(const MachineInst *inst)
 }
 
 void VCvtF16F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -862,7 +852,6 @@ VCvtF32F16Vop1::VCvtF32F16Vop1(const MachineInst *inst)
 }
 
 void VCvtF32F16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -945,7 +934,6 @@ VCvtNearestI32F32Vop1::VCvtNearestI32F32Vop1(const MachineInst *inst)
 }
 
 void VCvtNearestI32F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1036,7 +1024,6 @@ VCvtFloorI32F32Vop1::VCvtFloorI32F32Vop1(const MachineInst *inst)
 }
 
 void VCvtFloorI32F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1155,7 +1142,6 @@ VCvtF32F64Vop1::VCvtF32F64Vop1(const MachineInst *inst)
 }
 
 void VCvtF32F64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1237,7 +1223,6 @@ VCvtF64F32Vop1::VCvtF64F32Vop1(const MachineInst *inst)
 }
 
 void VCvtF64F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1319,7 +1304,6 @@ VCvtF32Ubyte0Vop1::VCvtF32Ubyte0Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Ubyte0Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1401,7 +1385,6 @@ VCvtF32Ubyte1Vop1::VCvtF32Ubyte1Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Ubyte1Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1483,7 +1466,6 @@ VCvtF32Ubyte2Vop1::VCvtF32Ubyte2Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Ubyte2Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1565,7 +1547,6 @@ VCvtF32Ubyte3Vop1::VCvtF32Ubyte3Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Ubyte3Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1647,7 +1628,6 @@ VCvtU32F64Vop1::VCvtU32F64Vop1(const MachineInst *inst)
 }
 
 void VCvtU32F64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1736,7 +1716,6 @@ VCvtF64U32Vop1::VCvtF64U32Vop1(const MachineInst *inst)
 }
 
 void VCvtF64U32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1818,7 +1797,6 @@ VTruncF64Vop1::VTruncF64Vop1(const MachineInst *inst)
 }
 
 void VTruncF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -1912,7 +1890,6 @@ VCeilF64Vop1::VCeilF64Vop1(const MachineInst *inst)
 }
 
 void VCeilF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2006,7 +1983,6 @@ VRndneF64Vop1::VRndneF64Vop1(const MachineInst *inst)
 }
 
 void VRndneF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2100,7 +2076,6 @@ VFloorF64Vop1::VFloorF64Vop1(const MachineInst *inst)
 }
 
 void VFloorF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2178,7 +2153,6 @@ VPipeflushVop1::VPipeflushVop1(const MachineInst *inst)
 }
 
 void VPipeflushVop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2251,7 +2225,6 @@ VMovB16Vop1::VMovB16Vop1(const MachineInst *inst)
 }
 
 void VMovB16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2332,7 +2305,6 @@ VFractF32Vop1::VFractF32Vop1(const MachineInst *inst)
 }
 
 void VFractF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2426,7 +2398,6 @@ VTruncF32Vop1::VTruncF32Vop1(const MachineInst *inst)
 }
 
 void VTruncF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2520,7 +2491,6 @@ VCeilF32Vop1::VCeilF32Vop1(const MachineInst *inst)
 }
 
 void VCeilF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2614,7 +2584,6 @@ VRndneF32Vop1::VRndneF32Vop1(const MachineInst *inst)
 }
 
 void VRndneF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2708,7 +2677,6 @@ VFloorF32Vop1::VFloorF32Vop1(const MachineInst *inst)
 }
 
 void VFloorF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2802,7 +2770,6 @@ VExpF32Vop1::VExpF32Vop1(const MachineInst *inst)
 }
 
 void VExpF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2896,7 +2863,6 @@ VLogF32Vop1::VLogF32Vop1(const MachineInst *inst)
 }
 
 void VLogF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2990,7 +2956,6 @@ VRcpF32Vop1::VRcpF32Vop1(const MachineInst *inst)
 }
 
 void VRcpF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3084,7 +3049,6 @@ VRcpIflagF32Vop1::VRcpIflagF32Vop1(const MachineInst *inst)
 }
 
 void VRcpIflagF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3178,7 +3142,6 @@ VRsqF32Vop1::VRsqF32Vop1(const MachineInst *inst)
 }
 
 void VRsqF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3272,7 +3235,6 @@ VRcpF64Vop1::VRcpF64Vop1(const MachineInst *inst)
 }
 
 void VRcpF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3366,7 +3328,6 @@ VRsqF64Vop1::VRsqF64Vop1(const MachineInst *inst)
 }
 
 void VRsqF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3460,7 +3421,6 @@ VSqrtF32Vop1::VSqrtF32Vop1(const MachineInst *inst)
 }
 
 void VSqrtF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3554,7 +3514,6 @@ VSqrtF64Vop1::VSqrtF64Vop1(const MachineInst *inst)
 }
 
 void VSqrtF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3648,7 +3607,6 @@ VSinF32Vop1::VSinF32Vop1(const MachineInst *inst)
 }
 
 void VSinF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3742,7 +3700,6 @@ VCosF32Vop1::VCosF32Vop1(const MachineInst *inst)
 }
 
 void VCosF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3836,7 +3793,6 @@ VNotB32Vop1::VNotB32Vop1(const MachineInst *inst)
 }
 
 void VNotB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -3918,7 +3874,6 @@ VBfrevB32Vop1::VBfrevB32Vop1(const MachineInst *inst)
 }
 
 void VBfrevB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4003,7 +3958,6 @@ VClzI32U32Vop1::VClzI32U32Vop1(const MachineInst *inst)
 }
 
 void VClzI32U32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4086,7 +4040,6 @@ VCtzI32B32Vop1::VCtzI32B32Vop1(const MachineInst *inst)
 }
 
 void VCtzI32B32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4169,7 +4122,6 @@ VClsI32Vop1::VClsI32Vop1(const MachineInst *inst)
 }
 
 void VClsI32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4255,7 +4207,6 @@ VFrexpExpI32F64Vop1::VFrexpExpI32F64Vop1(const MachineInst *inst)
 }
 
 void VFrexpExpI32F64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4352,7 +4303,6 @@ VFrexpMantF64Vop1::VFrexpMantF64Vop1(const MachineInst *inst)
 }
 
 void VFrexpMantF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4448,7 +4398,6 @@ VFractF64Vop1::VFractF64Vop1(const MachineInst *inst)
 }
 
 void VFractF64Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4542,7 +4491,6 @@ VFrexpExpI32F32Vop1::VFrexpExpI32F32Vop1(const MachineInst *inst)
 }
 
 void VFrexpExpI32F32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4639,7 +4587,6 @@ VFrexpMantF32Vop1::VFrexpMantF32Vop1(const MachineInst *inst)
 }
 
 void VFrexpMantF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4847,7 +4794,6 @@ VCvtF16U16Vop1::VCvtF16U16Vop1(const MachineInst *inst)
 }
 
 void VCvtF16U16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -4929,7 +4875,6 @@ VCvtF16I16Vop1::VCvtF16I16Vop1(const MachineInst *inst)
 }
 
 void VCvtF16I16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5011,7 +4956,6 @@ VCvtU16F16Vop1::VCvtU16F16Vop1(const MachineInst *inst)
 }
 
 void VCvtU16F16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5100,7 +5044,6 @@ VCvtI16F16Vop1::VCvtI16F16Vop1(const MachineInst *inst)
 }
 
 void VCvtI16F16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5191,7 +5134,6 @@ VRcpF16Vop1::VRcpF16Vop1(const MachineInst *inst)
 }
 
 void VRcpF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5285,7 +5227,6 @@ VSqrtF16Vop1::VSqrtF16Vop1(const MachineInst *inst)
 }
 
 void VSqrtF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5379,7 +5320,6 @@ VRsqF16Vop1::VRsqF16Vop1(const MachineInst *inst)
 }
 
 void VRsqF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5473,7 +5413,6 @@ VLogF16Vop1::VLogF16Vop1(const MachineInst *inst)
 }
 
 void VLogF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5567,7 +5506,6 @@ VExpF16Vop1::VExpF16Vop1(const MachineInst *inst)
 }
 
 void VExpF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5661,7 +5599,6 @@ VFrexpMantF16Vop1::VFrexpMantF16Vop1(const MachineInst *inst)
 }
 
 void VFrexpMantF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5757,7 +5694,6 @@ VFrexpExpI16F16Vop1::VFrexpExpI16F16Vop1(const MachineInst *inst)
 }
 
 void VFrexpExpI16F16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5854,7 +5790,6 @@ VFloorF16Vop1::VFloorF16Vop1(const MachineInst *inst)
 }
 
 void VFloorF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -5948,7 +5883,6 @@ VCeilF16Vop1::VCeilF16Vop1(const MachineInst *inst)
 }
 
 void VCeilF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6042,7 +5976,6 @@ VTruncF16Vop1::VTruncF16Vop1(const MachineInst *inst)
 }
 
 void VTruncF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6136,7 +6069,6 @@ VRndneF16Vop1::VRndneF16Vop1(const MachineInst *inst)
 }
 
 void VRndneF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6230,7 +6162,6 @@ VFractF16Vop1::VFractF16Vop1(const MachineInst *inst)
 }
 
 void VFractF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6324,7 +6255,6 @@ VSinF16Vop1::VSinF16Vop1(const MachineInst *inst)
 }
 
 void VSinF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6418,7 +6348,6 @@ VCosF16Vop1::VCosF16Vop1(const MachineInst *inst)
 }
 
 void VCosF16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6598,7 +6527,6 @@ VSwapB32Vop1::VSwapB32Vop1(const MachineInst *inst)
 }
 
 void VSwapB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6686,7 +6614,6 @@ VSwapB16Vop1::VSwapB16Vop1(const MachineInst *inst)
 }
 
 void VSwapB16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6772,7 +6699,6 @@ VPermlane64B32Vop1::VPermlane64B32Vop1(const MachineInst *inst)
 }
 
 void VPermlane64B32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6888,7 +6814,6 @@ VNotB16Vop1::VNotB16Vop1(const MachineInst *inst)
 }
 
 void VNotB16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6970,7 +6895,6 @@ VCvtI32I16Vop1::VCvtI32I16Vop1(const MachineInst *inst)
 }
 
 void VCvtI32I16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7053,7 +6977,6 @@ VCvtU32U16Vop1::VCvtU32U16Vop1(const MachineInst *inst)
 }
 
 void VCvtU32U16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7135,7 +7058,6 @@ VCvtF32Fp8Vop1::VCvtF32Fp8Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Fp8Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7217,7 +7139,6 @@ VCvtF32Bf8Vop1::VCvtF32Bf8Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Bf8Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;

@@ -28,7 +28,6 @@ ImageMsaaLoadVsample::ImageMsaaLoadVsample(const MachineInst *inst)
 }
 
 void ImageMsaaLoadVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -47,7 +46,6 @@ ImageSampleVsample::ImageSampleVsample(const MachineInst *inst)
 }
 
 void ImageSampleVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -65,7 +63,6 @@ ImageSampleDVsample::ImageSampleDVsample(const MachineInst *inst)
 }
 
 void ImageSampleDVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -83,7 +80,6 @@ ImageSampleLVsample::ImageSampleLVsample(const MachineInst *inst)
 }
 
 void ImageSampleLVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -101,7 +97,6 @@ ImageSampleBVsample::ImageSampleBVsample(const MachineInst *inst)
 }
 
 void ImageSampleBVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -119,7 +114,6 @@ ImageSampleLzVsample::ImageSampleLzVsample(const MachineInst *inst)
 }
 
 void ImageSampleLzVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -137,7 +131,6 @@ ImageSampleCVsample::ImageSampleCVsample(const MachineInst *inst)
 }
 
 void ImageSampleCVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -155,7 +148,6 @@ ImageSampleCDVsample::ImageSampleCDVsample(const MachineInst *inst)
 }
 
 void ImageSampleCDVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -173,7 +165,6 @@ ImageSampleCLVsample::ImageSampleCLVsample(const MachineInst *inst)
 }
 
 void ImageSampleCLVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -191,7 +182,6 @@ ImageSampleCBVsample::ImageSampleCBVsample(const MachineInst *inst)
 }
 
 void ImageSampleCBVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -209,7 +199,6 @@ ImageSampleCLzVsample::ImageSampleCLzVsample(const MachineInst *inst)
 }
 
 void ImageSampleCLzVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -227,7 +216,6 @@ ImageSampleOVsample::ImageSampleOVsample(const MachineInst *inst)
 }
 
 void ImageSampleOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -245,7 +233,6 @@ ImageSampleDOVsample::ImageSampleDOVsample(const MachineInst *inst)
 }
 
 void ImageSampleDOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -263,7 +250,6 @@ ImageSampleLOVsample::ImageSampleLOVsample(const MachineInst *inst)
 }
 
 void ImageSampleLOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -281,7 +267,6 @@ ImageSampleBOVsample::ImageSampleBOVsample(const MachineInst *inst)
 }
 
 void ImageSampleBOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -299,7 +284,6 @@ ImageSampleLzOVsample::ImageSampleLzOVsample(const MachineInst *inst)
 }
 
 void ImageSampleLzOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -317,7 +301,6 @@ ImageSampleCOVsample::ImageSampleCOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -335,7 +318,6 @@ ImageSampleCDOVsample::ImageSampleCDOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCDOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -353,7 +335,6 @@ ImageSampleCLOVsample::ImageSampleCLOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCLOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -371,7 +352,6 @@ ImageSampleCBOVsample::ImageSampleCBOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCBOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -389,7 +369,6 @@ ImageSampleCLzOVsample::ImageSampleCLzOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCLzOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -407,7 +386,6 @@ ImageGather4Vsample::ImageGather4Vsample(const MachineInst *inst)
 }
 
 void ImageGather4Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -425,7 +403,6 @@ ImageGather4LVsample::ImageGather4LVsample(const MachineInst *inst)
 }
 
 void ImageGather4LVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -443,7 +420,6 @@ ImageGather4BVsample::ImageGather4BVsample(const MachineInst *inst)
 }
 
 void ImageGather4BVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -461,7 +437,6 @@ ImageGather4LzVsample::ImageGather4LzVsample(const MachineInst *inst)
 }
 
 void ImageGather4LzVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -479,7 +454,6 @@ ImageGather4CVsample::ImageGather4CVsample(const MachineInst *inst)
 }
 
 void ImageGather4CVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -497,7 +471,6 @@ ImageGather4CLzVsample::ImageGather4CLzVsample(const MachineInst *inst)
 }
 
 void ImageGather4CLzVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -515,7 +488,6 @@ ImageGather4OVsample::ImageGather4OVsample(const MachineInst *inst)
 }
 
 void ImageGather4OVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -533,7 +505,6 @@ ImageGather4LzOVsample::ImageGather4LzOVsample(const MachineInst *inst)
 }
 
 void ImageGather4LzOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -551,7 +522,6 @@ ImageGather4CLzOVsample::ImageGather4CLzOVsample(const MachineInst *inst)
 }
 
 void ImageGather4CLzOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -569,7 +539,6 @@ ImageGetLodVsample::ImageGetLodVsample(const MachineInst *inst)
 }
 
 void ImageGetLodVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -587,7 +556,6 @@ ImageSampleDG16Vsample::ImageSampleDG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleDG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -605,7 +573,6 @@ ImageSampleCDG16Vsample::ImageSampleCDG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleCDG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -623,7 +590,6 @@ ImageSampleDOG16Vsample::ImageSampleDOG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleDOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -641,7 +607,6 @@ ImageSampleCDOG16Vsample::ImageSampleCDOG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleCDOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -659,7 +624,6 @@ ImageSampleClVsample::ImageSampleClVsample(const MachineInst *inst)
 }
 
 void ImageSampleClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -677,7 +641,6 @@ ImageSampleDClVsample::ImageSampleDClVsample(const MachineInst *inst)
 }
 
 void ImageSampleDClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -695,7 +658,6 @@ ImageSampleBClVsample::ImageSampleBClVsample(const MachineInst *inst)
 }
 
 void ImageSampleBClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -713,7 +675,6 @@ ImageSampleCClVsample::ImageSampleCClVsample(const MachineInst *inst)
 }
 
 void ImageSampleCClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -731,7 +692,6 @@ ImageSampleCDClVsample::ImageSampleCDClVsample(const MachineInst *inst)
 }
 
 void ImageSampleCDClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -749,7 +709,6 @@ ImageSampleCBClVsample::ImageSampleCBClVsample(const MachineInst *inst)
 }
 
 void ImageSampleCBClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -767,7 +726,6 @@ ImageSampleClOVsample::ImageSampleClOVsample(const MachineInst *inst)
 }
 
 void ImageSampleClOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -785,7 +743,6 @@ ImageSampleDClOVsample::ImageSampleDClOVsample(const MachineInst *inst)
 }
 
 void ImageSampleDClOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -803,7 +760,6 @@ ImageSampleBClOVsample::ImageSampleBClOVsample(const MachineInst *inst)
 }
 
 void ImageSampleBClOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -821,7 +777,6 @@ ImageSampleCClOVsample::ImageSampleCClOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCClOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -839,7 +794,6 @@ ImageSampleCDClOVsample::ImageSampleCDClOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCDClOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -857,7 +811,6 @@ ImageSampleCBClOVsample::ImageSampleCBClOVsample(const MachineInst *inst)
 }
 
 void ImageSampleCBClOVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -875,7 +828,6 @@ ImageSampleCDClG16Vsample::ImageSampleCDClG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleCDClG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -893,7 +845,6 @@ ImageSampleDClOG16Vsample::ImageSampleDClOG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleDClOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -911,7 +862,6 @@ ImageSampleCDClOG16Vsample::ImageSampleCDClOG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleCDClOG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -929,7 +879,6 @@ ImageSampleDClG16Vsample::ImageSampleDClG16Vsample(const MachineInst *inst)
 }
 
 void ImageSampleDClG16Vsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -947,7 +896,6 @@ ImageGather4ClVsample::ImageGather4ClVsample(const MachineInst *inst)
 }
 
 void ImageGather4ClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -965,7 +913,6 @@ ImageGather4BClVsample::ImageGather4BClVsample(const MachineInst *inst)
 }
 
 void ImageGather4BClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -983,7 +930,6 @@ ImageGather4CClVsample::ImageGather4CClVsample(const MachineInst *inst)
 }
 
 void ImageGather4CClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -1001,7 +947,6 @@ ImageGather4CLVsample::ImageGather4CLVsample(const MachineInst *inst)
 }
 
 void ImageGather4CLVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -1019,7 +964,6 @@ ImageGather4CBVsample::ImageGather4CBVsample(const MachineInst *inst)
 }
 
 void ImageGather4CBVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -1037,7 +981,6 @@ ImageGather4CBClVsample::ImageGather4CBClVsample(const MachineInst *inst)
 }
 
 void ImageGather4CBClVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -1055,7 +998,6 @@ ImageGather4hVsample::ImageGather4hVsample(const MachineInst *inst)
 }
 
 void ImageGather4hVsample::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 

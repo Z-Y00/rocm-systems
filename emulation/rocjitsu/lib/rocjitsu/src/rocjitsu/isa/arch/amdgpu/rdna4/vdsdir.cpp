@@ -28,7 +28,6 @@ DsParamLoadVdsdir::DsParamLoadVdsdir(const MachineInst *inst)
 }
 
 void DsParamLoadVdsdir::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Interpolation/LDS-direct: no-op in compute simulation.
 }
 
@@ -42,7 +41,6 @@ DsDirectLoadVdsdir::DsDirectLoadVdsdir(const MachineInst *inst)
 }
 
 void DsDirectLoadVdsdir::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Interpolation/LDS-direct: no-op in compute simulation.
 }
 

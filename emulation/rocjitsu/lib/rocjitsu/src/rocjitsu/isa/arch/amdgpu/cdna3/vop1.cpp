@@ -195,7 +195,6 @@ VReadfirstlaneB32Vop1::VReadfirstlaneB32Vop1(const MachineInst *inst)
 }
 
 void VReadfirstlaneB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6773,7 +6772,6 @@ VSwapB32Vop1::VSwapB32Vop1(const MachineInst *inst)
 }
 
 void VSwapB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;

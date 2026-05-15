@@ -1136,7 +1136,6 @@ SGetpcB64Sop1::SGetpcB64Sop1(const MachineInst *inst)
 }
 
 void SGetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   sdst.write_scalar64(wf, wf.pc + state_.size_bytes);
 }
 
@@ -1155,7 +1154,6 @@ SSetpcB64Sop1::SSetpcB64Sop1(const MachineInst *inst)
 }
 
 void SSetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes;
 }
 
@@ -1176,7 +1174,6 @@ SSwappcB64Sop1::SSwappcB64Sop1(const MachineInst *inst)
 }
 
 void SSwappcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint64_t next_pc = wf.pc + state_.size_bytes;
   wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes;
   sdst.write_scalar64(wf, next_pc);
@@ -1251,10 +1248,7 @@ SBarrierSignalSop1::SBarrierSignalSop1(const MachineInst *inst)
   state_.flags |= BARRIER;
 }
 
-void SBarrierSignalSop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SBarrierSignalSop1::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SBarrierSignalIsfirstSop1::SBarrierSignalIsfirstSop1(const MachineInst *inst)
     : Sop1("s_barrier_signal_isfirst", reinterpret_cast<const OpEncoding *>(inst),
@@ -1270,10 +1264,7 @@ SBarrierSignalIsfirstSop1::SBarrierSignalIsfirstSop1(const MachineInst *inst)
         static_cast<int>(reinterpret_cast<const Sop1InstLiteralMachineInst *>(inst)->simm32));
 }
 
-void SBarrierSignalIsfirstSop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SBarrierSignalIsfirstSop1::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SAllocVgprSop1::SAllocVgprSop1(const MachineInst *inst)
     : Sop1("s_alloc_vgpr", reinterpret_cast<const OpEncoding *>(inst),
@@ -1288,10 +1279,7 @@ SAllocVgprSop1::SAllocVgprSop1(const MachineInst *inst)
         static_cast<int>(reinterpret_cast<const Sop1InstLiteralMachineInst *>(inst)->simm32));
 }
 
-void SAllocVgprSop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SAllocVgprSop1::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SSleepVarSop1::SSleepVarSop1(const MachineInst *inst)
     : Sop1("s_sleep_var", reinterpret_cast<const OpEncoding *>(inst),
@@ -1306,10 +1294,7 @@ SSleepVarSop1::SSleepVarSop1(const MachineInst *inst)
         static_cast<int>(reinterpret_cast<const Sop1InstLiteralMachineInst *>(inst)->simm32));
 }
 
-void SSleepVarSop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SSleepVarSop1::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SCeilF32Sop1::SCeilF32Sop1(const MachineInst *inst)
     : Sop1("s_ceil_f32", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCeilF32Sop1>()),

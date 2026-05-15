@@ -2144,7 +2144,6 @@ VFmamkF32Vop2::VFmamkF32Vop2(const MachineInst *inst)
 }
 
 void VFmamkF32Vop2::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -2258,7 +2257,6 @@ VFmaakF32Vop2::VFmaakF32Vop2(const MachineInst *inst)
 }
 
 void VFmaakF32Vop2::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;

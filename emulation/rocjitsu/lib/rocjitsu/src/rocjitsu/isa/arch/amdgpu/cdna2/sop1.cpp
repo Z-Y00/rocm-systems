@@ -547,7 +547,6 @@ SGetpcB64Sop1::SGetpcB64Sop1(const MachineInst *inst)
 }
 
 void SGetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   sdst.write_scalar64(wf, wf.pc + state_.size_bytes);
 }
 
@@ -566,7 +565,6 @@ SSetpcB64Sop1::SSetpcB64Sop1(const MachineInst *inst)
 }
 
 void SSetpcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes;
 }
 
@@ -587,7 +585,6 @@ SSwappcB64Sop1::SSwappcB64Sop1(const MachineInst *inst)
 }
 
 void SSwappcB64Sop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint64_t next_pc = wf.pc + state_.size_bytes;
   wf.pc = ssrc0.read_scalar64(wf) - state_.size_bytes;
   sdst.write_scalar64(wf, next_pc);

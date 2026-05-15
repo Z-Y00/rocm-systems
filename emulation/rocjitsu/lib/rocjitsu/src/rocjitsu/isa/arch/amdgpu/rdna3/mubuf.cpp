@@ -376,7 +376,6 @@ BufferLoadU8Mubuf::BufferLoadU8Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadU8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 1;
@@ -406,7 +405,6 @@ BufferLoadI8Mubuf::BufferLoadI8Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadI8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 1;
@@ -437,7 +435,6 @@ BufferLoadU16Mubuf::BufferLoadU16Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadU16Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 2;
@@ -467,7 +464,6 @@ BufferLoadI16Mubuf::BufferLoadI16Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadI16Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 2;
@@ -498,7 +494,6 @@ BufferLoadB32Mubuf::BufferLoadB32Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -528,7 +523,6 @@ BufferLoadB64Mubuf::BufferLoadB64Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -558,7 +552,6 @@ BufferLoadB96Mubuf::BufferLoadB96Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadB96Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -588,7 +581,6 @@ BufferLoadB128Mubuf::BufferLoadB128Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadB128Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -618,7 +610,6 @@ BufferStoreB8Mubuf::BufferStoreB8Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreB8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 1;
   d->num_elems = 1;
@@ -656,7 +647,6 @@ BufferStoreB16Mubuf::BufferStoreB16Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreB16Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 2;
   d->num_elems = 1;
@@ -694,7 +684,6 @@ BufferStoreB32Mubuf::BufferStoreB32Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 1;
@@ -732,7 +721,6 @@ BufferStoreB64Mubuf::BufferStoreB64Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 2;
@@ -772,7 +760,6 @@ BufferStoreB96Mubuf::BufferStoreB96Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreB96Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 3;
@@ -814,7 +801,6 @@ BufferStoreB128Mubuf::BufferStoreB128Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreB128Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 4;
@@ -858,7 +844,6 @@ BufferLoadD16U8Mubuf::BufferLoadD16U8Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadD16U8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 1;
@@ -889,7 +874,6 @@ BufferLoadD16I8Mubuf::BufferLoadD16I8Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadD16I8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 1;
@@ -921,7 +905,6 @@ BufferLoadD16B16Mubuf::BufferLoadD16B16Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadD16B16Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 2;
@@ -952,7 +935,6 @@ BufferLoadD16HiU8Mubuf::BufferLoadD16HiU8Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadD16HiU8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 1;
@@ -983,7 +965,6 @@ BufferLoadD16HiI8Mubuf::BufferLoadD16HiI8Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadD16HiI8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 1;
@@ -1015,7 +996,6 @@ BufferLoadD16HiB16Mubuf::BufferLoadD16HiB16Mubuf(const MachineInst *inst)
 }
 
 void BufferLoadD16HiB16Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 2;
@@ -1046,7 +1026,6 @@ BufferStoreD16HiB8Mubuf::BufferStoreD16HiB8Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreD16HiB8Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 1;
   d->num_elems = 1;
@@ -1085,7 +1064,6 @@ BufferStoreD16HiB16Mubuf::BufferStoreD16HiB16Mubuf(const MachineInst *inst)
 }
 
 void BufferStoreD16HiB16Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 2;
   d->num_elems = 1;
@@ -1156,7 +1134,6 @@ BufferGl0InvMubuf::BufferGl0InvMubuf(const MachineInst *inst)
 }
 
 void BufferGl0InvMubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   wf.cu().l1_scalar().invalidate_all();
 }
 
@@ -1168,7 +1145,6 @@ BufferGl1InvMubuf::BufferGl1InvMubuf(const MachineInst *inst)
 }
 
 void BufferGl1InvMubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   wf.cu().l1_scalar().invalidate_all();
 }
 
@@ -1191,7 +1167,6 @@ BufferAtomicSwapB32Mubuf::BufferAtomicSwapB32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicSwapB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1232,7 +1207,6 @@ BufferAtomicCmpswapB32Mubuf::BufferAtomicCmpswapB32Mubuf(const MachineInst *inst
 }
 
 void BufferAtomicCmpswapB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1275,7 +1249,6 @@ BufferAtomicAddU32Mubuf::BufferAtomicAddU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicAddU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1316,7 +1289,6 @@ BufferAtomicSubU32Mubuf::BufferAtomicSubU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicSubU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1357,7 +1329,6 @@ BufferAtomicCsubU32Mubuf::BufferAtomicCsubU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicCsubU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1398,7 +1369,6 @@ BufferAtomicMinI32Mubuf::BufferAtomicMinI32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMinI32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1439,7 +1409,6 @@ BufferAtomicMinU32Mubuf::BufferAtomicMinU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMinU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1480,7 +1449,6 @@ BufferAtomicMaxI32Mubuf::BufferAtomicMaxI32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMaxI32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1521,7 +1489,6 @@ BufferAtomicMaxU32Mubuf::BufferAtomicMaxU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMaxU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1562,7 +1529,6 @@ BufferAtomicAndB32Mubuf::BufferAtomicAndB32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicAndB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1603,7 +1569,6 @@ BufferAtomicOrB32Mubuf::BufferAtomicOrB32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicOrB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1644,7 +1609,6 @@ BufferAtomicXorB32Mubuf::BufferAtomicXorB32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicXorB32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1685,7 +1649,6 @@ BufferAtomicIncU32Mubuf::BufferAtomicIncU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicIncU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1726,7 +1689,6 @@ BufferAtomicDecU32Mubuf::BufferAtomicDecU32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicDecU32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1767,7 +1729,6 @@ BufferAtomicSwapB64Mubuf::BufferAtomicSwapB64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicSwapB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1808,7 +1769,6 @@ BufferAtomicCmpswapB64Mubuf::BufferAtomicCmpswapB64Mubuf(const MachineInst *inst
 }
 
 void BufferAtomicCmpswapB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1851,7 +1811,6 @@ BufferAtomicAddU64Mubuf::BufferAtomicAddU64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicAddU64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1892,7 +1851,6 @@ BufferAtomicSubU64Mubuf::BufferAtomicSubU64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicSubU64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1933,7 +1891,6 @@ BufferAtomicMinI64Mubuf::BufferAtomicMinI64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMinI64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -1976,7 +1933,6 @@ BufferAtomicMinU64Mubuf::BufferAtomicMinU64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMinU64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2019,7 +1975,6 @@ BufferAtomicMaxI64Mubuf::BufferAtomicMaxI64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMaxI64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2062,7 +2017,6 @@ BufferAtomicMaxU64Mubuf::BufferAtomicMaxU64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMaxU64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2105,7 +2059,6 @@ BufferAtomicAndB64Mubuf::BufferAtomicAndB64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicAndB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2146,7 +2099,6 @@ BufferAtomicOrB64Mubuf::BufferAtomicOrB64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicOrB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2187,7 +2139,6 @@ BufferAtomicXorB64Mubuf::BufferAtomicXorB64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicXorB64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2228,7 +2179,6 @@ BufferAtomicIncU64Mubuf::BufferAtomicIncU64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicIncU64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2269,7 +2219,6 @@ BufferAtomicDecU64Mubuf::BufferAtomicDecU64Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicDecU64Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2310,7 +2259,6 @@ BufferAtomicCmpswapF32Mubuf::BufferAtomicCmpswapF32Mubuf(const MachineInst *inst
 }
 
 void BufferAtomicCmpswapF32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2353,7 +2301,6 @@ BufferAtomicMinF32Mubuf::BufferAtomicMinF32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMinF32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2394,7 +2341,6 @@ BufferAtomicMaxF32Mubuf::BufferAtomicMaxF32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicMaxF32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;
@@ -2435,7 +2381,6 @@ BufferAtomicAddF32Mubuf::BufferAtomicAddF32Mubuf(const MachineInst *inst)
 }
 
 void BufferAtomicAddF32Mubuf::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdata;
   d->elem_size = 4;

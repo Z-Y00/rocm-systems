@@ -59,10 +59,7 @@ SSleepSopp::SSleepSopp(const MachineInst *inst)
   state_.num_dst_operands = 0;
 }
 
-void SSleepSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SSleepSopp::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SClauseSopp::SClauseSopp(const MachineInst *inst)
     : Sopp("s_clause", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SClauseSopp>()),
@@ -96,10 +93,7 @@ SWaitAluSopp::SWaitAluSopp(const MachineInst *inst)
   state_.flags |= WAITCNT;
 }
 
-void SWaitAluSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SWaitAluSopp::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SWaitIdleSopp::SWaitIdleSopp(const MachineInst *inst)
     : Sopp("s_wait_idle", reinterpret_cast<const OpEncoding *>(inst),
@@ -173,10 +167,7 @@ SBarrierWaitSopp::SBarrierWaitSopp(const MachineInst *inst)
   state_.flags |= BARRIER;
 }
 
-void SBarrierWaitSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  (void)wf;
-}
+void SBarrierWaitSopp::execute_impl(amdgpu::Wavefront &wf) { (void)wf; }
 
 SCodeEndSopp::SCodeEndSopp(const MachineInst *inst)
     : Sopp("s_code_end", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCodeEndSopp>()) {
@@ -203,7 +194,6 @@ std::optional<int64_t> SBranchSopp::branch_offset_bytes() const {
 }
 
 void SBranchSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
   wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
 }
@@ -224,7 +214,6 @@ std::optional<int64_t> SCbranchScc0Sopp::branch_offset_bytes() const {
 }
 
 void SCbranchScc0Sopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (!wf.read_scc()) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -247,7 +236,6 @@ std::optional<int64_t> SCbranchScc1Sopp::branch_offset_bytes() const {
 }
 
 void SCbranchScc1Sopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.read_scc()) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -270,7 +258,6 @@ std::optional<int64_t> SCbranchVcczSopp::branch_offset_bytes() const {
 }
 
 void SCbranchVcczSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.vcc() == 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -293,7 +280,6 @@ std::optional<int64_t> SCbranchVccnzSopp::branch_offset_bytes() const {
 }
 
 void SCbranchVccnzSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.vcc() != 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -316,7 +302,6 @@ std::optional<int64_t> SCbranchExeczSopp::branch_offset_bytes() const {
 }
 
 void SCbranchExeczSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.exec() == 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -339,7 +324,6 @@ std::optional<int64_t> SCbranchExecnzSopp::branch_offset_bytes() const {
 }
 
 void SCbranchExecnzSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.exec() != 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -353,10 +337,7 @@ SEndpgmSopp::SEndpgmSopp(const MachineInst *inst)
   state_.flags |= PROGRAM_TERMINATOR;
 }
 
-void SEndpgmSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  wf.end();
-}
+void SEndpgmSopp::execute_impl(amdgpu::Wavefront &wf) { wf.end(); }
 
 SEndpgmSavedSopp::SEndpgmSavedSopp(const MachineInst *inst)
     : Sopp("s_endpgm_saved", reinterpret_cast<const OpEncoding *>(inst),
@@ -366,10 +347,7 @@ SEndpgmSavedSopp::SEndpgmSavedSopp(const MachineInst *inst)
   state_.flags |= PROGRAM_TERMINATOR;
 }
 
-void SEndpgmSavedSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  wf.end();
-}
+void SEndpgmSavedSopp::execute_impl(amdgpu::Wavefront &wf) { wf.end(); }
 
 SWakeupSopp::SWakeupSopp(const MachineInst *inst)
     : Sopp("s_wakeup", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SWakeupSopp>()) {
@@ -488,7 +466,6 @@ SWaitLoadcntSopp::SWaitLoadcntSopp(const MachineInst *inst)
 }
 
 void SWaitLoadcntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_loadcnt", cnt);
 }
@@ -504,7 +481,6 @@ SWaitStorecntSopp::SWaitStorecntSopp(const MachineInst *inst)
 }
 
 void SWaitStorecntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_storecnt", cnt);
 }
@@ -520,7 +496,6 @@ SWaitSamplecntSopp::SWaitSamplecntSopp(const MachineInst *inst)
 }
 
 void SWaitSamplecntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_samplecnt", cnt);
 }
@@ -536,7 +511,6 @@ SWaitBvhcntSopp::SWaitBvhcntSopp(const MachineInst *inst)
 }
 
 void SWaitBvhcntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_bvhcnt", cnt);
 }
@@ -552,7 +526,6 @@ SWaitExpcntSopp::SWaitExpcntSopp(const MachineInst *inst)
 }
 
 void SWaitExpcntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_expcnt", cnt);
 }
@@ -568,7 +541,6 @@ SWaitDscntSopp::SWaitDscntSopp(const MachineInst *inst)
 }
 
 void SWaitDscntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_dscnt", cnt);
 }
@@ -584,7 +556,6 @@ SWaitKmcntSopp::SWaitKmcntSopp(const MachineInst *inst)
 }
 
 void SWaitKmcntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_kmcnt", cnt);
 }
@@ -600,7 +571,6 @@ SWaitLoadcntDscntSopp::SWaitLoadcntDscntSopp(const MachineInst *inst)
 }
 
 void SWaitLoadcntDscntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_loadcnt_dscnt", cnt);
 }
@@ -616,7 +586,6 @@ SWaitStorecntDscntSopp::SWaitStorecntDscntSopp(const MachineInst *inst)
 }
 
 void SWaitStorecntDscntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t cnt = static_cast<uint16_t>(simm16.state_.encoding_value);
   wf.set_wait_counter("wait_storecnt_dscnt", cnt);
 }

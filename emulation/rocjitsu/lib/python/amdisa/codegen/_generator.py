@@ -825,7 +825,7 @@ class CodeGenerator:
             L.append('  uint32_t size = ((hwreg >> 11) & 0x1Fu) + 1;')
             L.append('  if (offset + size > 32) size = 32 - offset;')
             L.append('  uint32_t mask = (size == 32) ? 0xFFFFFFFFu : ((1u << size) - 1u);')
-            L.append('  uint32_t src = inst.literal_;')
+            L.append('  uint32_t src = literal_;')
             L.append('  switch (reg_id) {')
             L.append('  case 1: {')
             L.append('    uint32_t s = wf.status_raw();')
@@ -3968,7 +3968,6 @@ class CodeGenerator:
                             exec_impl = cgen.Line(
                                 f'void {inst.fmt_name}::execute_impl'
                                 f'(amdgpu::Wavefront &wf) {{\n'
-                                f'  [[maybe_unused]] auto &inst = *this;\n'
                                 f'{_dpp_preamble}'
                                 f'{body}\n'
                                 f'{_dpp_cleanup}'
@@ -4279,6 +4278,7 @@ class CodeGenerator:
             prefixed_body = _re.sub(r'(?<!\.)(?<!\w)state_.size_bytes(?!\w)', 'inst.size()', prefixed_body)
             prefixed_body = _re.sub(r'(?<!\.)(?<!\w)mnemonic\(\)', 'inst.mnemonic()', prefixed_body)
             prefixed_body = _re.sub(r'(?<!\.)(?<!\w)simm32_(?!\w)', 'inst.simm32_', prefixed_body)
+            prefixed_body = _re.sub(r'(?<!\.)(?<!\w)literal_(?!\w)', 'inst.literal_', prefixed_body)
             prefixed_body = _re.sub(r'\s*\(void\)wf;\s*(?://[^\n]*)?\n?', '\n', prefixed_body)
             entries.append((mnemonic, prefixed_body, sem.semantic_class))
 

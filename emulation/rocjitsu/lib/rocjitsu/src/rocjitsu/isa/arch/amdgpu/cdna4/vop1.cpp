@@ -195,7 +195,6 @@ VReadfirstlaneB32Vop1::VReadfirstlaneB32Vop1(const MachineInst *inst)
 }
 
 void VReadfirstlaneB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6654,7 +6653,6 @@ VExpLegacyF32Vop1::VExpLegacyF32Vop1(const MachineInst *inst)
 }
 
 void VExpLegacyF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6759,7 +6757,6 @@ VLogLegacyF32Vop1::VLogLegacyF32Vop1(const MachineInst *inst)
 }
 
 void VLogLegacyF32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -6982,7 +6979,6 @@ VSwapB32Vop1::VSwapB32Vop1(const MachineInst *inst)
 }
 
 void VSwapB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7410,7 +7406,6 @@ VPrngB32Vop1::VPrngB32Vop1(const MachineInst *inst)
 }
 
 void VPrngB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7497,7 +7492,6 @@ VPermlane16SwapB32Vop1::VPermlane16SwapB32Vop1(const MachineInst *inst)
 }
 
 void VPermlane16SwapB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7591,7 +7585,6 @@ VPermlane32SwapB32Vop1::VPermlane32SwapB32Vop1(const MachineInst *inst)
 }
 
 void VPermlane32SwapB32Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;
@@ -7685,7 +7678,6 @@ VCvtF32Bf16Vop1::VCvtF32Bf16Vop1(const MachineInst *inst)
 }
 
 void VCvtF32Bf16Vop1::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t sdwa_old_dst_[64] = {};
   if (sdwa_dst_sel_ != amdgpu::sdwa::DWORD) {
     uint32_t vb = wf.vgpr_alloc().base;

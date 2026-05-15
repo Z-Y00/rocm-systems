@@ -1306,7 +1306,6 @@ SMinF32Sop2::SMinF32Sop2(const MachineInst *inst)
 }
 
 void SMinF32Sop2::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t s0 = ssrc0.read_scalar(wf);
   uint32_t s1 = ssrc1.read_scalar(wf);
   uint32_t result = s0 < s1 ? s0 : s1;
@@ -1335,7 +1334,6 @@ SMaxF32Sop2::SMaxF32Sop2(const MachineInst *inst)
 }
 
 void SMaxF32Sop2::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t s0 = ssrc0.read_scalar(wf);
   uint32_t s1 = ssrc1.read_scalar(wf);
   uint32_t result = s0 > s1 ? s0 : s1;
@@ -1534,7 +1532,6 @@ SMinF16Sop2::SMinF16Sop2(const MachineInst *inst)
 }
 
 void SMinF16Sop2::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t s0 = ssrc0.read_scalar(wf);
   uint32_t s1 = ssrc1.read_scalar(wf);
   uint32_t result = s0 < s1 ? s0 : s1;
@@ -1563,7 +1560,6 @@ SMaxF16Sop2::SMaxF16Sop2(const MachineInst *inst)
 }
 
 void SMaxF16Sop2::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint32_t s0 = ssrc0.read_scalar(wf);
   uint32_t s1 = ssrc1.read_scalar(wf);
   uint32_t result = s0 > s1 ? s0 : s1;

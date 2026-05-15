@@ -30,7 +30,6 @@ ImageLoadMimg::ImageLoadMimg(const MachineInst *inst)
 }
 
 void ImageLoadMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -50,7 +49,6 @@ ImageLoadMipMimg::ImageLoadMipMimg(const MachineInst *inst)
 }
 
 void ImageLoadMipMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -70,7 +68,6 @@ ImageLoadPckMimg::ImageLoadPckMimg(const MachineInst *inst)
 }
 
 void ImageLoadPckMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -90,7 +87,6 @@ ImageLoadPckSgnMimg::ImageLoadPckSgnMimg(const MachineInst *inst)
 }
 
 void ImageLoadPckSgnMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -110,7 +106,6 @@ ImageLoadMipPckMimg::ImageLoadMipPckMimg(const MachineInst *inst)
 }
 
 void ImageLoadMipPckMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -130,7 +125,6 @@ ImageLoadMipPckSgnMimg::ImageLoadMipPckSgnMimg(const MachineInst *inst)
 }
 
 void ImageLoadMipPckSgnMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image load stub — not yet implemented.
   (void)wf;
 }
@@ -150,7 +144,6 @@ ImageStoreMimg::ImageStoreMimg(const MachineInst *inst)
 }
 
 void ImageStoreMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image store stub — not yet implemented.
   (void)wf;
 }
@@ -170,7 +163,6 @@ ImageStoreMipMimg::ImageStoreMipMimg(const MachineInst *inst)
 }
 
 void ImageStoreMipMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image store stub — not yet implemented.
   (void)wf;
 }
@@ -190,7 +182,6 @@ ImageStorePckMimg::ImageStorePckMimg(const MachineInst *inst)
 }
 
 void ImageStorePckMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image store stub — not yet implemented.
   (void)wf;
 }
@@ -210,7 +201,6 @@ ImageStoreMipPckMimg::ImageStoreMipPckMimg(const MachineInst *inst)
 }
 
 void ImageStoreMipPckMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   // Minimal image store stub — not yet implemented.
   (void)wf;
 }
@@ -230,7 +220,6 @@ ImageGetResinfoMimg::ImageGetResinfoMimg(const MachineInst *inst)
 }
 
 void ImageGetResinfoMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -250,7 +239,6 @@ ImageAtomicSwapMimg::ImageAtomicSwapMimg(const MachineInst *inst)
 }
 
 void ImageAtomicSwapMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -270,7 +258,6 @@ ImageAtomicCmpswapMimg::ImageAtomicCmpswapMimg(const MachineInst *inst)
 }
 
 void ImageAtomicCmpswapMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -290,7 +277,6 @@ ImageAtomicAddMimg::ImageAtomicAddMimg(const MachineInst *inst)
 }
 
 void ImageAtomicAddMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -310,7 +296,6 @@ ImageAtomicSubMimg::ImageAtomicSubMimg(const MachineInst *inst)
 }
 
 void ImageAtomicSubMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -330,7 +315,6 @@ ImageAtomicSminMimg::ImageAtomicSminMimg(const MachineInst *inst)
 }
 
 void ImageAtomicSminMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -350,7 +334,6 @@ ImageAtomicUminMimg::ImageAtomicUminMimg(const MachineInst *inst)
 }
 
 void ImageAtomicUminMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -370,7 +353,6 @@ ImageAtomicSmaxMimg::ImageAtomicSmaxMimg(const MachineInst *inst)
 }
 
 void ImageAtomicSmaxMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -390,7 +372,6 @@ ImageAtomicUmaxMimg::ImageAtomicUmaxMimg(const MachineInst *inst)
 }
 
 void ImageAtomicUmaxMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -410,7 +391,6 @@ ImageAtomicAndMimg::ImageAtomicAndMimg(const MachineInst *inst)
 }
 
 void ImageAtomicAndMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -430,7 +410,6 @@ ImageAtomicOrMimg::ImageAtomicOrMimg(const MachineInst *inst)
 }
 
 void ImageAtomicOrMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -450,7 +429,6 @@ ImageAtomicXorMimg::ImageAtomicXorMimg(const MachineInst *inst)
 }
 
 void ImageAtomicXorMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -470,7 +448,6 @@ ImageAtomicIncMimg::ImageAtomicIncMimg(const MachineInst *inst)
 }
 
 void ImageAtomicIncMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -490,7 +467,6 @@ ImageAtomicDecMimg::ImageAtomicDecMimg(const MachineInst *inst)
 }
 
 void ImageAtomicDecMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 
@@ -511,7 +487,6 @@ ImageSampleMimg::ImageSampleMimg(const MachineInst *inst)
 }
 
 void ImageSampleMimg::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   (void)wf; // Image pipeline not yet implemented.
 }
 

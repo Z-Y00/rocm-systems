@@ -34,10 +34,7 @@ SEndpgmSopp::SEndpgmSopp(const MachineInst *inst)
   state_.flags |= PROGRAM_TERMINATOR;
 }
 
-void SEndpgmSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  wf.end();
-}
+void SEndpgmSopp::execute_impl(amdgpu::Wavefront &wf) { wf.end(); }
 
 SBranchSopp::SBranchSopp(const MachineInst *inst)
     : Sopp("s_branch", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SBranchSopp>()),
@@ -54,7 +51,6 @@ std::optional<int64_t> SBranchSopp::branch_offset_bytes() const {
 }
 
 void SBranchSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
   wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
 }
@@ -83,7 +79,6 @@ std::optional<int64_t> SCbranchScc0Sopp::branch_offset_bytes() const {
 }
 
 void SCbranchScc0Sopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (!wf.read_scc()) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -106,7 +101,6 @@ std::optional<int64_t> SCbranchScc1Sopp::branch_offset_bytes() const {
 }
 
 void SCbranchScc1Sopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.read_scc()) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -129,7 +123,6 @@ std::optional<int64_t> SCbranchVcczSopp::branch_offset_bytes() const {
 }
 
 void SCbranchVcczSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.vcc() == 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -152,7 +145,6 @@ std::optional<int64_t> SCbranchVccnzSopp::branch_offset_bytes() const {
 }
 
 void SCbranchVccnzSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.vcc() != 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -175,7 +167,6 @@ std::optional<int64_t> SCbranchExeczSopp::branch_offset_bytes() const {
 }
 
 void SCbranchExeczSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.exec() == 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -198,7 +189,6 @@ std::optional<int64_t> SCbranchExecnzSopp::branch_offset_bytes() const {
 }
 
 void SCbranchExecnzSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   if (wf.exec() != 0) {
     int16_t offset = static_cast<int16_t>(simm16.state_.encoding_value);
     wf.pc = wf.pc + 4 + static_cast<int64_t>(offset) * 4 - state_.size_bytes;
@@ -238,7 +228,6 @@ SWaitcntSopp::SWaitcntSopp(const MachineInst *inst)
 }
 
 void SWaitcntSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   uint16_t imm = static_cast<uint16_t>(simm16.state_.encoding_value);
   uint8_t vm = (imm & 0xF) | ((imm >> 10) & 0x30);
   uint8_t exp = (imm >> 4) & 0x7;
@@ -423,10 +412,7 @@ SEndpgmSavedSopp::SEndpgmSavedSopp(const MachineInst *inst)
   state_.flags |= PROGRAM_TERMINATOR;
 }
 
-void SEndpgmSavedSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  wf.end();
-}
+void SEndpgmSavedSopp::execute_impl(amdgpu::Wavefront &wf) { wf.end(); }
 
 SEndpgmOrderedPsDoneSopp::SEndpgmOrderedPsDoneSopp(const MachineInst *inst)
     : Sopp("s_endpgm_ordered_ps_done", reinterpret_cast<const OpEncoding *>(inst),
@@ -436,10 +422,7 @@ SEndpgmOrderedPsDoneSopp::SEndpgmOrderedPsDoneSopp(const MachineInst *inst)
   state_.flags |= PROGRAM_TERMINATOR;
 }
 
-void SEndpgmOrderedPsDoneSopp::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
-  wf.end();
-}
+void SEndpgmOrderedPsDoneSopp::execute_impl(amdgpu::Wavefront &wf) { wf.end(); }
 
 SCodeEndSopp::SCodeEndSopp(const MachineInst *inst)
     : Sopp("s_code_end", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCodeEndSopp>()) {

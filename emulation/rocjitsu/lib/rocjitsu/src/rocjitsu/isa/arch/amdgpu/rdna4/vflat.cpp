@@ -35,7 +35,6 @@ FlatLoadU8Vflat::FlatLoadU8Vflat(const MachineInst *inst)
 }
 
 void FlatLoadU8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 1;
@@ -60,7 +59,6 @@ FlatLoadI8Vflat::FlatLoadI8Vflat(const MachineInst *inst)
 }
 
 void FlatLoadI8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 1;
@@ -86,7 +84,6 @@ FlatLoadU16Vflat::FlatLoadU16Vflat(const MachineInst *inst)
 }
 
 void FlatLoadU16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 2;
@@ -111,7 +108,6 @@ FlatLoadI16Vflat::FlatLoadI16Vflat(const MachineInst *inst)
 }
 
 void FlatLoadI16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 2;
@@ -137,7 +133,6 @@ FlatLoadB32Vflat::FlatLoadB32Vflat(const MachineInst *inst)
 }
 
 void FlatLoadB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -162,7 +157,6 @@ FlatLoadB64Vflat::FlatLoadB64Vflat(const MachineInst *inst)
 }
 
 void FlatLoadB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -187,7 +181,6 @@ FlatLoadB96Vflat::FlatLoadB96Vflat(const MachineInst *inst)
 }
 
 void FlatLoadB96Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -212,7 +205,6 @@ FlatLoadB128Vflat::FlatLoadB128Vflat(const MachineInst *inst)
 }
 
 void FlatLoadB128Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -237,7 +229,6 @@ FlatStoreB8Vflat::FlatStoreB8Vflat(const MachineInst *inst)
 }
 
 void FlatStoreB8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 1;
   d->num_elems = 1;
@@ -270,7 +261,6 @@ FlatStoreB16Vflat::FlatStoreB16Vflat(const MachineInst *inst)
 }
 
 void FlatStoreB16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 2;
   d->num_elems = 1;
@@ -303,7 +293,6 @@ FlatStoreB32Vflat::FlatStoreB32Vflat(const MachineInst *inst)
 }
 
 void FlatStoreB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 1;
@@ -336,7 +325,6 @@ FlatStoreB64Vflat::FlatStoreB64Vflat(const MachineInst *inst)
 }
 
 void FlatStoreB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 2;
@@ -371,7 +359,6 @@ FlatStoreB96Vflat::FlatStoreB96Vflat(const MachineInst *inst)
 }
 
 void FlatStoreB96Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 3;
@@ -408,7 +395,6 @@ FlatStoreB128Vflat::FlatStoreB128Vflat(const MachineInst *inst)
 }
 
 void FlatStoreB128Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 4;
   d->num_elems = 4;
@@ -447,7 +433,6 @@ FlatLoadD16U8Vflat::FlatLoadD16U8Vflat(const MachineInst *inst)
 }
 
 void FlatLoadD16U8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 1;
@@ -473,7 +458,6 @@ FlatLoadD16I8Vflat::FlatLoadD16I8Vflat(const MachineInst *inst)
 }
 
 void FlatLoadD16I8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 1;
@@ -500,7 +484,6 @@ FlatLoadD16B16Vflat::FlatLoadD16B16Vflat(const MachineInst *inst)
 }
 
 void FlatLoadD16B16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 2;
@@ -526,7 +509,6 @@ FlatLoadD16HiU8Vflat::FlatLoadD16HiU8Vflat(const MachineInst *inst)
 }
 
 void FlatLoadD16HiU8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 1;
@@ -552,7 +534,6 @@ FlatLoadD16HiI8Vflat::FlatLoadD16HiI8Vflat(const MachineInst *inst)
 }
 
 void FlatLoadD16HiI8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 1;
@@ -579,7 +560,6 @@ FlatLoadD16HiB16Vflat::FlatLoadD16HiB16Vflat(const MachineInst *inst)
 }
 
 void FlatLoadD16HiB16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 2;
@@ -605,7 +585,6 @@ FlatStoreD16HiB8Vflat::FlatStoreD16HiB8Vflat(const MachineInst *inst)
 }
 
 void FlatStoreD16HiB8Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 1;
   d->num_elems = 1;
@@ -639,7 +618,6 @@ FlatStoreD16HiB16Vflat::FlatStoreD16HiB16Vflat(const MachineInst *inst)
 }
 
 void FlatStoreD16HiB16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->elem_size = 2;
   d->num_elems = 1;
@@ -675,7 +653,6 @@ FlatAtomicSwapB32Vflat::FlatAtomicSwapB32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicSwapB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -712,7 +689,6 @@ FlatAtomicCmpswapB32Vflat::FlatAtomicCmpswapB32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicCmpswapB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -751,7 +727,6 @@ FlatAtomicAddU32Vflat::FlatAtomicAddU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicAddU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -788,7 +763,6 @@ FlatAtomicSubU32Vflat::FlatAtomicSubU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicSubU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -825,7 +799,6 @@ FlatAtomicSubClampU32Vflat::FlatAtomicSubClampU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicSubClampU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -862,7 +835,6 @@ FlatAtomicMinI32Vflat::FlatAtomicMinI32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMinI32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -899,7 +871,6 @@ FlatAtomicMinU32Vflat::FlatAtomicMinU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMinU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -936,7 +907,6 @@ FlatAtomicMaxI32Vflat::FlatAtomicMaxI32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMaxI32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -973,7 +943,6 @@ FlatAtomicMaxU32Vflat::FlatAtomicMaxU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMaxU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1010,7 +979,6 @@ FlatAtomicAndB32Vflat::FlatAtomicAndB32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicAndB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1047,7 +1015,6 @@ FlatAtomicOrB32Vflat::FlatAtomicOrB32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicOrB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1084,7 +1051,6 @@ FlatAtomicXorB32Vflat::FlatAtomicXorB32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicXorB32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1121,7 +1087,6 @@ FlatAtomicIncU32Vflat::FlatAtomicIncU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicIncU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1158,7 +1123,6 @@ FlatAtomicDecU32Vflat::FlatAtomicDecU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicDecU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1195,7 +1159,6 @@ FlatAtomicSwapB64Vflat::FlatAtomicSwapB64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicSwapB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1232,7 +1195,6 @@ FlatAtomicCmpswapB64Vflat::FlatAtomicCmpswapB64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicCmpswapB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1271,7 +1233,6 @@ FlatAtomicAddU64Vflat::FlatAtomicAddU64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicAddU64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1308,7 +1269,6 @@ FlatAtomicSubU64Vflat::FlatAtomicSubU64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicSubU64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1345,7 +1305,6 @@ FlatAtomicMinI64Vflat::FlatAtomicMinI64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMinI64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1384,7 +1343,6 @@ FlatAtomicMinU64Vflat::FlatAtomicMinU64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMinU64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1423,7 +1381,6 @@ FlatAtomicMaxI64Vflat::FlatAtomicMaxI64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMaxI64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1462,7 +1419,6 @@ FlatAtomicMaxU64Vflat::FlatAtomicMaxU64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMaxU64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1501,7 +1457,6 @@ FlatAtomicAndB64Vflat::FlatAtomicAndB64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicAndB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1538,7 +1493,6 @@ FlatAtomicOrB64Vflat::FlatAtomicOrB64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicOrB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1575,7 +1529,6 @@ FlatAtomicXorB64Vflat::FlatAtomicXorB64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicXorB64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1612,7 +1565,6 @@ FlatAtomicIncU64Vflat::FlatAtomicIncU64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicIncU64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1649,7 +1601,6 @@ FlatAtomicDecU64Vflat::FlatAtomicDecU64Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicDecU64Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1686,7 +1637,6 @@ FlatAtomicCondSubU32Vflat::FlatAtomicCondSubU32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicCondSubU32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1723,7 +1673,6 @@ FlatAtomicMinNumF32Vflat::FlatAtomicMinNumF32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMinNumF32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1760,7 +1709,6 @@ FlatAtomicMaxNumF32Vflat::FlatAtomicMaxNumF32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicMaxNumF32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1797,7 +1745,6 @@ FlatAtomicAddF32Vflat::FlatAtomicAddF32Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicAddF32Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1834,7 +1781,6 @@ FlatAtomicPkAddF16Vflat::FlatAtomicPkAddF16Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicPkAddF16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
@@ -1871,7 +1817,6 @@ FlatAtomicPkAddBf16Vflat::FlatAtomicPkAddBf16Vflat(const MachineInst *inst)
 }
 
 void FlatAtomicPkAddBf16Vflat::execute_impl(amdgpu::Wavefront &wf) {
-  [[maybe_unused]] auto &inst = *this;
   auto d = std::make_unique<amdgpu::VectorMemState>(amdgpu::GLOBAL_MEM);
   d->dst_reg_base = wf.vgpr_alloc().base + 0u + inst_.vdst;
   d->elem_size = 4;
