@@ -30,10 +30,10 @@ BufferLoadFormatXMubuf::BufferLoadFormatXMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -51,10 +51,10 @@ BufferLoadFormatXyMubuf::BufferLoadFormatXyMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -72,10 +72,10 @@ BufferLoadFormatXyzMubuf::BufferLoadFormatXyzMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -93,10 +93,10 @@ BufferLoadFormatXyzwMubuf::BufferLoadFormatXyzwMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -114,10 +114,10 @@ BufferStoreFormatXMubuf::BufferStoreFormatXMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -135,10 +135,10 @@ BufferStoreFormatXyMubuf::BufferStoreFormatXyMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -156,10 +156,10 @@ BufferStoreFormatXyzMubuf::BufferStoreFormatXyzMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -177,10 +177,10 @@ BufferStoreFormatXyzwMubuf::BufferStoreFormatXyzwMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -198,10 +198,10 @@ BufferLoadUbyteMubuf::BufferLoadUbyteMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -240,10 +240,10 @@ BufferLoadSbyteMubuf::BufferLoadSbyteMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -283,10 +283,10 @@ BufferLoadUshortMubuf::BufferLoadUshortMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -325,10 +325,10 @@ BufferLoadSshortMubuf::BufferLoadSshortMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -368,10 +368,10 @@ BufferLoadDwordMubuf::BufferLoadDwordMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -410,10 +410,10 @@ BufferLoadDwordx2Mubuf::BufferLoadDwordx2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -452,10 +452,10 @@ BufferLoadDwordx4Mubuf::BufferLoadDwordx4Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -494,10 +494,10 @@ BufferLoadDwordx3Mubuf::BufferLoadDwordx3Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -536,10 +536,10 @@ BufferStoreByteMubuf::BufferStoreByteMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -573,10 +573,10 @@ BufferStoreByteD16HiMubuf::BufferStoreByteD16HiMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -611,10 +611,10 @@ BufferStoreShortMubuf::BufferStoreShortMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -648,10 +648,10 @@ BufferStoreShortD16HiMubuf::BufferStoreShortD16HiMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -686,10 +686,10 @@ BufferStoreDwordMubuf::BufferStoreDwordMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -723,10 +723,10 @@ BufferStoreDwordx2Mubuf::BufferStoreDwordx2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -762,10 +762,10 @@ BufferStoreDwordx4Mubuf::BufferStoreDwordx4Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -805,10 +805,10 @@ BufferStoreDwordx3Mubuf::BufferStoreDwordx3Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -846,10 +846,10 @@ BufferLoadUbyteD16Mubuf::BufferLoadUbyteD16Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -889,10 +889,10 @@ BufferLoadUbyteD16HiMubuf::BufferLoadUbyteD16HiMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -932,10 +932,10 @@ BufferLoadSbyteD16Mubuf::BufferLoadSbyteD16Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -976,10 +976,10 @@ BufferLoadSbyteD16HiMubuf::BufferLoadSbyteD16HiMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1020,10 +1020,10 @@ BufferLoadShortD16Mubuf::BufferLoadShortD16Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1063,10 +1063,10 @@ BufferLoadShortD16HiMubuf::BufferLoadShortD16HiMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1106,10 +1106,10 @@ BufferLoadFormatD16HiXMubuf::BufferLoadFormatD16HiXMubuf(const MachineInst *inst
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -1127,10 +1127,10 @@ BufferStoreFormatD16HiXMubuf::BufferStoreFormatD16HiXMubuf(const MachineInst *in
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -1148,11 +1148,11 @@ BufferAtomicSwapMubuf::BufferAtomicSwapMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1188,11 +1188,11 @@ BufferAtomicCmpswapMubuf::BufferAtomicCmpswapMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1230,11 +1230,11 @@ BufferAtomicAddMubuf::BufferAtomicAddMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1270,11 +1270,11 @@ BufferAtomicSubMubuf::BufferAtomicSubMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1310,11 +1310,11 @@ BufferAtomicCsubMubuf::BufferAtomicCsubMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1350,11 +1350,11 @@ BufferAtomicSminMubuf::BufferAtomicSminMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1390,11 +1390,11 @@ BufferAtomicUminMubuf::BufferAtomicUminMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1430,11 +1430,11 @@ BufferAtomicSmaxMubuf::BufferAtomicSmaxMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1470,11 +1470,11 @@ BufferAtomicUmaxMubuf::BufferAtomicUmaxMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1510,11 +1510,11 @@ BufferAtomicAndMubuf::BufferAtomicAndMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1550,11 +1550,11 @@ BufferAtomicOrMubuf::BufferAtomicOrMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1590,11 +1590,11 @@ BufferAtomicXorMubuf::BufferAtomicXorMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1630,11 +1630,11 @@ BufferAtomicIncMubuf::BufferAtomicIncMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1670,11 +1670,11 @@ BufferAtomicDecMubuf::BufferAtomicDecMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1710,11 +1710,11 @@ BufferAtomicFcmpswapMubuf::BufferAtomicFcmpswapMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1752,11 +1752,11 @@ BufferAtomicFminMubuf::BufferAtomicFminMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1792,11 +1792,11 @@ BufferAtomicFmaxMubuf::BufferAtomicFmaxMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1832,11 +1832,11 @@ BufferAtomicSwapX2Mubuf::BufferAtomicSwapX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1874,11 +1874,11 @@ BufferAtomicCmpswapX2Mubuf::BufferAtomicCmpswapX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1920,11 +1920,11 @@ BufferAtomicAddX2Mubuf::BufferAtomicAddX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1962,11 +1962,11 @@ BufferAtomicSubX2Mubuf::BufferAtomicSubX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2004,11 +2004,11 @@ BufferAtomicSminX2Mubuf::BufferAtomicSminX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2046,11 +2046,11 @@ BufferAtomicUminX2Mubuf::BufferAtomicUminX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2088,11 +2088,11 @@ BufferAtomicSmaxX2Mubuf::BufferAtomicSmaxX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2130,11 +2130,11 @@ BufferAtomicUmaxX2Mubuf::BufferAtomicUmaxX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2172,11 +2172,11 @@ BufferAtomicAndX2Mubuf::BufferAtomicAndX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2214,11 +2214,11 @@ BufferAtomicOrX2Mubuf::BufferAtomicOrX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2256,11 +2256,11 @@ BufferAtomicXorX2Mubuf::BufferAtomicXorX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2298,11 +2298,11 @@ BufferAtomicIncX2Mubuf::BufferAtomicIncX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2340,11 +2340,11 @@ BufferAtomicDecX2Mubuf::BufferAtomicDecX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2382,11 +2382,11 @@ BufferAtomicFcmpswapX2Mubuf::BufferAtomicFcmpswapX2Mubuf(const MachineInst *inst
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2428,11 +2428,11 @@ BufferAtomicFminX2Mubuf::BufferAtomicFminX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2470,11 +2470,11 @@ BufferAtomicFmaxX2Mubuf::BufferAtomicFmaxX2Mubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2534,10 +2534,10 @@ BufferLoadFormatD16XMubuf::BufferLoadFormatD16XMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2555,10 +2555,10 @@ BufferLoadFormatD16XyMubuf::BufferLoadFormatD16XyMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2576,10 +2576,10 @@ BufferLoadFormatD16XyzMubuf::BufferLoadFormatD16XyzMubuf(const MachineInst *inst
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2597,10 +2597,10 @@ BufferLoadFormatD16XyzwMubuf::BufferLoadFormatD16XyzwMubuf(const MachineInst *in
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2618,10 +2618,10 @@ BufferStoreFormatD16XMubuf::BufferStoreFormatD16XMubuf(const MachineInst *inst)
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2639,10 +2639,10 @@ BufferStoreFormatD16XyMubuf::BufferStoreFormatD16XyMubuf(const MachineInst *inst
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2660,10 +2660,10 @@ BufferStoreFormatD16XyzMubuf::BufferStoreFormatD16XyzMubuf(const MachineInst *in
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2681,10 +2681,10 @@ BufferStoreFormatD16XyzwMubuf::BufferStoreFormatD16XyzwMubuf(const MachineInst *
       srsrc(128, OperandType::OPR_SREG_NONULL, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       soffset(32, OperandType::OPR_SREG_M0_INL,
               reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }

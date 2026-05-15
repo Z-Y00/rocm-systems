@@ -150,6 +150,31 @@ public:
   /// @param[in] d Dynamic state (ownership transferred).
   void set_data(std::unique_ptr<DynamicInstState> d) { data_ = std::move(d); }
 
+protected:
+  /// @brief Bind a source operand slot.
+  ///
+  /// @details Sets both the typed @ref src_operands_ array used by the C++
+  /// runtime and the public C ABI mirror in @ref state_.src_operands so
+  /// plugins observe the same operand the runtime is dispatching on.
+  /// Caller is responsible for updating @c state_.num_src_operands.
+  /// @param[in] i  Slot index (must be < ROCJITSU_CODE_INST_MAX_SRC_OPERANDS).
+  /// @param[in] op Operand to bind (non-owning; must outlive the instruction).
+  void set_src_operand(int i, Operand *op) {
+    src_operands_[i] = op;
+    state_.src_operands[i] = &op->state_;
+  }
+
+  /// @brief Bind a destination operand slot.
+  /// @copydetails set_src_operand
+  /// @param[in] i  Slot index (must be < ROCJITSU_CODE_INST_MAX_DST_OPERANDS).
+  /// @param[in] op Operand to bind (non-owning; must outlive the instruction).
+  void set_dst_operand(int i, Operand *op) {
+    dst_operands_[i] = op;
+    state_.dst_operands[i] = &op->state_;
+  }
+
+public:
+
   /// @brief The instruction's human-readable mnemonic.
   /// @returns Reference to the mnemonic string.
   std::string_view mnemonic() const {

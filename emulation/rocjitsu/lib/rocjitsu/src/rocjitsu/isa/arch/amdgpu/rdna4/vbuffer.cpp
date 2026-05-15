@@ -29,10 +29,10 @@ BufferLoadFormatXVbuffer::BufferLoadFormatXVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -49,10 +49,10 @@ BufferLoadFormatXyVbuffer::BufferLoadFormatXyVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -69,10 +69,10 @@ BufferLoadFormatXyzVbuffer::BufferLoadFormatXyzVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -89,10 +89,10 @@ BufferLoadFormatXyzwVbuffer::BufferLoadFormatXyzwVbuffer(const MachineInst *inst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -109,10 +109,10 @@ BufferStoreFormatXVbuffer::BufferStoreFormatXVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -129,10 +129,10 @@ BufferStoreFormatXyVbuffer::BufferStoreFormatXyVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -149,10 +149,10 @@ BufferStoreFormatXyzVbuffer::BufferStoreFormatXyzVbuffer(const MachineInst *inst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -169,10 +169,10 @@ BufferStoreFormatXyzwVbuffer::BufferStoreFormatXyzwVbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -189,10 +189,10 @@ BufferLoadD16FormatXVbuffer::BufferLoadD16FormatXVbuffer(const MachineInst *inst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -209,10 +209,10 @@ BufferLoadD16FormatXyVbuffer::BufferLoadD16FormatXyVbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -229,10 +229,10 @@ BufferLoadD16FormatXyzVbuffer::BufferLoadD16FormatXyzVbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -249,10 +249,10 @@ BufferLoadD16FormatXyzwVbuffer::BufferLoadD16FormatXyzwVbuffer(const MachineInst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -269,10 +269,10 @@ BufferStoreD16FormatXVbuffer::BufferStoreD16FormatXVbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -289,10 +289,10 @@ BufferStoreD16FormatXyVbuffer::BufferStoreD16FormatXyVbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -309,10 +309,10 @@ BufferStoreD16FormatXyzVbuffer::BufferStoreD16FormatXyzVbuffer(const MachineInst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -329,10 +329,10 @@ BufferStoreD16FormatXyzwVbuffer::BufferStoreD16FormatXyzwVbuffer(const MachineIn
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -349,10 +349,10 @@ BufferLoadU8Vbuffer::BufferLoadU8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -377,10 +377,10 @@ BufferLoadI8Vbuffer::BufferLoadI8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -406,10 +406,10 @@ BufferLoadU16Vbuffer::BufferLoadU16Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -434,10 +434,10 @@ BufferLoadI16Vbuffer::BufferLoadI16Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -463,10 +463,10 @@ BufferLoadB32Vbuffer::BufferLoadB32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -491,10 +491,10 @@ BufferLoadB64Vbuffer::BufferLoadB64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -519,10 +519,10 @@ BufferLoadB96Vbuffer::BufferLoadB96Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -547,10 +547,10 @@ BufferLoadB128Vbuffer::BufferLoadB128Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -575,10 +575,10 @@ BufferStoreB8Vbuffer::BufferStoreB8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -611,10 +611,10 @@ BufferStoreB16Vbuffer::BufferStoreB16Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -647,10 +647,10 @@ BufferStoreB32Vbuffer::BufferStoreB32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -683,10 +683,10 @@ BufferStoreB64Vbuffer::BufferStoreB64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -721,10 +721,10 @@ BufferStoreB96Vbuffer::BufferStoreB96Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -761,10 +761,10 @@ BufferStoreB128Vbuffer::BufferStoreB128Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -803,10 +803,10 @@ BufferLoadD16U8Vbuffer::BufferLoadD16U8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -832,10 +832,10 @@ BufferLoadD16I8Vbuffer::BufferLoadD16I8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -862,10 +862,10 @@ BufferLoadD16B16Vbuffer::BufferLoadD16B16Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -891,10 +891,10 @@ BufferLoadD16HiU8Vbuffer::BufferLoadD16HiU8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -920,10 +920,10 @@ BufferLoadD16HiI8Vbuffer::BufferLoadD16HiI8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -950,10 +950,10 @@ BufferLoadD16HiB16Vbuffer::BufferLoadD16HiB16Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -979,10 +979,10 @@ BufferStoreD16HiB8Vbuffer::BufferStoreD16HiB8Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -1016,10 +1016,10 @@ BufferStoreD16HiB16Vbuffer::BufferStoreD16HiB16Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -1053,10 +1053,10 @@ BufferLoadD16HiFormatXVbuffer::BufferLoadD16HiFormatXVbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -1073,10 +1073,10 @@ BufferStoreD16HiFormatXVbuffer::BufferStoreD16HiFormatXVbuffer(const MachineInst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -1093,11 +1093,11 @@ BufferAtomicSwapB32Vbuffer::BufferAtomicSwapB32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1132,11 +1132,11 @@ BufferAtomicCmpswapB32Vbuffer::BufferAtomicCmpswapB32Vbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1173,11 +1173,11 @@ BufferAtomicAddU32Vbuffer::BufferAtomicAddU32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1212,11 +1212,11 @@ BufferAtomicSubU32Vbuffer::BufferAtomicSubU32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1251,11 +1251,11 @@ BufferAtomicSubClampU32Vbuffer::BufferAtomicSubClampU32Vbuffer(const MachineInst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1290,11 +1290,11 @@ BufferAtomicMinI32Vbuffer::BufferAtomicMinI32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1329,11 +1329,11 @@ BufferAtomicMinU32Vbuffer::BufferAtomicMinU32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1368,11 +1368,11 @@ BufferAtomicMaxI32Vbuffer::BufferAtomicMaxI32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1407,11 +1407,11 @@ BufferAtomicMaxU32Vbuffer::BufferAtomicMaxU32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1446,11 +1446,11 @@ BufferAtomicAndB32Vbuffer::BufferAtomicAndB32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1485,11 +1485,11 @@ BufferAtomicOrB32Vbuffer::BufferAtomicOrB32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1524,11 +1524,11 @@ BufferAtomicXorB32Vbuffer::BufferAtomicXorB32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1563,11 +1563,11 @@ BufferAtomicIncU32Vbuffer::BufferAtomicIncU32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1602,11 +1602,11 @@ BufferAtomicDecU32Vbuffer::BufferAtomicDecU32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1641,11 +1641,11 @@ BufferAtomicSwapB64Vbuffer::BufferAtomicSwapB64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1680,11 +1680,11 @@ BufferAtomicCmpswapB64Vbuffer::BufferAtomicCmpswapB64Vbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1721,11 +1721,11 @@ BufferAtomicAddU64Vbuffer::BufferAtomicAddU64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1760,11 +1760,11 @@ BufferAtomicSubU64Vbuffer::BufferAtomicSubU64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1799,11 +1799,11 @@ BufferAtomicMinI64Vbuffer::BufferAtomicMinI64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1840,11 +1840,11 @@ BufferAtomicMinU64Vbuffer::BufferAtomicMinU64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1881,11 +1881,11 @@ BufferAtomicMaxI64Vbuffer::BufferAtomicMaxI64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1922,11 +1922,11 @@ BufferAtomicMaxU64Vbuffer::BufferAtomicMaxU64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1963,11 +1963,11 @@ BufferAtomicAndB64Vbuffer::BufferAtomicAndB64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2002,11 +2002,11 @@ BufferAtomicOrB64Vbuffer::BufferAtomicOrB64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2041,11 +2041,11 @@ BufferAtomicXorB64Vbuffer::BufferAtomicXorB64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2080,11 +2080,11 @@ BufferAtomicIncU64Vbuffer::BufferAtomicIncU64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2119,11 +2119,11 @@ BufferAtomicDecU64Vbuffer::BufferAtomicDecU64Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2158,11 +2158,11 @@ BufferAtomicCondSubU32Vbuffer::BufferAtomicCondSubU32Vbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2197,11 +2197,11 @@ BufferAtomicMinNumF32Vbuffer::BufferAtomicMinNumF32Vbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2236,11 +2236,11 @@ BufferAtomicMaxNumF32Vbuffer::BufferAtomicMaxNumF32Vbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2275,11 +2275,11 @@ BufferAtomicAddF32Vbuffer::BufferAtomicAddF32Vbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2314,11 +2314,11 @@ BufferAtomicPkAddF16Vbuffer::BufferAtomicPkAddF16Vbuffer(const MachineInst *inst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2353,11 +2353,11 @@ BufferAtomicPkAddBf16Vbuffer::BufferAtomicPkAddBf16Vbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -2392,10 +2392,10 @@ TbufferLoadFormatXVbuffer::TbufferLoadFormatXVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2412,10 +2412,10 @@ TbufferLoadFormatXyVbuffer::TbufferLoadFormatXyVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2432,10 +2432,10 @@ TbufferLoadFormatXyzVbuffer::TbufferLoadFormatXyzVbuffer(const MachineInst *inst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2452,10 +2452,10 @@ TbufferLoadFormatXyzwVbuffer::TbufferLoadFormatXyzwVbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2472,10 +2472,10 @@ TbufferStoreFormatXVbuffer::TbufferStoreFormatXVbuffer(const MachineInst *inst)
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2492,10 +2492,10 @@ TbufferStoreFormatXyVbuffer::TbufferStoreFormatXyVbuffer(const MachineInst *inst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2512,10 +2512,10 @@ TbufferStoreFormatXyzVbuffer::TbufferStoreFormatXyzVbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2532,10 +2532,10 @@ TbufferStoreFormatXyzwVbuffer::TbufferStoreFormatXyzwVbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2552,10 +2552,10 @@ TbufferLoadD16FormatXVbuffer::TbufferLoadD16FormatXVbuffer(const MachineInst *in
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2572,10 +2572,10 @@ TbufferLoadD16FormatXyVbuffer::TbufferLoadD16FormatXyVbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2592,10 +2592,10 @@ TbufferLoadD16FormatXyzVbuffer::TbufferLoadD16FormatXyzVbuffer(const MachineInst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2612,10 +2612,10 @@ TbufferLoadD16FormatXyzwVbuffer::TbufferLoadD16FormatXyzwVbuffer(const MachineIn
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &rsrc;
-  src_operands_[2] = &soffset;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &rsrc);
+  set_src_operand(2, &soffset);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -2632,10 +2632,10 @@ TbufferStoreD16FormatXVbuffer::TbufferStoreD16FormatXVbuffer(const MachineInst *
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2652,10 +2652,10 @@ TbufferStoreD16FormatXyVbuffer::TbufferStoreD16FormatXyVbuffer(const MachineInst
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2672,10 +2672,10 @@ TbufferStoreD16FormatXyzVbuffer::TbufferStoreD16FormatXyzVbuffer(const MachineIn
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }
@@ -2692,10 +2692,10 @@ TbufferStoreD16FormatXyzwVbuffer::TbufferStoreD16FormatXyzwVbuffer(const Machine
       vaddr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       rsrc(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->rsrc),
       soffset(32, OperandType::OPR_SREG_M0, reinterpret_cast<const OpEncoding *>(inst)->soffset) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &rsrc;
-  src_operands_[3] = &soffset;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &rsrc);
+  set_src_operand(3, &soffset);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 0;
 }

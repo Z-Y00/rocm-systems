@@ -25,10 +25,10 @@ VPkMadI16Vop3p::VPkMadI16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -43,9 +43,9 @@ VPkMulLoU16Vop3p::VPkMulLoU16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -60,9 +60,9 @@ VPkAddI16Vop3p::VPkAddI16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -77,9 +77,9 @@ VPkSubI16Vop3p::VPkSubI16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -94,9 +94,9 @@ VPkLshlrevB16Vop3p::VPkLshlrevB16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -111,9 +111,9 @@ VPkLshrrevB16Vop3p::VPkLshrrevB16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -128,9 +128,9 @@ VPkAshrrevI16Vop3p::VPkAshrrevI16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -145,9 +145,9 @@ VPkMaxI16Vop3p::VPkMaxI16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -162,9 +162,9 @@ VPkMinI16Vop3p::VPkMinI16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -180,10 +180,10 @@ VPkMadU16Vop3p::VPkMadU16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -198,9 +198,9 @@ VPkAddU16Vop3p::VPkAddU16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -215,9 +215,9 @@ VPkSubU16Vop3p::VPkSubU16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -232,9 +232,9 @@ VPkMaxU16Vop3p::VPkMaxU16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -249,9 +249,9 @@ VPkMinU16Vop3p::VPkMinU16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -267,10 +267,10 @@ VPkFmaF16Vop3p::VPkFmaF16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -285,9 +285,9 @@ VPkAddF16Vop3p::VPkAddF16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -302,9 +302,9 @@ VPkMulF16Vop3p::VPkMulF16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -319,9 +319,9 @@ VPkMinF16Vop3p::VPkMinF16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -336,9 +336,9 @@ VPkMaxF16Vop3p::VPkMaxF16Vop3p(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -354,10 +354,10 @@ VDot2F32F16Vop3p::VDot2F32F16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -373,10 +373,10 @@ VDot2I32I16Vop3p::VDot2I32I16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -392,10 +392,10 @@ VDot2U32U16Vop3p::VDot2U32U16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -411,10 +411,10 @@ VDot4I32I8Vop3p::VDot4I32I8Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -430,10 +430,10 @@ VDot4U32U8Vop3p::VDot4U32U8Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -449,10 +449,10 @@ VDot8I32I4Vop3p::VDot8I32I4Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -468,10 +468,10 @@ VDot8U32U4Vop3p::VDot8U32U4Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -487,10 +487,10 @@ VFmaMixF32Vop3p::VFmaMixF32Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &src0;
-  src_operands_[1] = &src1;
-  src_operands_[2] = &src2;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &src0);
+  set_src_operand(1, &src1);
+  set_src_operand(2, &src2);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -506,11 +506,11 @@ VFmaMixloF16Vop3p::VFmaMixloF16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  src_operands_[0] = &vdst;
-  dst_operands_[0] = &vdst;
-  src_operands_[1] = &src0;
-  src_operands_[2] = &src1;
-  src_operands_[3] = &src2;
+  set_src_operand(0, &vdst);
+  set_dst_operand(0, &vdst);
+  set_src_operand(1, &src0);
+  set_src_operand(2, &src1);
+  set_src_operand(3, &src2);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
 }
@@ -526,11 +526,11 @@ VFmaMixhiF16Vop3p::VFmaMixhiF16Vop3p(const MachineInst *inst)
       src0(32, OperandType::OPR_SRC, reinterpret_cast<const OpEncoding *>(inst)->src0),
       src1(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src1),
       src2(32, OperandType::OPR_SRC_NOLDS, reinterpret_cast<const OpEncoding *>(inst)->src2) {
-  src_operands_[0] = &vdst;
-  dst_operands_[0] = &vdst;
-  src_operands_[1] = &src0;
-  src_operands_[2] = &src1;
-  src_operands_[3] = &src2;
+  set_src_operand(0, &vdst);
+  set_dst_operand(0, &vdst);
+  set_src_operand(1, &src0);
+  set_src_operand(2, &src1);
+  set_src_operand(3, &src2);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
 }

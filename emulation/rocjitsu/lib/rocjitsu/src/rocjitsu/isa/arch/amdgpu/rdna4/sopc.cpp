@@ -22,8 +22,8 @@ SCmpEqI32Sopc::SCmpEqI32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpEqI32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -45,8 +45,8 @@ SCmpLgI32Sopc::SCmpLgI32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLgI32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -68,8 +68,8 @@ SCmpGtI32Sopc::SCmpGtI32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGtI32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -91,8 +91,8 @@ SCmpGeI32Sopc::SCmpGeI32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGeI32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -114,8 +114,8 @@ SCmpLtI32Sopc::SCmpLtI32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLtI32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -137,8 +137,8 @@ SCmpLeI32Sopc::SCmpLeI32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLeI32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -160,8 +160,8 @@ SCmpEqU32Sopc::SCmpEqU32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpEqU32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -183,8 +183,8 @@ SCmpLgU32Sopc::SCmpLgU32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLgU32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -206,8 +206,8 @@ SCmpGtU32Sopc::SCmpGtU32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGtU32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -229,8 +229,8 @@ SCmpGeU32Sopc::SCmpGeU32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGeU32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -252,8 +252,8 @@ SCmpLtU32Sopc::SCmpLtU32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLtU32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -275,8 +275,8 @@ SCmpLeU32Sopc::SCmpLeU32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLeU32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -298,8 +298,8 @@ SBitcmp0B32Sopc::SBitcmp0B32Sopc(const MachineInst *inst)
            make_exec_fn<SBitcmp0B32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -321,8 +321,8 @@ SBitcmp1B32Sopc::SBitcmp1B32Sopc(const MachineInst *inst)
            make_exec_fn<SBitcmp1B32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -344,8 +344,8 @@ SBitcmp0B64Sopc::SBitcmp0B64Sopc(const MachineInst *inst)
            make_exec_fn<SBitcmp0B64Sopc>()),
       ssrc0(64, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -367,8 +367,8 @@ SBitcmp1B64Sopc::SBitcmp1B64Sopc(const MachineInst *inst)
            make_exec_fn<SBitcmp1B64Sopc>()),
       ssrc0(64, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -390,8 +390,8 @@ SCmpEqU64Sopc::SCmpEqU64Sopc(const MachineInst *inst)
            make_exec_fn<SCmpEqU64Sopc>()),
       ssrc0(64, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(64, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -413,8 +413,8 @@ SCmpLgU64Sopc::SCmpLgU64Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLgU64Sopc>()),
       ssrc0(64, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(64, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -436,8 +436,8 @@ SCmpLtF32Sopc::SCmpLtF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLtF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -460,8 +460,8 @@ SCmpLtF16Sopc::SCmpLtF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLtF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -484,8 +484,8 @@ SCmpEqF32Sopc::SCmpEqF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpEqF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -508,8 +508,8 @@ SCmpEqF16Sopc::SCmpEqF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpEqF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -532,8 +532,8 @@ SCmpLeF32Sopc::SCmpLeF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLeF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -556,8 +556,8 @@ SCmpLeF16Sopc::SCmpLeF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLeF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -580,8 +580,8 @@ SCmpGtF32Sopc::SCmpGtF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGtF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -604,8 +604,8 @@ SCmpGtF16Sopc::SCmpGtF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGtF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -628,8 +628,8 @@ SCmpLgF32Sopc::SCmpLgF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLgF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -652,8 +652,8 @@ SCmpLgF16Sopc::SCmpLgF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpLgF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -676,8 +676,8 @@ SCmpGeF32Sopc::SCmpGeF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGeF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -700,8 +700,8 @@ SCmpGeF16Sopc::SCmpGeF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpGeF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -723,8 +723,8 @@ SCmpOF32Sopc::SCmpOF32Sopc(const MachineInst *inst)
     : Sopc("s_cmp_o_f32", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCmpOF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -746,8 +746,8 @@ SCmpOF16Sopc::SCmpOF16Sopc(const MachineInst *inst)
     : Sopc("s_cmp_o_f16", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCmpOF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -769,8 +769,8 @@ SCmpUF32Sopc::SCmpUF32Sopc(const MachineInst *inst)
     : Sopc("s_cmp_u_f32", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCmpUF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -792,8 +792,8 @@ SCmpUF16Sopc::SCmpUF16Sopc(const MachineInst *inst)
     : Sopc("s_cmp_u_f16", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCmpUF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -816,8 +816,8 @@ SCmpNgeF32Sopc::SCmpNgeF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNgeF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -840,8 +840,8 @@ SCmpNgeF16Sopc::SCmpNgeF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNgeF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -864,8 +864,8 @@ SCmpNlgF32Sopc::SCmpNlgF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNlgF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -888,8 +888,8 @@ SCmpNlgF16Sopc::SCmpNlgF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNlgF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -912,8 +912,8 @@ SCmpNgtF32Sopc::SCmpNgtF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNgtF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -936,8 +936,8 @@ SCmpNgtF16Sopc::SCmpNgtF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNgtF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -960,8 +960,8 @@ SCmpNleF32Sopc::SCmpNleF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNleF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -984,8 +984,8 @@ SCmpNleF16Sopc::SCmpNleF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNleF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -1008,8 +1008,8 @@ SCmpNeqF32Sopc::SCmpNeqF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNeqF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -1032,8 +1032,8 @@ SCmpNeqF16Sopc::SCmpNeqF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNeqF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -1056,8 +1056,8 @@ SCmpNltF32Sopc::SCmpNltF32Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNltF32Sopc>()),
       ssrc0(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(32, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)
@@ -1080,8 +1080,8 @@ SCmpNltF16Sopc::SCmpNltF16Sopc(const MachineInst *inst)
            make_exec_fn<SCmpNltF16Sopc>()),
       ssrc0(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc0),
       ssrc1(16, OperandType::OPR_SSRC, reinterpret_cast<const OpEncoding *>(inst)->ssrc1) {
-  src_operands_[0] = &ssrc0;
-  src_operands_[1] = &ssrc1;
+  set_src_operand(0, &ssrc0);
+  set_src_operand(1, &ssrc1);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   if (reinterpret_cast<const OpEncoding *>(inst)->ssrc0 == 255)

@@ -22,9 +22,9 @@ ImageLoadMimg::ImageLoadMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -41,9 +41,9 @@ ImageLoadMipMimg::ImageLoadMipMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -60,9 +60,9 @@ ImageLoadPckMimg::ImageLoadPckMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -79,9 +79,9 @@ ImageLoadPckSgnMimg::ImageLoadPckSgnMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -98,9 +98,9 @@ ImageLoadMipPckMimg::ImageLoadMipPckMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -117,9 +117,9 @@ ImageLoadMipPckSgnMimg::ImageLoadMipPckSgnMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -136,9 +136,9 @@ ImageStoreMimg::ImageStoreMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 0;
 }
@@ -155,9 +155,9 @@ ImageStoreMipMimg::ImageStoreMipMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 0;
 }
@@ -174,9 +174,9 @@ ImageStorePckMimg::ImageStorePckMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 0;
 }
@@ -193,9 +193,9 @@ ImageStoreMipPckMimg::ImageStoreMipPckMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 0;
 }
@@ -212,9 +212,9 @@ ImageGetResinfoMimg::ImageGetResinfoMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -230,10 +230,10 @@ ImageAtomicSwapMimg::ImageAtomicSwapMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -249,10 +249,10 @@ ImageAtomicCmpswapMimg::ImageAtomicCmpswapMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -268,10 +268,10 @@ ImageAtomicAddMimg::ImageAtomicAddMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -287,10 +287,10 @@ ImageAtomicSubMimg::ImageAtomicSubMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -306,10 +306,10 @@ ImageAtomicSminMimg::ImageAtomicSminMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -325,10 +325,10 @@ ImageAtomicUminMimg::ImageAtomicUminMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -344,10 +344,10 @@ ImageAtomicSmaxMimg::ImageAtomicSmaxMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -363,10 +363,10 @@ ImageAtomicUmaxMimg::ImageAtomicUmaxMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -382,10 +382,10 @@ ImageAtomicAndMimg::ImageAtomicAndMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -401,10 +401,10 @@ ImageAtomicOrMimg::ImageAtomicOrMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -420,10 +420,10 @@ ImageAtomicXorMimg::ImageAtomicXorMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -439,10 +439,10 @@ ImageAtomicIncMimg::ImageAtomicIncMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -458,10 +458,10 @@ ImageAtomicDecMimg::ImageAtomicDecMimg(const MachineInst *inst)
             reinterpret_cast<const OpEncoding *>(inst)->vdata),
       vaddr(128, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc) {
-  src_operands_[0] = &vdata;
-  dst_operands_[0] = &vdata;
-  src_operands_[1] = &vaddr;
-  src_operands_[2] = &srsrc;
+  set_src_operand(0, &vdata);
+  set_dst_operand(0, &vdata);
+  set_src_operand(1, &vaddr);
+  set_src_operand(2, &srsrc);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -478,10 +478,10 @@ ImageSampleMimg::ImageSampleMimg(const MachineInst *inst)
       vaddr(96, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vaddr),
       srsrc(256, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->srsrc),
       ssamp(128, OperandType::OPR_SREG, reinterpret_cast<const OpEncoding *>(inst)->ssamp) {
-  dst_operands_[0] = &vdata;
-  src_operands_[0] = &vaddr;
-  src_operands_[1] = &srsrc;
-  src_operands_[2] = &ssamp;
+  set_dst_operand(0, &vdata);
+  set_src_operand(0, &vaddr);
+  set_src_operand(1, &srsrc);
+  set_src_operand(2, &ssamp);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }

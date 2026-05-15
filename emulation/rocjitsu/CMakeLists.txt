@@ -22,11 +22,10 @@ include(CTest)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Emulator plugin ABI header (emulator_plugin.h). The plugin's state types
-# now live in the public rocjitsu C API (rocjitsu/code/rj_code.h,
-# rocjitsu/vm/rj_vm.h); the plugin header lives alongside the rocjitsu
-# library tree under plugin/.
-include_directories(${PROJECT_SOURCE_DIR}/plugin)
+# Emulator plugin ABI is now part of the public rocjitsu C API:
+#   rocjitsu/code/rj_code.h     -- decoded instruction / operand state
+#   rocjitsu/vm/rj_vm.h         -- wavefront / VM state
+#   rocjitsu/vm/rj_vm_plugin.h  -- plugin callback ABI
 
 find_package(Threads REQUIRED)
 

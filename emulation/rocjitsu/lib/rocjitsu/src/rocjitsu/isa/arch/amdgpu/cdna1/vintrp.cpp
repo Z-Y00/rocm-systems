@@ -22,9 +22,9 @@ VInterpP1F32Vintrp::VInterpP1F32Vintrp(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       vsrc(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vsrc),
       attr(32, OperandType::OPR_ATTR, reinterpret_cast<const OpEncoding *>(inst)->attr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &vsrc;
-  src_operands_[1] = &attr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &vsrc);
+  set_src_operand(1, &attr);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -39,10 +39,10 @@ VInterpP2F32Vintrp::VInterpP2F32Vintrp(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       vsrc(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vsrc),
       attr(32, OperandType::OPR_ATTR, reinterpret_cast<const OpEncoding *>(inst)->attr) {
-  src_operands_[0] = &vdst;
-  dst_operands_[0] = &vdst;
-  src_operands_[1] = &vsrc;
-  src_operands_[2] = &attr;
+  set_src_operand(0, &vdst);
+  set_dst_operand(0, &vdst);
+  set_src_operand(1, &vsrc);
+  set_src_operand(2, &attr);
   state_.num_src_operands = 3;
   state_.num_dst_operands = 1;
 }
@@ -57,9 +57,9 @@ VInterpMovF32Vintrp::VInterpMovF32Vintrp(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       vsrc(32, OperandType::OPR_PARAM, reinterpret_cast<const OpEncoding *>(inst)->vsrc),
       attr(32, OperandType::OPR_ATTR, reinterpret_cast<const OpEncoding *>(inst)->attr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &vsrc;
-  src_operands_[1] = &attr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &vsrc);
+  set_src_operand(1, &attr);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }

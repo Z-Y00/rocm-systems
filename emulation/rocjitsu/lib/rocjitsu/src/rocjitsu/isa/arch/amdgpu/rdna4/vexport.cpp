@@ -23,11 +23,11 @@ ExportVexport::ExportVexport(const MachineInst *inst)
       vsrc1(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vsrc1),
       vsrc2(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vsrc2),
       vsrc3(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vsrc3) {
-  dst_operands_[0] = &tgt;
-  src_operands_[0] = &vsrc0;
-  src_operands_[1] = &vsrc1;
-  src_operands_[2] = &vsrc2;
-  src_operands_[3] = &vsrc3;
+  set_dst_operand(0, &tgt);
+  set_src_operand(0, &vsrc0);
+  set_src_operand(1, &vsrc1);
+  set_src_operand(2, &vsrc2);
+  set_src_operand(3, &vsrc3);
   state_.num_src_operands = 4;
   state_.num_dst_operands = 1;
 }

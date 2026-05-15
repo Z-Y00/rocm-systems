@@ -21,8 +21,8 @@ DsParamLoadVdsdir::DsParamLoadVdsdir(const MachineInst *inst)
              make_exec_fn<DsParamLoadVdsdir>()),
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       attr(32, OperandType::OPR_ATTR, reinterpret_cast<const OpEncoding *>(inst)->attr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &attr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &attr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
 }
@@ -35,7 +35,7 @@ DsDirectLoadVdsdir::DsDirectLoadVdsdir(const MachineInst *inst)
     : Vdsdir("ds_direct_load", reinterpret_cast<const OpEncoding *>(inst),
              make_exec_fn<DsDirectLoadVdsdir>()),
       vdst(32, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst) {
-  dst_operands_[0] = &vdst;
+  set_dst_operand(0, &vdst);
   state_.num_src_operands = 0;
   state_.num_dst_operands = 1;
 }

@@ -23,8 +23,8 @@ SMovkI32Sopk::SMovkI32Sopk(const MachineInst *inst)
     : Sopk("s_movk_i32", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SMovkI32Sopk>()),
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst),
       simm16(16, OperandType::OPR_SIMM16, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  dst_operands_[0] = &sdst;
-  src_operands_[0] = &simm16;
+  set_dst_operand(0, &sdst);
+  set_src_operand(0, &simm16);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
 }
@@ -36,7 +36,7 @@ void SMovkI32Sopk::execute_impl(amdgpu::Wavefront &wf) {
 SVersionSopk::SVersionSopk(const MachineInst *inst)
     : Sopk("s_version", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SVersionSopk>()),
       simm16(16, OperandType::OPR_VERSION, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  src_operands_[0] = &simm16;
+  set_src_operand(0, &simm16);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 0;
 }
@@ -51,9 +51,9 @@ SCmovkI32Sopk::SCmovkI32Sopk(const MachineInst *inst)
            make_exec_fn<SCmovkI32Sopk>()),
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst),
       simm16(16, OperandType::OPR_SIMM16, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  src_operands_[0] = &sdst;
-  dst_operands_[0] = &sdst;
-  src_operands_[1] = &simm16;
+  set_src_operand(0, &sdst);
+  set_dst_operand(0, &sdst);
+  set_src_operand(1, &simm16);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= PREDICATED_DEF;
@@ -68,9 +68,9 @@ SAddkCoI32Sopk::SAddkCoI32Sopk(const MachineInst *inst)
            make_exec_fn<SAddkCoI32Sopk>()),
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst),
       simm16(16, OperandType::OPR_SIMM16, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  src_operands_[0] = &sdst;
-  dst_operands_[0] = &sdst;
-  src_operands_[1] = &simm16;
+  set_src_operand(0, &sdst);
+  set_dst_operand(0, &sdst);
+  set_src_operand(1, &simm16);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -84,9 +84,9 @@ SMulkI32Sopk::SMulkI32Sopk(const MachineInst *inst)
     : Sopk("s_mulk_i32", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SMulkI32Sopk>()),
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst),
       simm16(16, OperandType::OPR_SIMM16, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  src_operands_[0] = &sdst;
-  dst_operands_[0] = &sdst;
-  src_operands_[1] = &simm16;
+  set_src_operand(0, &sdst);
+  set_dst_operand(0, &sdst);
+  set_src_operand(1, &simm16);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
 }
@@ -100,8 +100,8 @@ SGetregB32Sopk::SGetregB32Sopk(const MachineInst *inst)
            make_exec_fn<SGetregB32Sopk>()),
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst),
       simm16(16, OperandType::OPR_HWREG, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  dst_operands_[0] = &sdst;
-  src_operands_[0] = &simm16;
+  set_dst_operand(0, &sdst);
+  set_src_operand(0, &simm16);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
 }
@@ -115,8 +115,8 @@ SSetregB32Sopk::SSetregB32Sopk(const MachineInst *inst)
            make_exec_fn<SSetregB32Sopk>()),
       simm16(16, OperandType::OPR_HWREG, reinterpret_cast<const OpEncoding *>(inst)->simm16),
       sdst(32, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst) {
-  dst_operands_[0] = &simm16;
-  src_operands_[0] = &sdst;
+  set_dst_operand(0, &simm16);
+  set_src_operand(0, &sdst);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
 }
@@ -129,7 +129,7 @@ SSetregImm32B32Sopk::SSetregImm32B32Sopk(const MachineInst *inst)
     : Sopk("s_setreg_imm32_b32", reinterpret_cast<const OpEncoding *>(inst),
            make_exec_fn<SSetregImm32B32Sopk>()),
       simm16(16, OperandType::OPR_HWREG, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  dst_operands_[0] = &simm16;
+  set_dst_operand(0, &simm16);
   state_.num_src_operands = 0;
   state_.num_dst_operands = 1;
 }
@@ -142,8 +142,8 @@ SCallB64Sopk::SCallB64Sopk(const MachineInst *inst)
     : Sopk("s_call_b64", reinterpret_cast<const OpEncoding *>(inst), make_exec_fn<SCallB64Sopk>()),
       sdst(64, OperandType::OPR_SDST, reinterpret_cast<const OpEncoding *>(inst)->sdst),
       simm16(16, OperandType::OPR_LABEL, reinterpret_cast<const OpEncoding *>(inst)->simm16) {
-  dst_operands_[0] = &sdst;
-  src_operands_[0] = &simm16;
+  set_dst_operand(0, &sdst);
+  set_src_operand(0, &simm16);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= INDIRECT_CALL;

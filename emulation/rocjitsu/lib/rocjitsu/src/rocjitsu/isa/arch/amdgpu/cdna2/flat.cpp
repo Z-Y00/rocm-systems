@@ -27,8 +27,8 @@ FlatLoadUbyteFlat::FlatLoadUbyteFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadUbyteFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -51,8 +51,8 @@ FlatLoadSbyteFlat::FlatLoadSbyteFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadSbyteFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -76,8 +76,8 @@ FlatLoadUshortFlat::FlatLoadUshortFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadUshortFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -100,8 +100,8 @@ FlatLoadSshortFlat::FlatLoadSshortFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadSshortFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -125,8 +125,8 @@ FlatLoadDwordFlat::FlatLoadDwordFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadDwordFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -149,8 +149,8 @@ FlatLoadDwordx2Flat::FlatLoadDwordx2Flat(const MachineInst *inst)
            make_exec_fn<FlatLoadDwordx2Flat>()),
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -173,8 +173,8 @@ FlatLoadDwordx3Flat::FlatLoadDwordx3Flat(const MachineInst *inst)
            make_exec_fn<FlatLoadDwordx3Flat>()),
       vdst(96, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -197,8 +197,8 @@ FlatLoadDwordx4Flat::FlatLoadDwordx4Flat(const MachineInst *inst)
            make_exec_fn<FlatLoadDwordx4Flat>()),
       vdst(128, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -221,8 +221,8 @@ FlatStoreByteFlat::FlatStoreByteFlat(const MachineInst *inst)
            make_exec_fn<FlatStoreByteFlat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -253,8 +253,8 @@ FlatStoreByteD16HiFlat::FlatStoreByteD16HiFlat(const MachineInst *inst)
            make_exec_fn<FlatStoreByteD16HiFlat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -286,8 +286,8 @@ FlatStoreShortFlat::FlatStoreShortFlat(const MachineInst *inst)
            make_exec_fn<FlatStoreShortFlat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -318,8 +318,8 @@ FlatStoreShortD16HiFlat::FlatStoreShortD16HiFlat(const MachineInst *inst)
            make_exec_fn<FlatStoreShortD16HiFlat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -351,8 +351,8 @@ FlatStoreDwordFlat::FlatStoreDwordFlat(const MachineInst *inst)
            make_exec_fn<FlatStoreDwordFlat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -384,8 +384,8 @@ FlatStoreDwordx2Flat::FlatStoreDwordx2Flat(const MachineInst *inst)
            make_exec_fn<FlatStoreDwordx2Flat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -420,8 +420,8 @@ FlatStoreDwordx3Flat::FlatStoreDwordx3Flat(const MachineInst *inst)
            make_exec_fn<FlatStoreDwordx3Flat>()),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(96, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -460,8 +460,8 @@ FlatStoreDwordx4Flat::FlatStoreDwordx4Flat(const MachineInst *inst)
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(128, OperandType::OPR_VGPR_OR_ACCVGPR,
            reinterpret_cast<const OpEncoding *>(inst)->data) {
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 0;
   state_.flags |= MEMORY_OP;
@@ -502,8 +502,8 @@ FlatLoadUbyteD16Flat::FlatLoadUbyteD16Flat(const MachineInst *inst)
            make_exec_fn<FlatLoadUbyteD16Flat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -527,8 +527,8 @@ FlatLoadUbyteD16HiFlat::FlatLoadUbyteD16HiFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadUbyteD16HiFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -552,8 +552,8 @@ FlatLoadSbyteD16Flat::FlatLoadSbyteD16Flat(const MachineInst *inst)
            make_exec_fn<FlatLoadSbyteD16Flat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -578,8 +578,8 @@ FlatLoadSbyteD16HiFlat::FlatLoadSbyteD16HiFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadSbyteD16HiFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -604,8 +604,8 @@ FlatLoadShortD16Flat::FlatLoadShortD16Flat(const MachineInst *inst)
            make_exec_fn<FlatLoadShortD16Flat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -629,8 +629,8 @@ FlatLoadShortD16HiFlat::FlatLoadShortD16HiFlat(const MachineInst *inst)
            make_exec_fn<FlatLoadShortD16HiFlat>()),
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
   state_.num_src_operands = 1;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -655,9 +655,9 @@ FlatAtomicSwapFlat::FlatAtomicSwapFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -692,9 +692,9 @@ FlatAtomicCmpswapFlat::FlatAtomicCmpswapFlat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -732,9 +732,9 @@ FlatAtomicAddFlat::FlatAtomicAddFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -769,9 +769,9 @@ FlatAtomicSubFlat::FlatAtomicSubFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -806,9 +806,9 @@ FlatAtomicSminFlat::FlatAtomicSminFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -843,9 +843,9 @@ FlatAtomicUminFlat::FlatAtomicUminFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -880,9 +880,9 @@ FlatAtomicSmaxFlat::FlatAtomicSmaxFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -917,9 +917,9 @@ FlatAtomicUmaxFlat::FlatAtomicUmaxFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -954,9 +954,9 @@ FlatAtomicAndFlat::FlatAtomicAndFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -991,9 +991,9 @@ FlatAtomicOrFlat::FlatAtomicOrFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1028,9 +1028,9 @@ FlatAtomicXorFlat::FlatAtomicXorFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1065,9 +1065,9 @@ FlatAtomicIncFlat::FlatAtomicIncFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1102,9 +1102,9 @@ FlatAtomicDecFlat::FlatAtomicDecFlat(const MachineInst *inst)
       vdst(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(32, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1139,9 +1139,9 @@ FlatAtomicAddF64Flat::FlatAtomicAddF64Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1179,9 +1179,9 @@ FlatAtomicMinF64Flat::FlatAtomicMinF64Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1219,9 +1219,9 @@ FlatAtomicMaxF64Flat::FlatAtomicMaxF64Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1259,9 +1259,9 @@ FlatAtomicSwapX2Flat::FlatAtomicSwapX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1300,9 +1300,9 @@ FlatAtomicCmpswapX2Flat::FlatAtomicCmpswapX2Flat(const MachineInst *inst)
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(128, OperandType::OPR_VGPR_OR_ACCVGPR,
            reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1346,9 +1346,9 @@ FlatAtomicAddX2Flat::FlatAtomicAddX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1386,9 +1386,9 @@ FlatAtomicSubX2Flat::FlatAtomicSubX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1426,9 +1426,9 @@ FlatAtomicSminX2Flat::FlatAtomicSminX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1466,9 +1466,9 @@ FlatAtomicUminX2Flat::FlatAtomicUminX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1506,9 +1506,9 @@ FlatAtomicSmaxX2Flat::FlatAtomicSmaxX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1546,9 +1546,9 @@ FlatAtomicUmaxX2Flat::FlatAtomicUmaxX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1586,9 +1586,9 @@ FlatAtomicAndX2Flat::FlatAtomicAndX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1626,9 +1626,9 @@ FlatAtomicOrX2Flat::FlatAtomicOrX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1666,9 +1666,9 @@ FlatAtomicXorX2Flat::FlatAtomicXorX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1706,9 +1706,9 @@ FlatAtomicIncX2Flat::FlatAtomicIncX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;
@@ -1746,9 +1746,9 @@ FlatAtomicDecX2Flat::FlatAtomicDecX2Flat(const MachineInst *inst)
       vdst(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->vdst),
       addr(64, OperandType::OPR_VGPR, reinterpret_cast<const OpEncoding *>(inst)->addr),
       data(64, OperandType::OPR_VGPR_OR_ACCVGPR, reinterpret_cast<const OpEncoding *>(inst)->data) {
-  dst_operands_[0] = &vdst;
-  src_operands_[0] = &addr;
-  src_operands_[1] = &data;
+  set_dst_operand(0, &vdst);
+  set_src_operand(0, &addr);
+  set_src_operand(1, &data);
   state_.num_src_operands = 2;
   state_.num_dst_operands = 1;
   state_.flags |= MEMORY_OP;

@@ -3564,23 +3564,23 @@ class CodeGenerator:
                     for opnd in inst.operands:
                         if opnd.is_input:
                             opnd_body.append(
-                                f'src_operands_[{src_idx}] = &{opnd.name};'
+                                f'set_src_operand({src_idx}, &{opnd.name});'
                             )
                             src_idx += 1
                         elif (reads_dst and opnd.is_output
                               and opnd.name in ('vdst', 'sdst')):
                             opnd_body.append(
-                                f'src_operands_[{src_idx}] = &{opnd.name};'
+                                f'set_src_operand({src_idx}, &{opnd.name});'
                             )
                             src_idx += 1
                         if opnd.is_output:
                             opnd_body.append(
-                                f'dst_operands_[{dst_idx}] = &{opnd.name};'
+                                f'set_dst_operand({dst_idx}, &{opnd.name});'
                             )
                             dst_idx += 1
                         if not opnd.is_input and not opnd.is_output:
                             opnd_body.append(
-                                f'dst_operands_[{dst_idx}] = &{opnd.name};'
+                                f'set_dst_operand({dst_idx}, &{opnd.name});'
                             )
                             dst_idx += 1
                         private_members.append(
@@ -3882,7 +3882,7 @@ class CodeGenerator:
                                 '          cu.read_vgpr(vb, i), sdwa_src0_sel_, sdwa_src0_sext_);\n'
                                 '    dpp_src0_ = std::make_unique<DppOperand>(\n'
                                 '        *src_operands_[0], result, static_cast<int>(ws));\n'
-                                '    src_operands_[0] = dpp_src0_.get();\n'
+                                '    set_src_operand(0, dpp_src0_.get());\n'
                                 '  }\n'
                                 '  if (inst_.src0 == amdgpu::SRC_SDWA && sdwa_src1_sel_ != amdgpu::sdwa::DWORD && state_.num_src_operands > 1) {\n'
                                 '    auto &cu = wf.cu();\n'
@@ -3894,7 +3894,7 @@ class CodeGenerator:
                                 '          cu.read_vgpr(vb, i), sdwa_src1_sel_, sdwa_src1_sext_);\n'
                                 '    dpp_src1_ = std::make_unique<DppOperand>(\n'
                                 '        *src_operands_[1], result1, static_cast<int>(ws));\n'
-                                '    src_operands_[1] = dpp_src1_.get();\n'
+                                '    set_src_operand(1, dpp_src1_.get());\n'
                                 '  }\n'
                                 + (f'  if (dpp_src0_) {_src0_name}.set_delegate(dpp_src0_.get());\n'
                                    if _src0_name else '')
