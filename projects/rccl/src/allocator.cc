@@ -35,9 +35,17 @@ ncclResult_t  ncclMemAlloc_impl(void **ptr, size_t size) {
   if (ncclCuMemEnable()) {
     size_t handleSize = size;
     int requestedHandleTypes = CU_MEM_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR;
-    // Query device to see if FABRIC handle support is available
+    // Query device to see if FABRIC handle support is available.  On HIP this
+    // attribute is often unsupported and the call returns hipErrorInvalidValue,
+    // which leaves the per-thread `last_error_` slot polluted.  The next
+    // hipGetLastError() caller (e.g. PyTorch's C10_CUDA_KERNEL_LAUNCH_CHECK
+    // after the next kernel launch) then surfaces that stale error as if their
+    // kernel had failed.  Drain the error here so it doesn't leak.
     flag = 0;
-    (void) CUPFN(cuDeviceGetAttribute(&flag, CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_FABRIC_SUPPORTED, currentDev));
+    if (CUPFN(cuDeviceGetAttribute(&flag, CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_FABRIC_SUPPORTED, currentDev)) != CUDA_SUCCESS) {
+      flag = 0;
+      (void) cudaGetLastError();
+    }
     if (flag) requestedHandleTypes |= CU_MEM_HANDLE_TYPE_FABRIC;
 #if defined(HIP_VMM_UNCACHED_MEMORY)
     memprop.type = hipMemAllocationTypeUncached;
